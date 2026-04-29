@@ -12,7 +12,8 @@ This project is _optimized_ for Stardust prototypes.
 
 ### 2. Import
 1. Place your startdust prototypes in `/stardust/prototypes`
-2. Follow the steps.
+2. Tell Claude you want to convert your stardust prototypes to edge delivery using the snowflake skill.
+3. Follow the steps.
 
 ### 3. Run / Test
 1. Ensure you have a `/content` folder.
