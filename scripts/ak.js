@@ -267,7 +267,7 @@ function decorateHeader() {
     header.remove();
     return;
   }
-  header.className = meta;
+  header.className = 'header';
   header.dataset.status = 'decorated';
   const breadcrumbs = document.body.querySelector('breadcrumbs');
   const breadcrumbsPath = getMetadata('breadcrumbs');
