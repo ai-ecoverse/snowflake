@@ -11,9 +11,13 @@
  * unchanged.
  *
  * Usage:
- *   node tools/da/sanitise.js <input> [output]   # file → file (in-place if no output)
- *   node tools/da/sanitise.js < input.html        # stdin → stdout
- *   npm run da:sanitise -- <input> [output]
+ *   node tools/da/sanitise.js content/page.html > /tmp/page-upload.html  # stdout (default)
+ *   node tools/da/sanitise.js content/page.html /tmp/page-upload.html    # explicit output file
+ *   node tools/da/sanitise.js < content/page.html                        # stdin → stdout
+ *   npm run da:sanitise -- content/page.html > /tmp/page-upload.html
+ *
+ * Without an explicit output path the result always goes to stdout.
+ * The input file is never modified.
  *
  * Exit codes: 0 success, 1 error.
  */
@@ -76,19 +80,16 @@ function encode(input) {
 // --- main ---
 
 const args = process.argv.slice(2);
-const useStdio = args.length === 0 || args[0] === '-';
 
 let input;
-let inputLabel;
 
-if (useStdio) {
+if (args.length === 0 || args[0] === '-') {
+  // stdin → stdout
   input = readFileSync(process.stdin.fd, 'utf8');
-  inputLabel = '<stdin>';
 } else {
   const inputPath = args[0];
   try {
     input = readFileSync(inputPath, 'utf8');
-    inputLabel = inputPath;
   } catch (err) {
     process.stderr.write(`da-sanitise: cannot read '${inputPath}': ${err.message}\n`);
     process.exit(1);
@@ -97,10 +98,12 @@ if (useStdio) {
 
 const { output, count } = encode(input);
 
-if (useStdio) {
+if (args.length <= 1) {
+  // Always write to stdout when no explicit output path is given.
+  // Redirect to a file yourself: node tools/da/sanitise.js input.html > out.html
   process.stdout.write(output);
 } else {
-  const outputPath = args[1] || args[0];
+  const outputPath = args[1];
   try {
     writeFileSync(outputPath, output, 'utf8');
   } catch (err) {
