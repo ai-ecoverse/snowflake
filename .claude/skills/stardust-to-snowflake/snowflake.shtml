@@ -967,7 +967,11 @@
       document.getElementById('progressFill').style.width = pct + '%';
       document.getElementById('progressCount').textContent = data.current + ' / ' + data.total;
 
-      if (data.current === data.total) {
+      // Only flip to "All done" once the last file reaches a terminal
+      // state — otherwise the running event of the last file (current ===
+      // total) prematurely claims completion while conversion is still in
+      // flight.
+      if (data.current === data.total && (data.status === 'done' || data.status === 'error')) {
         document.getElementById('progressLabel').textContent = 'All done';
       }
     }
