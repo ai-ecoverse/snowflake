@@ -1,0 +1,122 @@
+/* ─── Footer chrome — The Road Home */
+
+footer.site,
+.footer {
+  background: var(--color-shelter);
+  color: var(--color-paper);
+  padding: 64px 0 32px;
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: var(--spacing-xl);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.footer-brand img {
+  height: 52px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  margin-bottom: 16px;
+}
+
+.footer-brand p {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+.footer-phones {
+  margin-top: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.footer-phone-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-phone-row .label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+}
+
+.footer-phone-row a {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--color-paper);
+  letter-spacing: -0.01em;
+}
+
+.footer-col h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.footer-col ul {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.footer-col a {
+  color: var(--color-paper);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.footer-col a:hover { color: var(--color-signal-soft); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.04em;
+}
+
+.footer-bottom nav {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+@media (max-width: 900px) {
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-brand { grid-column: 1 / -1; }
+  .footer-bottom { flex-direction: column; gap: 12px; align-items: flex-start; }
+}
+
+@media (max-width: 520px) {
+  footer.site,
+  .footer { padding: 48px 0 24px; }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; padding-bottom: 32px; }
+  .footer-brand img { height: 44px; }
+  .footer-phone-row { grid-template-columns: 100px 1fr; gap: 12px; }
+  .footer-phone-row a { font-size: 15px; }
+  .footer-col h4 { margin-bottom: 10px; }
+  .footer-bottom { font-size: 10px; }
+  .footer-bottom nav { gap: var(--spacing-md); flex-wrap: wrap; }
+}
