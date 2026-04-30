@@ -11,13 +11,10 @@
  * unchanged.
  *
  * Usage:
- *   node tools/da/sanitise.js content/page.html > /tmp/page-upload.html  # stdout (default)
- *   node tools/da/sanitise.js content/page.html /tmp/page-upload.html    # explicit output file
- *   node tools/da/sanitise.js < content/page.html                        # stdin → stdout
- *   npm run da:sanitise -- content/page.html > /tmp/page-upload.html
- *
- * Without an explicit output path the result always goes to stdout.
- * The input file is never modified.
+ *   node tools/da/sanitise.js content/page.html          # in-place
+ *   node tools/da/sanitise.js content/page.html out.html  # explicit output file
+ *   node tools/da/sanitise.js < input.html                # stdin → stdout
+ *   npm run da:sanitise -- content/page.html
  *
  * Exit codes: 0 success, 1 error.
  */
@@ -98,12 +95,11 @@ if (args.length === 0 || args[0] === '-') {
 
 const { output, count } = encode(input);
 
-if (args.length <= 1) {
-  // Always write to stdout when no explicit output path is given.
-  // Redirect to a file yourself: node tools/da/sanitise.js input.html > out.html
+if (args.length === 0 || args[0] === '-') {
+  // stdin → stdout
   process.stdout.write(output);
 } else {
-  const outputPath = args[1];
+  const outputPath = args[1] || args[0]; // explicit output or in-place
   try {
     writeFileSync(outputPath, output, 'utf8');
   } catch (err) {
