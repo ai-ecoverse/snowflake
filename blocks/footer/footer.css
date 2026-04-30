@@ -1,0 +1,87 @@
+/* footer block — The Road Home site footer */
+
+footer {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: var(--section-padding) 0 var(--spacing-xl);
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* Top section: brand + link columns */
+.footer-top {
+  display: grid;
+  grid-template-columns: 280px repeat(4, 1fr);
+  gap: var(--spacing-2xl);
+  padding-bottom: var(--spacing-2xl);
+  border-bottom: 1px solid rgba(255 255 255 / 15%);
+  margin-bottom: var(--spacing-xl);
+}
+
+.footer-brand img {
+  height: 40px;
+  width: auto;
+  margin-bottom: var(--spacing-lg);
+  filter: brightness(0) invert(1);
+}
+
+.footer-brand p {
+  font-size: 13px;
+  color: rgba(255 255 255 / 70%);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+}
+
+.footer-phones { display: flex; flex-direction: column; gap: 6px; }
+.footer-phone-row { font-size: 13px; color: rgba(255 255 255 / 80%); }
+.footer-phone-row a { color: var(--color-signal-soft); font-weight: 700; }
+.footer-phone-row a:hover { color: var(--color-paper); }
+
+.footer-col h3,
+.footer-col strong {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-paper);
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.footer-col ul { list-style: none; margin: 0; padding: 0; }
+.footer-col li { margin-bottom: 10px; }
+.footer-col a {
+  font-size: 13px;
+  color: rgba(255 255 255 / 65%);
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--color-paper); }
+
+/* Bottom bar */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255 255 255 / 45%);
+}
+
+.footer-bottom a { color: rgba(255 255 255 / 45%); }
+.footer-bottom a:hover { color: var(--color-paper); }
+.footer-bottom nav { display: flex; gap: var(--spacing-lg); }
+
+@media (max-width: 900px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+}

@@ -1,0 +1,89 @@
+/* header block — The Road Home navigation chrome */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+/* Utility bar */
+.header-utility {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 7px var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header-utility a { color: var(--color-paper); }
+.header-utility a:hover { color: var(--color-signal-soft); }
+
+/* Main nav */
+.header-nav {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2xl);
+}
+
+.header-logo img {
+  height: 36px;
+  width: auto;
+}
+
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  flex: 1;
+}
+
+.header-links a {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ink);
+}
+
+.header-links a:hover { color: var(--color-signal); }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.header-actions .btn-ghost {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  padding: 10px 18px;
+  transition: border-color 0.2s;
+}
+
+.header-actions .btn-ghost:hover { border-color: var(--color-ink); }
+
+.header-actions a.btn {
+  padding: 10px 20px;
+  font-size: 12px;
+}
+
+@media (max-width: 768px) {
+  .header-links { display: none; }
+  .header-actions .btn-ghost { display: none; }
+}
