@@ -24,6 +24,7 @@
       gap: 12px;
       padding: 16px 20px;
       border-bottom: 1px solid var(--s2-border-default, rgba(255,255,255,0.08));
+      max-height: var(--uxc-thread-header-height, 56px);
     }
 
     .sf-header__logo {
@@ -1145,6 +1146,18 @@
         .join('')
         .slice(0, 8);
     }
+
+    // Sandboxed iframes silently swallow target="_blank" navigations from
+    // anchor clicks. Delegate every outbound click to window.top.open(),
+    // which is permitted because it escapes to the parent browsing context.
+    document.body.addEventListener('click', function(e) {
+      var link = e.target.closest('a[href]');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (!href || href === '#') return;
+      e.preventDefault();
+      window.top.open(href, '_blank', 'noopener');
+    });
 
     // Init
     document.getElementById('branchInput').value = generateBranchHash();
