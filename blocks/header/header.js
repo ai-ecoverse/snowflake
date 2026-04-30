@@ -17,6 +17,7 @@ const HEADER_PATH = '/fragments/nav';
  *   <p><a href="…">Donate</a></p>          — primary CTA
  */
 function buildNav(el, fragment) {
+  if (!fragment) return;
   const root = fragment.querySelector('.default-content') || fragment;
 
   // Logo: first anchor wrapping a picture or img
@@ -89,7 +90,7 @@ function buildNav(el, fragment) {
  * @param {Element} el The header element
  */
 export default async function init(el) {
-  const headerMeta = getMetadata('header-path');
+  const headerMeta = getMetadata('header');
   const path = headerMeta || HEADER_PATH;
   try {
     const fragment = await loadFragment(`${locale.prefix}${path}`);

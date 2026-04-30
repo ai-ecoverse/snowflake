@@ -8,6 +8,6 @@ export default async function loadFooter() {
     footer.remove();
     return;
   }
-  footer.className = meta;
+  footer.className = 'footer';
   loadBlock(footer);
 }
