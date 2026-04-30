@@ -134,11 +134,20 @@ The local file has the `.html` extension; the URLs do not. Use the branch host p
 
 For each item (parallelism is fine — the sprinkle is keyed by `kind + file + stage`), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
 
-**1. Upload** — `aem put <upload URL> <local path>`. Surround the call with:
+**1. Upload** — sanitise non-ASCII characters first, then `aem put`. DA strips `<head>` on ingestion and parses without a charset declaration, so any multibyte UTF-8 sequence (`·`, `–`, `→`, accented letters, emoji) gets corrupted to U+FFFD. The repo ships `tools/da/sanitise.js`, a zero-dependency Node script that rewrites all non-ASCII code points to named or numeric HTML entities in-place — entities survive the round-trip unchanged.
+
+```bash
+node tools/da/sanitise.js <local path>          # in-place, idempotent
+aem put <upload URL> <local path>
+```
+
+This applies to **every** uploaded file — both pages and fragments. Skipping it is the most common cause of corrupted typography in the deployed pages. The script is idempotent (running it twice is a no-op), so you can safely call it before each upload without checking whether the file is already clean.
+
+Surround the upload with:
 
 ```
 sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"running"}'
-# ...aem put...
+# ...sanitise + aem put...
 sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"done","daUrl":"<DA Edit URL>"}'
 ```
 
