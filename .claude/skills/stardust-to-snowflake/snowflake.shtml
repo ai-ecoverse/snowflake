@@ -5,17 +5,20 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html, body { height: 100%; }
+
     body {
       font-family: var(--s2-font-family, system-ui, -apple-system, sans-serif);
       background: var(--s2-bg-base, #1a1a2e);
       color: var(--s2-content-default, #e0e0e0);
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
     }
 
     /* Header */
     .sf-header {
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -58,6 +61,7 @@
 
     /* Stepper */
     .sf-stepper {
+      flex-shrink: 0;
       display: flex;
       padding: 16px 20px;
       gap: 4px;
@@ -102,7 +106,8 @@
 
     /* Main content */
     .sf-content {
-      flex: 1;
+      flex: 1 1 auto;
+      min-height: 0;
       padding: 20px;
       overflow-y: auto;
     }
@@ -418,6 +423,7 @@
 
     /* Footer actions */
     .sf-footer {
+      flex-shrink: 0;
       padding: 16px 20px;
       border-top: 1px solid var(--s2-border-default, rgba(255,255,255,0.08));
       display: flex;
@@ -427,6 +433,7 @@
 
     /* Snowflake flavor */
     .sf-flavor {
+      flex-shrink: 0;
       font-size: 11px;
       color: var(--s2-content-secondary, #666);
       text-align: center;
