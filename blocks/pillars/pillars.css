@@ -1,0 +1,104 @@
+/* Pillars block */
+.pillars {
+  width: 100%;
+  background: var(--color-panel);
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.pillars .pillars-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+}
+
+.pillars .pillars-head {
+  max-width: 680px;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.pillars .pillars-head .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0 0 var(--spacing-md);
+}
+
+.pillars .pillars-head h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin: 0 0 var(--spacing-md);
+}
+
+.pillars .pillars-head .intro {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+/* Grid: 3 columns with 1px rule dividers */
+.pillars .pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pillars .pillar {
+  background: var(--color-paper);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.pillars .pillar + .pillar {
+  border-left: 1px solid var(--color-rule);
+}
+
+.pillars .pillar .num {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-signal);
+  margin: 0;
+}
+
+.pillars .pillar h3 {
+  font-size: var(--heading-md);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.pillars .pillar p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .pillars .pillars-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pillars .pillar + .pillar {
+    border-left: none;
+    border-top: 1px solid var(--color-rule);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pillars * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

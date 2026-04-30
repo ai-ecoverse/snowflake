@@ -1,0 +1,91 @@
+/* Still Have Questions block */
+.still-have {
+  width: 100%;
+  background: var(--color-shelter);
+  color: var(--color-paper);
+}
+
+.still-have .still-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.still-have h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-paper);
+  margin: 0;
+}
+
+.still-have .still-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.still-have .still-card {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.still-have .still-card + .still-card {
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.still-have .still-card .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal-soft);
+  margin: 0;
+}
+
+.still-have .still-card h3 {
+  font-size: var(--heading-md);
+  font-weight: 700;
+  color: var(--color-paper);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.still-have .still-card a {
+  color: var(--color-paper);
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.12s ease;
+}
+
+.still-have .still-card a:hover,
+.still-have .still-card a:focus-visible {
+  opacity: 0.75;
+}
+
+@media (max-width: 900px) {
+  .still-have .still-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .still-have .still-card + .still-card {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .still-have .still-card a {
+    transition: none;
+  }
+}

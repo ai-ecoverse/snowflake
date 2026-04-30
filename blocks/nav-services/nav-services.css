@@ -1,0 +1,114 @@
+/* Nav Services block */
+.nav-services {
+  width: 100%;
+  background: var(--color-panel);
+  border-top: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+/* Head: 2-col layout */
+.nav-services .ns-head {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter) var(--spacing-2xl);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gutter);
+  align-items: start;
+}
+
+.nav-services .ns-head h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.nav-services .ns-head p {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-g44);
+  margin: 0;
+  padding-top: 8px;
+}
+
+/* Service list: 2-col grid */
+.nav-services .ns-list {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter) var(--section-padding);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--color-rule);
+}
+
+.nav-services .ns-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--spacing-xl) var(--spacing-xl) var(--spacing-xl) 0;
+  border-bottom: 1px solid var(--color-rule);
+  border-right: 1px solid var(--color-rule);
+}
+
+.nav-services .ns-item:nth-child(even) {
+  padding-left: var(--spacing-xl);
+  padding-right: 0;
+  border-right: none;
+}
+
+.nav-services .ns-item:nth-last-child(-n+2) {
+  border-bottom: none;
+}
+
+.nav-services .ns-item .c {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0;
+}
+
+.nav-services .ns-item h4 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.nav-services .ns-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .nav-services .ns-head {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-services .ns-list {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-services .ns-item,
+  .nav-services .ns-item:nth-child(even) {
+    padding: var(--spacing-xl) 0;
+    border-right: none;
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .nav-services .ns-item:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-services * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

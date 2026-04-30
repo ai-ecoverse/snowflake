@@ -1,0 +1,100 @@
+/* What block */
+.what {
+  width: 100%;
+}
+
+.what .what-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-2xl);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  align-items: start;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.what .what-main h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin: 0 0 var(--spacing-lg);
+}
+
+.what .what-main p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--color-g44);
+  margin: 0 0 var(--spacing-md);
+}
+
+.what .what-main p:last-child {
+  margin-bottom: 0;
+}
+
+/* Sidebar */
+.what .what-side {
+  position: sticky;
+  top: var(--spacing-xl);
+  background: var(--color-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-xl);
+}
+
+.what .what-side .eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0 0 var(--spacing-md);
+}
+
+.what .what-side dl {
+  display: grid;
+  gap: var(--spacing-md) 0;
+  margin: 0;
+}
+
+.what .what-side dt {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+.what .what-side dd {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin: 2px 0 0;
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.what .what-side dl > dd:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .what .what-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .what .what-side {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .what * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

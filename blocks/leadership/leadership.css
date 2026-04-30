@@ -1,0 +1,113 @@
+/* Leadership block */
+.leadership {
+  width: 100%;
+}
+
+.leadership .leadership-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2xl);
+}
+
+.leadership .leadership-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.leadership .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0;
+}
+
+.leadership h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  color: var(--color-ink);
+  margin: 0;
+  line-height: 1.15;
+}
+
+.leadership .leadership-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.leadership .lead-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  border: 1px solid var(--color-rule);
+  padding: var(--spacing-xl);
+  border-radius: 4px;
+  text-decoration: none;
+  color: inherit;
+  background: var(--color-paper);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.leadership a.lead-card:hover,
+.leadership a.lead-card:focus-visible {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 0.08);
+  border-color: var(--color-signal);
+  outline: none;
+}
+
+.leadership .lead-card .tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+}
+
+.leadership .lead-card h3 {
+  font-size: 20px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.leadership .lead-card p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-g44);
+  margin: 0;
+  flex: 1;
+}
+
+.leadership .lead-card .link-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-signal);
+  margin-top: auto;
+}
+
+.leadership a.lead-card .link-text::after {
+  content: ' →';
+}
+
+@media (max-width: 900px) {
+  .leadership .leadership-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leadership * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

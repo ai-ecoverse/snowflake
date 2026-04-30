@@ -1,0 +1,115 @@
+/* Landlord block */
+.landlord {
+  width: 100%;
+  background: var(--color-ink);
+}
+
+.landlord .l-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  align-items: start;
+}
+
+/* Left column */
+.landlord .l-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.landlord .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal-soft);
+  margin: 0;
+}
+
+.landlord h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-paper);
+  margin: 0;
+}
+
+.landlord .l-left p {
+  font-size: 16px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  margin: 0;
+}
+
+/* CTA button via strong > a */
+.landlord .l-left strong a {
+  display: inline-block;
+  background: var(--color-signal);
+  color: var(--color-paper);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 2px;
+  margin-top: var(--spacing-md);
+  transition: background 0.15s ease;
+}
+
+.landlord .l-left strong a:hover,
+.landlord .l-left strong a:focus-visible {
+  background: var(--color-shelter);
+}
+
+/* Benefits panel */
+.landlord .benefits {
+  background: var(--color-shelter);
+  border-radius: 4px;
+  padding: var(--spacing-xl);
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.landlord .benefits .row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.landlord .benefits .row:last-child {
+  border-bottom: none;
+}
+
+.landlord .benefits .row .c {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-signal-soft);
+  line-height: 1.5;
+}
+
+.landlord .benefits .row span:last-child {
+  font-size: 15px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+@media (max-width: 900px) {
+  .landlord .l-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landlord .l-left strong a {
+    transition: none !important;
+  }
+}

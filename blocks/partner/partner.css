@@ -1,0 +1,122 @@
+/* Partner block */
+.partner {
+  width: 100%;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.partner .partner-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  align-items: center;
+}
+
+/* Left column */
+.partner .partner-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.partner .partner-left .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0;
+}
+
+.partner .partner-left h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.partner .partner-left p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+.partner .partner-left a {
+  color: var(--color-signal);
+}
+
+.partner .partner-cta {
+  display: inline-block;
+  background: var(--color-signal);
+  color: var(--color-paper) !important;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  align-self: flex-start;
+  transition: background 0.15s ease;
+}
+
+.partner .partner-cta:hover,
+.partner .partner-cta:focus-visible {
+  background: var(--color-shelter);
+}
+
+/* Stats grid: 2x2 */
+.partner .stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--color-rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.partner .stat {
+  padding: var(--spacing-xl) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.partner .stat:nth-child(1),
+.partner .stat:nth-child(2) {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.partner .stat:nth-child(odd) {
+  border-right: 1px solid var(--color-rule);
+}
+
+.partner .stat .n {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-shelter);
+  margin: 0;
+}
+
+.partner .stat .label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-g44);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .partner .partner-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partner .partner-cta {
+    transition: none;
+  }
+}

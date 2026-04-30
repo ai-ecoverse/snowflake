@@ -1,0 +1,62 @@
+/* FAQ Hero block */
+.faq-hero {
+  width: 100%;
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.faq-hero .faq-hero-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter) var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.faq-hero .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal);
+  margin: 0;
+}
+
+.faq-hero h1 {
+  font-size: var(--heading-xl);
+  font-weight: 800;
+  line-height: 1.08;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.faq-hero .sub {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-g44);
+  margin: 0;
+  max-width: 580px;
+}
+
+@media (max-width: 900px) {
+  .faq-hero h1 {
+    font-size: clamp(28px, 8vw, var(--heading-xl));
+  }
+
+  .faq-hero .faq-hero-inner {
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-hero * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

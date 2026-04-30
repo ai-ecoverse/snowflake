@@ -1,0 +1,108 @@
+/* Weather block */
+.weather {
+  width: 100%;
+  background: var(--color-shelter);
+  color: var(--color-paper);
+}
+
+.weather .weather-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-2xl);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--section-padding) var(--gutter);
+  align-items: start;
+}
+
+/* Left column */
+.weather .weather-left {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.weather .weather-left .eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal-soft);
+  margin: 0;
+}
+
+.weather .weather-left h2 {
+  font-size: var(--heading-lg);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-paper);
+  margin: 0;
+}
+
+.weather .weather-left p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* Right column (thresholds panel) */
+.weather .thresholds {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.weather .thresholds-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-signal-soft);
+  margin: 0 0 var(--spacing-md);
+}
+
+.weather .thresholds .row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  align-items: baseline;
+}
+
+.weather .thresholds .row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.weather .thresholds .temp {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-paper);
+  white-space: nowrap;
+}
+
+.weather .thresholds .desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+@media (max-width: 900px) {
+  .weather .weather-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
