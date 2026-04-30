@@ -37,7 +37,9 @@ Payload: empty.
 
 The sprinkle fires this on open if `/workspace/skills/aem/SKILL.md` is absent. The Connect button stays disabled until the dependency is confirmed installed.
 
-Steps:
+**Run `upskill` in the cone, never in a scoop.** Scoops are sandboxed and cannot write under `/workspace`, so `upskill ai-ecoverse/skills --skill aem` will fail in a scoop with no useful diagnostic. The cone has the filesystem access required to install the skill into `/workspace/skills/`.
+
+Steps (executed in the cone):
 
 1. Run `upskill ai-ecoverse/skills --skill aem`.
 2. Verify `/workspace/skills/aem/SKILL.md` now exists.
