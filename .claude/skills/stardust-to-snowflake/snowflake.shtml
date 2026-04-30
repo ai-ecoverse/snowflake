@@ -338,60 +338,151 @@
       transition: width 0.4s ease;
     }
 
-    /* Deploy summary */
-    .sf-summary {
-      background: var(--s2-bg-layer-2, rgba(255,255,255,0.04));
+    /* Serve panel — branch card */
+    .sf-serve__branch {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
       border-radius: 12px;
-      padding: 20px;
-      margin: 16px 0;
-    }
-
-    .sf-summary__title {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .sf-summary__subtitle {
-      font-size: 12px;
-      color: var(--s2-content-secondary, #888);
+      background: var(--s2-bg-layer-2, rgba(255,255,255,0.04));
+      border: 1px solid var(--s2-border-default, rgba(255,255,255,0.08));
       margin-bottom: 16px;
     }
 
-    .sf-summary__stat {
+    .sf-serve__branch-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      color: var(--s2-content-secondary, #888);
+    }
+
+    .sf-serve__branch-info {
+      flex: 1;
+      min-width: 0;
       display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--s2-border-default, rgba(255,255,255,0.06));
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .sf-summary__stat:last-child {
-      border-bottom: none;
-    }
-
-    .sf-summary__stat-label {
-      font-size: 13px;
-      color: var(--s2-content-secondary, #aaa);
-    }
-
-    .sf-summary__stat-value {
-      font-size: 13px;
+    .sf-serve__branch-name {
+      font-size: 14px;
       font-weight: 600;
+      font-family: var(--s2-font-mono, monospace);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .sf-summary__link {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+    .sf-serve__branch-link {
+      font-size: 12px;
       color: #a78bfa;
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
     }
 
-    .sf-summary__link:hover {
-      text-decoration: underline;
+    .sf-serve__branch-link:hover { text-decoration: underline; }
+
+    /* Serve panel — document rows */
+    .sf-doc {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: var(--s2-bg-layer-2, rgba(255,255,255,0.04));
+      border: 1px solid var(--s2-border-default, rgba(255,255,255,0.06));
+      margin-bottom: 8px;
     }
+
+    .sf-doc__name {
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--s2-font-mono, monospace);
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sf-doc__stages {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sf-doc__stage {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--s2-content-secondary, #888);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .sf-doc__stage-icon {
+      width: 14px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .sf-doc__stage--pending .sf-doc__stage-icon { color: var(--s2-content-secondary, #555); opacity: 0.5; }
+    .sf-doc__stage--running .sf-doc__stage-icon { color: #a78bfa; animation: pulse 1.5s ease infinite; }
+    .sf-doc__stage--done    .sf-doc__stage-icon { color: var(--s2-positive, #4ade80); }
+    .sf-doc__stage--error   .sf-doc__stage-icon { color: var(--s2-negative, #f87171); }
+
+    .sf-doc__stage--running .sf-doc__stage-label,
+    .sf-doc__stage--done    .sf-doc__stage-label { color: var(--s2-content-default, #e0e0e0); }
+
+    .sf-doc__links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .sf-doc__link {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--s2-border-default, rgba(255,255,255,0.1));
+      background: transparent;
+      color: #a78bfa;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .sf-doc__link:hover {
+      background: rgba(167,139,250,0.1);
+    }
+
+    .sf-doc__link--disabled {
+      pointer-events: none;
+      opacity: 0.35;
+      color: var(--s2-content-secondary, #888);
+    }
+
+    .sf-serve__stats {
+      font-size: 12px;
+      color: var(--s2-content-secondary, #888);
+      text-align: center;
+      padding: 8px 0 4px;
+    }
+
+    .sf-serve__pr {
+      text-align: center;
+      padding: 4px 0 12px;
+    }
+
+    .sf-serve__pr a {
+      font-size: 12px;
+      color: #a78bfa;
+      text-decoration: none;
+    }
+
+    .sf-serve__pr a:hover { text-decoration: underline; }
 
     /* Select all / none toolbar */
     .sf-select-bar {
@@ -588,11 +679,10 @@
 
     <!-- Step 4: Serve (deploy) -->
     <div class="sf-panel" id="panel-3">
-      <div class="sf-summary" id="summaryContainer">
-        <div class="sf-summary__title">Fresh batch served</div>
-        <div class="sf-summary__subtitle">Migration complete</div>
-        <div id="summaryStats"></div>
-      </div>
+      <div id="branchCard"></div>
+      <div id="documentsContainer"></div>
+      <div class="sf-serve__stats" id="serveStats"></div>
+      <div class="sf-serve__pr" id="prLink"></div>
     </div>
   </div>
 
@@ -866,19 +956,110 @@
       }
     }
 
-    function showSummary(data) {
+    var GIT_BRANCH_ICON_SVG =
+      '<svg class="sf-serve__branch-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<line x1="6" y1="3" x2="6" y2="15"></line>' +
+      '<circle cx="18" cy="6" r="3"></circle>' +
+      '<circle cx="6" cy="18" r="3"></circle>' +
+      '<path d="M18 9a9 9 0 0 1-9 9"></path>' +
+      '</svg>';
+
+    var STAGES = [
+      { key: 'upload', label: 'Upload' },
+      { key: 'preview', label: 'Preview' },
+      { key: 'publish', label: 'Publish' }
+    ];
+
+    function showServe(data) {
       setStep(3);
-      var html = '';
-      html += '<div class="sf-summary__stat"><span class="sf-summary__stat-label">Files converted</span><span class="sf-summary__stat-value">' + (data.converted || 0) + '</span></div>';
-      html += '<div class="sf-summary__stat"><span class="sf-summary__stat-label">Blocks generated</span><span class="sf-summary__stat-value">' + (data.blocks || 0) + '</span></div>';
-      html += '<div class="sf-summary__stat"><span class="sf-summary__stat-label">Branch</span><span class="sf-summary__stat-value">' + (data.branch || '—') + '</span></div>';
+
+      // Branch card
+      var branchHtml = GIT_BRANCH_ICON_SVG;
+      branchHtml += '<div class="sf-serve__branch-info">';
+      branchHtml += '<div class="sf-serve__branch-name">' + escapeHtml(data.branch || '—') + '</div>';
+      if (data.branchUrl) {
+        branchHtml += '<a class="sf-serve__branch-link" href="' + escapeHtml(data.branchUrl) +
+          '" target="_blank" rel="noopener">View on GitHub &#8594;</a>';
+      }
+      branchHtml += '</div>';
+      var branchCard = document.getElementById('branchCard');
+      branchCard.className = 'sf-serve__branch';
+      branchCard.innerHTML = branchHtml;
+
+      // Documents list
+      var files = Array.isArray(data.files) ? data.files : [];
+      var docsHtml = '';
+      files.forEach(function(name) { docsHtml += renderDocRow(name); });
+      document.getElementById('documentsContainer').innerHTML = docsHtml;
+
+      // Stats
+      var stats = files.length + ' file' + (files.length === 1 ? '' : 's');
+      if (typeof data.blocks === 'number') {
+        stats += ' &middot; ' + data.blocks + ' block' + (data.blocks === 1 ? '' : 's') + ' generated';
+      }
+      document.getElementById('serveStats').innerHTML = stats;
+
+      // PR link (optional)
+      var prEl = document.getElementById('prLink');
       if (data.prUrl) {
-        html += '<div class="sf-summary__stat"><span class="sf-summary__stat-label">Pull Request</span><span class="sf-summary__stat-value"><a class="sf-summary__link" href="' + data.prUrl + '" target="_blank">View PR &#8594;</a></span></div>';
+        prEl.innerHTML = '<a href="' + escapeHtml(data.prUrl) + '" target="_blank" rel="noopener">View Pull Request &#8594;</a>';
+      } else {
+        prEl.innerHTML = '';
       }
-      if (data.daUrl) {
-        html += '<div class="sf-summary__stat"><span class="sf-summary__stat-label">DA Content</span><span class="sf-summary__stat-value"><a class="sf-summary__link" href="' + data.daUrl + '" target="_blank">View in DA &#8594;</a></span></div>';
+    }
+
+    function renderDocRow(name) {
+      var safe = escapeHtml(name);
+      var stagesHtml = '';
+      STAGES.forEach(function(s) {
+        stagesHtml +=
+          '<div class="sf-doc__stage sf-doc__stage--pending" data-stage="' + s.key + '">' +
+            '<div class="sf-doc__stage-icon">&#9711;</div>' +
+            '<span class="sf-doc__stage-label">' + s.label + '</span>' +
+          '</div>';
+      });
+      return '<div class="sf-doc" data-file="' + safe + '">' +
+        '<div class="sf-doc__name">' + safe + '</div>' +
+        '<div class="sf-doc__stages">' + stagesHtml + '</div>' +
+        '<div class="sf-doc__links">' +
+          '<a class="sf-doc__link sf-doc__link--disabled" data-link="da" target="_blank" rel="noopener">DA Edit</a>' +
+          '<a class="sf-doc__link sf-doc__link--disabled" data-link="live" target="_blank" rel="noopener">Published</a>' +
+        '</div>' +
+      '</div>';
+    }
+
+    function findDocRow(file) {
+      var rows = document.querySelectorAll('#documentsContainer .sf-doc');
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i].getAttribute('data-file') === file) return rows[i];
       }
-      document.getElementById('summaryStats').innerHTML = html;
+      return null;
+    }
+
+    function updateDeployProgress(data) {
+      var row = findDocRow(data.file);
+      if (!row) {
+        console.warn('snowflake: deploy-progress for unknown file', data.file);
+        return;
+      }
+      var stage = row.querySelector('.sf-doc__stage[data-stage="' + data.stage + '"]');
+      if (stage) {
+        stage.className = 'sf-doc__stage sf-doc__stage--' + (data.status || 'pending');
+        var icon = stage.querySelector('.sf-doc__stage-icon');
+        if (data.status === 'pending') icon.innerHTML = '&#9711;';
+        else if (data.status === 'running') icon.innerHTML = '&#9679;';
+        else if (data.status === 'done') icon.innerHTML = '&#10003;';
+        else if (data.status === 'error') icon.innerHTML = '&#10007;';
+      }
+      if (data.daUrl) activateLink(row, 'da', data.daUrl);
+      if (data.liveUrl) activateLink(row, 'live', data.liveUrl);
+    }
+
+    function activateLink(row, kind, url) {
+      var link = row.querySelector('.sf-doc__link[data-link="' + kind + '"]');
+      if (!link) return;
+      link.href = url;
+      link.classList.remove('sf-doc__link--disabled');
     }
 
     // Bridge
@@ -888,9 +1069,12 @@
       } else if (data.type === 'conversion-progress') {
         updateProgress(data);
       } else if (data.type === 'conversion-complete') {
-        showSummary(data);
+        showServe(data);
+      } else if (data.type === 'deploy-progress') {
+        updateDeployProgress(data);
       } else if (data.type === 'deploy-complete') {
-        showSummary(data);
+        // Final signal — nothing to do beyond what deploy-progress already did,
+        // but kept for symmetry / future stats updates.
       } else if (data.type === 'deps-installed') {
         checkDeps();
       } else if (data.type === 'deps-error') {

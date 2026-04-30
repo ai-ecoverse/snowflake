@@ -84,31 +84,53 @@ sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":
 
 `current` is 1-based; `total` is `files.length`. Use `"status":"error"` on per-file failure and continue with the rest — a single bad file shouldn't abort the batch.
 
-When all files are processed, commit and push to the branch resolved during `connect-repo` (and optionally open a PR).
+When all files are processed, commit and push to the branch resolved during `connect-repo` (and optionally open a PR), then advance the UI to the Serve panel by emitting:
 
-### Serve panel — upload to AEM EDS
+```
+sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
+```
 
-Before emitting `conversion-complete`, upload each successfully-converted document to its AEM Edge Delivery preview using the `aem` command (provided by the `aem` skill installed via `install-deps`):
+Each entry in `files` is the converted document's basename **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated. The sprinkle renders one row per file with all stages (Upload, Preview, Publish) in pending state, then waits for `deploy-progress` updates.
+
+### Serve panel — deploy each document
+
+Once the Serve panel is showing, deploy every converted document through three stages: upload to DA, then preview, then publish. Stream a `deploy-progress` event for each (file, stage) transition so the UI pulls the right pill into running, then done — and activates link buttons as URLs become available.
+
+For each file (running them in parallel is fine — the sprinkle is keyed by file + stage):
+
+**1. Upload** — write the document to Document Authoring:
 
 ```bash
 aem put https://main--<name>--<owner>.aem.page/<branch>/<filename> /workspace/<name>/content/<filename>.html
 ```
 
-Where:
-
-- `<owner>` and `<name>` are the values split from the `connect-repo` payload's `repo` field.
-- `<branch>` is the branch resolved during `connect-repo`.
-- `<filename>` is the converted document's basename **without** the `.html` extension (e.g. `home` for `/workspace/<name>/content/home.html`). Note the URL has no extension; the local path does.
-
-Run one `aem put` per file. The local path is always under `/workspace/<name>/content/` because the clone target is fixed in `connect-repo` step 1.
-
-Once all uploads complete, emit:
+Surround the call with:
 
 ```
-sprinkle send snowflake '{"type":"conversion-complete","converted":<N>,"blocks":<N>,"branch":"<branch>","prUrl":"<optional>","daUrl":"https://main--<name>--<owner>.aem.page/<branch>/"}'
+sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"upload","status":"running"}'
+# ...aem put...
+sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"upload","status":"done","daUrl":"https://da.live/edit#/<owner>/<name>/<branch>/<filename>"}'
 ```
 
-`converted` is how many files succeeded; `blocks` is the total EDS blocks generated across all files; `daUrl` is the branch's preview root so the Serve summary links to the deployed site. The sprinkle uses these to populate the Serve panel.
+The `daUrl` activates the "DA Edit" button on that file's row.
+
+**2. Preview** — publish to the AEM EDS preview environment (`aem preview` or equivalent). Surround with `running` / `done` events; no URL needs to land on the row at this stage (the DA Edit button is already live, the Published button isn't).
+
+**3. Publish** — push to live (`aem publish` or equivalent). Surround with `running` / `done` events. On `done`, include `liveUrl` so the "Published" button activates:
+
+```
+sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"publish","status":"done","liveUrl":"https://main--<name>--<owner>.aem.live/<branch>/<filename>"}'
+```
+
+On any per-file per-stage failure, send `"status":"error"` with an optional `"message"` and continue with the remaining files — one bad page shouldn't block the rest. Subsequent stages for the failed file should be skipped (don't try to publish a page that didn't preview).
+
+When every file has reached its final stage (done or error), emit:
+
+```
+sprinkle send snowflake '{"type":"deploy-complete"}'
+```
+
+This is currently a no-op visually but reserved for future "all done" celebration / stats refresh.
 
 ## The one rule that drives everything else
 
