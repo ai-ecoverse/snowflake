@@ -638,7 +638,7 @@
     }
 
     var scanPending = false;
-    function scanFolder() {
+    async function scanFolder() {
       var input = document.getElementById('folderInput');
       var path = input.value.trim();
       if (!path) {
@@ -650,8 +650,62 @@
       if (scanPending) return;
       scanPending = true;
       state.folder = path;
-      slicc.lick({ action: 'select-folder', data: { path: path } });
-      setTimeout(function() { scanPending = false; }, 2000);
+
+      var container = document.getElementById('fileTreeContainer');
+      container.innerHTML =
+        '<div class="sf-empty"><div class="sf-empty__icon">&#10052;</div>' +
+        '<div class="sf-empty__text">Scanning &hellip;</div></div>';
+
+      try {
+        var files = [];
+        await walkHtml(path, files, true);
+        if (files.length === 0) {
+          container.innerHTML =
+            '<div class="sf-empty"><div class="sf-empty__icon">&#10052;</div>' +
+            '<div class="sf-empty__text">No .html files found in ' + escapeHtml(path) + '</div></div>';
+        } else {
+          renderFileTree(files);
+        }
+      } catch (err) {
+        container.innerHTML =
+          '<div class="sf-empty"><div class="sf-empty__icon">&#9888;</div>' +
+          '<div class="sf-empty__text">Could not scan: ' + escapeHtml(err.message || String(err)) + '</div></div>';
+      } finally {
+        scanPending = false;
+      }
+    }
+
+    async function walkHtml(dir, out, isRoot) {
+      var entries;
+      try {
+        entries = await slicc.readDir(dir);
+      } catch (e) {
+        if (isRoot) throw e;
+        console.warn('snowflake: skip unreadable dir', dir, e);
+        return;
+      }
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
+        var full = dir.replace(/\/+$/, '') + '/' + entry.name;
+        if (entry.type === 'directory') {
+          await walkHtml(full, out, false);
+        } else if (entry.type === 'file' && entry.name.toLowerCase().endsWith('.html')) {
+          var size = 0;
+          try {
+            var s = await slicc.stat(full);
+            size = s.size || 0;
+          } catch (e) {
+            console.warn('snowflake: stat failed', full, e);
+          }
+          out.push({ path: full, name: entry.name, size: size });
+        }
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function(c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
     }
 
     function renderFileTree(files) {

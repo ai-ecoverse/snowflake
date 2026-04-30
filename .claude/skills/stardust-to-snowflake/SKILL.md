@@ -16,7 +16,7 @@ If the user has prototypes but no EDS scaffolding, stop and ask whether to boots
 
 ## Sprinkle integration
 
-When invoked through the snowflake sprinkle (`.claude/skills/stardust-to-snowflake/snowflake.shtml`), the user drives the conversion through four stepper panels: **Scoop** (target repo + branch), **Sprinkle** (file selection), **Swirl** (conversion), **Serve** (results). Each panel emits a lick; respond by performing the action and pushing an update back so the UI advances.
+When invoked through the snowflake sprinkle (`.claude/skills/stardust-to-snowflake/snowflake.shtml`), the user drives the conversion through four stepper panels: **Scoop** (target repo + branch), **Sprinkle** (file selection), **Swirl** (conversion), **Serve** (results). The Scoop and Swirl panels emit licks; the Sprinkle panel scans the filesystem itself through the bridge file APIs and never reaches the agent.
 
 Push updates with: `sprinkle send snowflake '<json>'`.
 
@@ -38,9 +38,31 @@ Steps:
 
 On any failure, push `sprinkle send snowflake '{"type":"error","message":"<reason>"}'` and let the user retry from the Scoop panel.
 
-### Other licks
+### Sprinkle panel — no lick
 
-The sprinkle also emits `select-folder` (Sprinkle panel) and `start-conversion` (Swirl panel), and listens for `file-list`, `conversion-progress`, `conversion-complete`, and `deploy-complete` updates. These wrap the conversion steps below — when invoked via the sprinkle, the steps run inside the `start-conversion` handler with progress streamed back to the UI.
+The Sprinkle panel walks the chosen folder on its own using `slicc.readDir` and `slicc.stat`, filters `.html` files, and renders the tree directly. There is no agent round-trip for file discovery; trust the `files` payload that arrives with `start-conversion`.
+
+### Lick: `start-conversion` (Swirl panel)
+
+Payload: `{ files: ["<absolute path>", ...] }` — every entry is an `.html` path the sprinkle has already verified via the bridge. No re-validation needed.
+
+For each file, in order, push two `conversion-progress` events around the work:
+
+```
+sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":"running","current":<i>,"total":<N>}'
+# ...run the conversion steps below for this file...
+sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":"done","current":<i>,"total":<N>}'
+```
+
+`current` is 1-based; `total` is `files.length`. Use `"status":"error"` on per-file failure and continue with the rest — a single bad file shouldn't abort the batch.
+
+When all files are processed, commit and push to the branch resolved during `connect-repo`, optionally open a PR, and emit:
+
+```
+sprinkle send snowflake '{"type":"conversion-complete","converted":<N>,"blocks":<N>,"branch":"<name>","prUrl":"<optional>","daUrl":"<optional>"}'
+```
+
+`converted` is how many files succeeded; `blocks` is the total EDS blocks generated across all files. The sprinkle uses these to populate the Serve panel's summary.
 
 ## The one rule that drives everything else
 
