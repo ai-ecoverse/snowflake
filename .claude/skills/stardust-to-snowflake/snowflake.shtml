@@ -912,8 +912,11 @@
     });
 
     async function checkDeps() {
+      console.log('[snowflake] checkDeps: checking', DEPS_AEM_PATH);
+      showSetupBanner('Checking aem skill&hellip;', false);
       try {
         var hasAem = await slicc.exists(DEPS_AEM_PATH);
+        console.log('[snowflake] checkDeps: hasAem =', hasAem);
         if (hasAem) {
           state.depsReady = true;
           hideSetupBanner();
@@ -926,6 +929,7 @@
         showSetupBanner('Installing aem skill from ai-ecoverse/skills&hellip;', false);
         slicc.lick({ action: 'install-deps' });
       } catch (err) {
+        console.error('[snowflake] checkDeps error:', err);
         state.depsReady = false;
         showSetupBanner(
           'Setup error: ' + escapeHtml(err.message || String(err)) +
@@ -940,13 +944,19 @@
 
     function showSetupBanner(html, isError) {
       var banner = document.getElementById('setupBanner');
+      var msg = document.getElementById('setupMsg');
+      if (!banner || !msg) {
+        console.error('[snowflake] setup UI missing — banner:', !!banner, 'msg:', !!msg);
+        return;
+      }
       banner.classList.toggle('sf-setup--error', !!isError);
-      document.getElementById('setupMsg').innerHTML = html;
+      msg.innerHTML = html;
       banner.style.display = '';
     }
 
     function hideSetupBanner() {
-      document.getElementById('setupBanner').style.display = 'none';
+      var banner = document.getElementById('setupBanner');
+      if (banner) banner.style.display = 'none';
     }
 
     function generateBranchHash() {
