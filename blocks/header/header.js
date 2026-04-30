@@ -4,14 +4,14 @@ import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
 
-const HEADER_PATH = '/fragments/nav/header';
+const HEADER_PATH = '/fragments/nav';
 
 /**
  * loads and decorates the header
  * @param {Element} el The header element
  */
 export default async function init(el) {
-  const headerMeta = getMetadata('header');
+  const headerMeta = getMetadata('header-path');
   const path = headerMeta || HEADER_PATH;
   try {
     const fragment = await loadFragment(`${locale.prefix}${path}`);
