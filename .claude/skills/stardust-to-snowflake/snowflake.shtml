@@ -757,6 +757,9 @@
     }
 
     function renderFileTree(files) {
+      files.sort(function(a, b) {
+        return a.path.toLowerCase().localeCompare(b.path.toLowerCase());
+      });
       state.files = files;
       state.selectedFiles = files.map(function(f) { return f.path; });
 
