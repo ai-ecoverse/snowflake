@@ -1,0 +1,67 @@
+.faq-contact {
+  padding: var(--section-padding) 0;
+  background: var(--color-shelter);
+  color: var(--color-paper);
+}
+
+.faq-contact .still-have-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.faq-contact h2 {
+  font-size: var(--heading-lg);
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-paper);
+}
+
+/* ── 3-up card grid ─────────────────────────────────────────── */
+
+.faq-contact .still-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.faq-contact .still-card {
+  background: var(--color-shelter);
+  padding: 28px 24px;
+}
+
+.faq-contact .still-card .eyebrow {
+  color: var(--color-signal-soft);
+  margin-bottom: 10px;
+}
+
+.faq-contact .still-card h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-paper);
+  margin-bottom: 10px;
+}
+
+.faq-contact .still-card a {
+  color: var(--color-paper);
+  font-weight: 700;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 4px;
+  text-decoration: none;
+}
+
+.faq-contact .still-card a:hover {
+  text-decoration: underline;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .faq-contact .still-grid {
+    grid-template-columns: 1fr;
+  }
+}
