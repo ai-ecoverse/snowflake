@@ -120,10 +120,10 @@ The `daUrl` activates the "DA Edit" button on that file's row.
 
 **2. Preview** — publish to the AEM EDS preview environment (`aem preview` or equivalent). Surround with `running` / `done` events; no URL needs to land on the row at this stage (the DA Edit button is already live, the Published button isn't).
 
-**3. Publish** — push to live (`aem publish` or equivalent). Surround with `running` / `done` events. On `done`, include `liveUrl` so the "Published" button activates:
+**3. Publish** — push to live (`aem publish` or equivalent). Surround with `running` / `done` events. On `done`, include `liveUrl` so the "Published" button activates. **Use the branch host prefix, not `main--`** — only the main branch lives at `main--<name>--<owner>.aem.live`; every other branch is served from its own host:
 
 ```
-sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"publish","status":"done","liveUrl":"https://main--<name>--<owner>.aem.live/<branch>/<filename>"}'
+sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"publish","status":"done","liveUrl":"https://<branch>--<name>--<owner>.aem.live/<filename>"}'
 ```
 
 On any per-file per-stage failure, send `"status":"error"` with an optional `"message"` and continue with the remaining files — one bad page shouldn't block the rest. Subsequent stages for the failed file should be skipped (don't try to publish a page that didn't preview).
