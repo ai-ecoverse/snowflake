@@ -74,11 +74,28 @@ Payload: `{ files: ["<absolute path>", ...] }` — every entry is an `.html` pat
 
 **Do not use `scoop_wait` for this lick.** Perform the conversion work directly in the cone or dispatch a fire-and-forget scoop; do not gate progress on a wait timer. Completion is signalled by the `conversion-complete` sprinkle push, not by scoop resolution.
 
-For each file, in order, push two `conversion-progress` events around the work:
+The conversion runs in two phases: a one-time **site setup** that produces site-wide artifacts, then a **per-file loop** that scaffolds each page. **Do not collapse the two — running site-setup tasks per-file silently overwrites prior work; skipping them entirely leaves the site without global tokens, fonts, buttons, or chrome and every page renders unstyled.**
+
+#### Phase 1 — site setup (run ONCE for the whole batch, before any per-file work)
+
+Run Steps 1–6 from the [Steps](#steps) section below in order. None of them are per-file:
+
+1. **Audit** (Step 1) — cross-file section inventory of every prototype.
+2. **Decide names + reuse** (Step 2) — lock block naming and reuse decisions across the whole batch.
+3. **Foundation** (Step 3) — write `styles/styles.css` with `:root` tokens, reset, and the EDS section scaffold.
+4. **Self-host fonts** (Step 4) — fetch woff2 files into `styles/fonts/`, write `@font-face` declarations in `styles/styles.css`, and set up the `body.session` metric-matched fallback pattern.
+5. **Button system** (Step 5) — append the global button CSS to `styles/styles.css`.
+6. **Chrome** (Step 6) — write `blocks/header/{header.js,header.css}`, `blocks/footer/{footer.js,footer.css}`, and the fragment pair at `content/fragments/nav/{header.html,footer.html}`. One header block, one footer block, one fragment pair — shared by every page.
+
+Phase 1 produces no `conversion-progress` events; the Swirl panel just shows the bar at 0 / N until the first per-file event in Phase 2.
+
+#### Phase 2 — per-file conversion
+
+For each file in `files`, in order, push two `conversion-progress` events around **only the per-page work (Steps 7–9: block JS scaffold + content page scaffold)**. The global setup is already done.
 
 ```
 sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":"running","current":<i>,"total":<N>}'
-# ...run the conversion steps below for this file...
+# ...run Steps 7–9 below for this file...
 sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":"done","current":<i>,"total":<N>}'
 ```
 
