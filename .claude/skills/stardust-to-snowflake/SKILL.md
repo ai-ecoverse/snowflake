@@ -14,6 +14,34 @@ The user has:
 
 If the user has prototypes but no EDS scaffolding, stop and ask whether to bootstrap. If they have EDS but no prototypes, this skill doesn't apply.
 
+## Sprinkle integration
+
+When invoked through the snowflake sprinkle (`.claude/skills/stardust-to-snowflake/snowflake.shtml`), the user drives the conversion through four stepper panels: **Scoop** (target repo + branch), **Sprinkle** (file selection), **Swirl** (conversion), **Serve** (results). Each panel emits a lick; respond by performing the action and pushing an update back so the UI advances.
+
+Push updates with: `sprinkle send snowflake '<json>'`.
+
+### Lick: `connect-repo` (Scoop panel)
+
+Payload: `{ repo: "owner/name", branch: "<branch-name>" }`.
+
+The `branch` field is pre-filled with a fresh short hash on each sprinkle load. Treat the value as authoritative — the user may have replaced it with an existing branch name they want to target.
+
+Steps:
+
+1. Clone `https://github.com/<repo>` into the workspace if it's not already present (e.g. `git clone https://github.com/<repo> /workspace/<repo-basename>`).
+2. `git fetch origin` to sync remote refs.
+3. Resolve `<branch>` in this order:
+   - Local branch `<branch>` exists → `git checkout <branch>`.
+   - Remote branch `origin/<branch>` exists → `git checkout -b <branch> origin/<branch>` (tracks remote).
+   - Otherwise → create it from the origin default branch: `git checkout -b <branch> origin/main` (fall back to `origin/master` when main is absent).
+4. Push: `sprinkle send snowflake '{"type":"repo-connected"}'` so the UI advances to the Sprinkle panel.
+
+On any failure, push `sprinkle send snowflake '{"type":"error","message":"<reason>"}'` and let the user retry from the Scoop panel.
+
+### Other licks
+
+The sprinkle also emits `select-folder` (Sprinkle panel) and `start-conversion` (Swirl panel), and listens for `file-list`, `conversion-progress`, `conversion-complete`, and `deploy-complete` updates. These wrap the conversion steps below — when invoked via the sprinkle, the steps run inside the `start-conversion` handler with progress streamed back to the UI.
+
 ## The one rule that drives everything else
 
 **One prototype `<section>` = one EDS block.** Do not abstract. Do not invent variants. Do not extract "patterns" across prototypes unless two sections are visually identical.
