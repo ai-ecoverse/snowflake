@@ -70,6 +70,8 @@ The Sprinkle panel walks the chosen folder on its own using `slicc.readDir` and 
 
 Payload: `{ files: ["<absolute path>", ...] }` — every entry is an `.html` path the sprinkle has already verified via the bridge. No re-validation needed.
 
+**Do not use `scoop_wait` for this lick.** Perform the conversion work directly in the cone or dispatch a fire-and-forget scoop; do not gate progress on a wait timer. Completion is signalled by the `conversion-complete` sprinkle push, not by scoop resolution.
+
 For each file, in order, push two `conversion-progress` events around the work:
 
 ```
