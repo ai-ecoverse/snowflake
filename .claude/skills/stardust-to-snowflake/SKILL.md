@@ -46,13 +46,15 @@ Steps:
 
 ### Lick: `connect-repo` (Scoop panel)
 
-Payload: `{ repo: "owner/name", branch: "<branch-name>" }`.
+Payload: `{ repo: "<owner>/<name>", branch: "<branch>" }`.
+
+Split `repo` on `/` into `<owner>` and `<name>` (e.g. `ai-ecoverse/snowflake` → owner `ai-ecoverse`, name `snowflake`). These names are reused throughout the rest of the flow — the local clone always lives at `/workspace/<name>`.
 
 The `branch` field is pre-filled with a fresh short hash on each sprinkle load. Treat the value as authoritative — the user may have replaced it with an existing branch name they want to target.
 
 Steps:
 
-1. Clone `https://github.com/<repo>` into the workspace if it's not already present (e.g. `git clone https://github.com/<repo> /workspace/<repo-basename>`).
+1. If `/workspace/<name>/.git` doesn't exist, clone there: `git clone https://github.com/<owner>/<name> /workspace/<name>`. Always use the repo basename as the directory — the upload step depends on this.
 2. `git fetch origin` to sync remote refs.
 3. Resolve `<branch>` in this order:
    - Local branch `<branch>` exists → `git checkout <branch>`.
@@ -82,13 +84,31 @@ sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":
 
 `current` is 1-based; `total` is `files.length`. Use `"status":"error"` on per-file failure and continue with the rest — a single bad file shouldn't abort the batch.
 
-When all files are processed, commit and push to the branch resolved during `connect-repo`, optionally open a PR, and emit:
+When all files are processed, commit and push to the branch resolved during `connect-repo` (and optionally open a PR).
+
+### Serve panel — upload to AEM EDS
+
+Before emitting `conversion-complete`, upload each successfully-converted document to its AEM Edge Delivery preview using the `aem` command (provided by the `aem` skill installed via `install-deps`):
+
+```bash
+aem put https://main--<name>--<owner>.aem.page/<branch>/<filename> /workspace/<name>/content/<filename>.html
+```
+
+Where:
+
+- `<owner>` and `<name>` are the values split from the `connect-repo` payload's `repo` field.
+- `<branch>` is the branch resolved during `connect-repo`.
+- `<filename>` is the converted document's basename **without** the `.html` extension (e.g. `home` for `/workspace/<name>/content/home.html`). Note the URL has no extension; the local path does.
+
+Run one `aem put` per file. The local path is always under `/workspace/<name>/content/` because the clone target is fixed in `connect-repo` step 1.
+
+Once all uploads complete, emit:
 
 ```
-sprinkle send snowflake '{"type":"conversion-complete","converted":<N>,"blocks":<N>,"branch":"<name>","prUrl":"<optional>","daUrl":"<optional>"}'
+sprinkle send snowflake '{"type":"conversion-complete","converted":<N>,"blocks":<N>,"branch":"<branch>","prUrl":"<optional>","daUrl":"https://main--<name>--<owner>.aem.page/<branch>/"}'
 ```
 
-`converted` is how many files succeeded; `blocks` is the total EDS blocks generated across all files. The sprinkle uses these to populate the Serve panel's summary.
+`converted` is how many files succeeded; `blocks` is the total EDS blocks generated across all files; `daUrl` is the branch's preview root so the Serve summary links to the deployed site. The sprinkle uses these to populate the Serve panel.
 
 ## The one rule that drives everything else
 
