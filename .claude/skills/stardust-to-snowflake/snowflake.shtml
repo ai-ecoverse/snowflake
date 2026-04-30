@@ -500,14 +500,14 @@
       <div class="sf-field">
         <label class="sf-field__label">GitHub Repository</label>
         <input type="text" class="sf-field__input" id="repoInput"
-          value="adobe/aem-boilerplate" placeholder="owner/repo">
+          value="ai-ecoverse/snowflake" placeholder="owner/repo">
         <div class="sf-field__hint">The EDS project to commit generated blocks to</div>
       </div>
       <div class="sf-field">
         <label class="sf-field__label">Branch (optional)</label>
         <input type="text" class="sf-field__input" id="branchInput"
           placeholder="main" style="font-family: var(--s2-font-mono, monospace)">
-        <div class="sf-field__hint">Leave empty to create a new snowflake branch</div>
+        <div class="sf-field__hint">Each snowflake gets a unique branch &mdash; edit to target an existing one</div>
       </div>
     </div>
 
@@ -796,7 +796,17 @@
       }
     });
 
+    function generateBranchHash() {
+      var bytes = new Uint8Array(4);
+      crypto.getRandomValues(bytes);
+      return Array.from(bytes)
+        .map(function(b) { return b.toString(16).padStart(2, '0'); })
+        .join('')
+        .slice(0, 7);
+    }
+
     // Init
+    document.getElementById('branchInput').value = generateBranchHash();
     setStep(0);
   </script>
 </body>
