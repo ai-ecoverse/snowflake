@@ -441,6 +441,47 @@
       font-style: italic;
     }
 
+    /* Setup banner */
+    .sf-setup {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: var(--s2-bg-layer-2, rgba(255,255,255,0.04));
+      border: 1px solid var(--s2-border-default, rgba(255,255,255,0.1));
+      font-size: 12px;
+      color: var(--s2-content-secondary, #aaa);
+    }
+
+    .sf-setup__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #a78bfa;
+      animation: pulse 1.5s ease infinite;
+      flex-shrink: 0;
+    }
+
+    .sf-setup--error {
+      border-color: var(--s2-negative, #f87171);
+      color: var(--s2-content-default, #e0e0e0);
+    }
+
+    .sf-setup--error .sf-setup__dot {
+      background: var(--s2-negative, #f87171);
+      animation: none;
+    }
+
+    .sf-setup__msg a {
+      color: #a78bfa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .sf-setup__msg a:hover { text-decoration: underline; }
+
     /* Empty state */
     .sf-empty {
       text-align: center;
@@ -504,6 +545,10 @@
 
     <!-- Step 1: Scoop (repo) -->
     <div class="sf-panel sf-panel--active" id="panel-0">
+      <div class="sf-setup" id="setupBanner" style="display:none">
+        <div class="sf-setup__dot"></div>
+        <div class="sf-setup__msg" id="setupMsg">Loading&hellip;</div>
+      </div>
       <div class="sf-field">
         <label class="sf-field__label">GitHub Repository</label>
         <input type="text" class="sf-field__input" id="repoInput"
@@ -576,8 +621,11 @@
       folder: '',
       files: [],
       selectedFiles: [],
-      results: []
+      results: [],
+      depsReady: false
     };
+
+    var DEPS_AEM_PATH = '/workspace/skills/aem/SKILL.md';
 
     var stepLabels = ['Connect', 'Convert', 'Converting...', 'Done'];
     var flavorTexts = ['freshly scooped', 'pick your sprinkles', 'swirling it together', 'ready to serve'];
@@ -601,7 +649,7 @@
       var nextBtn = document.getElementById('nextBtn');
       backBtn.style.display = n > 0 && n < 3 ? '' : 'none';
 
-      if (n === 0) { nextBtn.textContent = 'Connect'; nextBtn.disabled = false; }
+      if (n === 0) { nextBtn.textContent = 'Connect'; nextBtn.disabled = !state.depsReady; }
       else if (n === 1) { nextBtn.textContent = 'Convert'; nextBtn.disabled = state.selectedFiles.length === 0; }
       else if (n === 2) { nextBtn.textContent = 'Converting...'; nextBtn.disabled = true; }
       else if (n === 3) { nextBtn.textContent = 'Close'; nextBtn.disabled = false; }
@@ -843,19 +891,63 @@
     slicc.on('update', function(data) {
       if (data.type === 'repo-connected') {
         setStep(1);
-      } else if (data.type === 'file-list') {
-        renderFileTree(data.files);
       } else if (data.type === 'conversion-progress') {
         updateProgress(data);
       } else if (data.type === 'conversion-complete') {
         showSummary(data);
       } else if (data.type === 'deploy-complete') {
         showSummary(data);
+      } else if (data.type === 'deps-installed') {
+        checkDeps();
+      } else if (data.type === 'deps-error') {
+        showSetupBanner(
+          'Could not install dependencies: ' + escapeHtml(data.message || 'unknown error') +
+          ' <a href="#" onclick="checkDeps();return false;">Retry</a>',
+          true
+        );
       } else if (data.type === 'error') {
         alert(data.message);
         document.getElementById('nextBtn').disabled = false;
       }
     });
+
+    async function checkDeps() {
+      try {
+        var hasAem = await slicc.exists(DEPS_AEM_PATH);
+        if (hasAem) {
+          state.depsReady = true;
+          hideSetupBanner();
+          if (state.step === 0) {
+            document.getElementById('nextBtn').disabled = false;
+          }
+          return;
+        }
+        state.depsReady = false;
+        showSetupBanner('Installing aem skill from ai-ecoverse/skills&hellip;', false);
+        slicc.lick({ action: 'install-deps' });
+      } catch (err) {
+        state.depsReady = false;
+        showSetupBanner(
+          'Setup error: ' + escapeHtml(err.message || String(err)) +
+          ' <a href="#" onclick="checkDeps();return false;">Retry</a>',
+          true
+        );
+      }
+      if (state.step === 0) {
+        document.getElementById('nextBtn').disabled = true;
+      }
+    }
+
+    function showSetupBanner(html, isError) {
+      var banner = document.getElementById('setupBanner');
+      banner.classList.toggle('sf-setup--error', !!isError);
+      document.getElementById('setupMsg').innerHTML = html;
+      banner.style.display = '';
+    }
+
+    function hideSetupBanner() {
+      document.getElementById('setupBanner').style.display = 'none';
+    }
 
     function generateBranchHash() {
       var bytes = new Uint8Array(4);
@@ -869,6 +961,7 @@
     // Init
     document.getElementById('branchInput').value = generateBranchHash();
     setStep(0);
+    checkDeps();
   </script>
 </body>
 </html>

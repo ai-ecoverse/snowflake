@@ -14,11 +14,35 @@ The user has:
 
 If the user has prototypes but no EDS scaffolding, stop and ask whether to bootstrap. If they have EDS but no prototypes, this skill doesn't apply.
 
+## Prerequisites
+
+This skill depends on the `aem` skill from `ai-ecoverse/skills` for the EDS-specific patterns the conversion steps lean on. **Before any work**, ensure it is installed:
+
+```bash
+# Install (idempotent — safe to re-run)
+upskill ai-ecoverse/skills --skill aem
+```
+
+The skill is installed to `/workspace/skills/aem/SKILL.md`. The sprinkle-driven flow auto-detects this on load and fires the `install-deps` lick when missing (see Sprinkle integration). When invoked from chat, run the command yourself before starting any of the steps below.
+
 ## Sprinkle integration
 
 When invoked through the snowflake sprinkle (`.claude/skills/stardust-to-snowflake/snowflake.shtml`), the user drives the conversion through four stepper panels: **Scoop** (target repo + branch), **Sprinkle** (file selection), **Swirl** (conversion), **Serve** (results). The Scoop and Swirl panels emit licks; the Sprinkle panel scans the filesystem itself through the bridge file APIs and never reaches the agent.
 
 Push updates with: `sprinkle send snowflake '<json>'`.
+
+### Lick: `install-deps` (auto-fired on load when prerequisites missing)
+
+Payload: empty.
+
+The sprinkle fires this on open if `/workspace/skills/aem/SKILL.md` is absent. The Connect button stays disabled until the dependency is confirmed installed.
+
+Steps:
+
+1. Run `upskill ai-ecoverse/skills --skill aem`.
+2. Verify `/workspace/skills/aem/SKILL.md` now exists.
+3. On success: `sprinkle send snowflake '{"type":"deps-installed"}'` — the sprinkle re-checks and unlocks the Connect button.
+4. On failure: `sprinkle send snowflake '{"type":"deps-error","message":"<reason>"}'` — the sprinkle shows a Retry link.
 
 ### Lick: `connect-repo` (Scoop panel)
 
