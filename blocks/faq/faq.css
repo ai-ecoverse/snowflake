@@ -1,0 +1,142 @@
+/* faq — sticky sidebar nav + accordion Q&A, scoped styles */
+
+.faq {
+  padding: var(--section-padding) 0;
+}
+
+.faq-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--spacing-2xl);
+}
+
+/* ── Sidebar nav */
+.faq .cat-nav {
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+  align-self: start;
+}
+
+.faq .cat-nav p.eyebrow {
+  margin-bottom: var(--spacing-md);
+}
+
+.faq .cat-nav ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.faq .cat-nav li {
+  padding: 10px 0;
+  border-top: 1px solid var(--color-rule);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.faq .cat-nav a {
+  color: var(--color-g22);
+}
+
+.faq .cat-nav a:hover {
+  color: var(--color-signal);
+}
+
+/* ── Q sections */
+.faq .q-section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.faq .q-section h2 {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-md);
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 2px solid var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+/* ── Accordion items */
+.faq details.q {
+  border-bottom: 1px solid var(--color-rule);
+  padding: var(--spacing-md) 0;
+}
+
+.faq details.q > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-ink);
+  padding: 6px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.faq details.q > summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq details.q > summary::after {
+  content: "+";
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--color-signal);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.faq details.q[open] > summary::after {
+  content: "−";
+}
+
+.faq details.q .a {
+  padding: var(--spacing-md) 0;
+  font-size: 15px;
+  color: var(--color-g22);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+
+.faq details.q .a p {
+  margin-bottom: 12px;
+}
+
+.faq details.q .a strong {
+  color: var(--color-ink);
+}
+
+.faq details.q .a ul {
+  padding-left: 22px;
+  margin: 10px 0;
+}
+
+.faq details.q .a li {
+  margin-bottom: 8px;
+}
+
+.faq details.q .a a {
+  color: var(--color-signal);
+  font-weight: 600;
+  border-bottom: 1px solid var(--color-signal);
+}
+
+/* ── Responsive */
+@media (max-width: 900px) {
+  .faq-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .faq .cat-nav {
+    position: static;
+  }
+}
