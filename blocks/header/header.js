@@ -1,22 +1,88 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { setColorScheme } from '../section-metadata/section-metadata.js';
 
 const { locale } = getConfig();
 
-const HEADER_PATH = '/fragments/nav/header';
+const HEADER_PATH = '/fragments/nav';
 
 /**
- * loads and decorates the header
- * @param {Element} el The header element
+ * header — The Road Home site nav
+ *
+ * Fragment shape (nav.html):
+ *   1. <picture>/<a><picture> — logo (first picture in fragment)
+ *   2. <ul> — nav links
+ *   3. Last <a> not inside logo or nav — ghost CTA (Find a Shelter)
+ *   4. <strong><a> — primary CTA (Donate)
  */
 export default async function init(el) {
   const headerMeta = getMetadata('header');
   const path = headerMeta || HEADER_PATH;
+
+  let fragment;
   try {
-    const fragment = await loadFragment(`${locale.prefix}${path}`);
-    el.append(fragment);
+    fragment = await loadFragment(`${locale.prefix}${path}`);
   } catch (e) {
     throw Error(e);
   }
+
+  const root = fragment.querySelector('main') || fragment;
+
+  // Logo: first <picture>; preserve wrapping <a>
+  const picture = root.querySelector('picture, img');
+  const logoAnchor = picture?.closest('a');
+  const logoEl = logoAnchor || picture;
+
+  // Nav list: first <ul>
+  const list = root.querySelector('ul');
+
+  // All anchors for CTA detection (exclude logo + nav)
+  const allAnchors = [...root.querySelectorAll('a')];
+  const ghostCta = allAnchors.find((a) => (
+    !a.querySelector('picture, img') && !a.closest('ul') && !a.closest('strong') && a !== logoAnchor
+  ));
+  const primaryCta = allAnchors.find((a) => a.closest('strong'));
+
+  // Build nav
+  const nav = document.createElement('nav');
+  nav.className = 'topnav';
+
+  const inner = document.createElement('div');
+  inner.className = 'nav-inner';
+
+  if (logoEl) {
+    const logoWrap = document.createElement('a');
+    logoWrap.className = 'nav-logo';
+    logoWrap.href = logoAnchor?.href || '/';
+    logoWrap.setAttribute('aria-label', 'Home');
+    if (picture) logoWrap.append(picture.cloneNode(true));
+    inner.append(logoWrap);
+  }
+
+  if (list) {
+    const links = document.createElement('div');
+    links.className = 'nav-links';
+    [...list.querySelectorAll('a')].forEach((a) => {
+      const link = a.cloneNode(true);
+      links.append(link);
+    });
+    inner.append(links);
+  }
+
+  const right = document.createElement('div');
+  right.className = 'nav-right';
+
+  if (ghostCta) {
+    const ghost = ghostCta.cloneNode(true);
+    ghost.className = 'btn-ghost';
+    right.append(ghost);
+  }
+  if (primaryCta) {
+    const primary = primaryCta.cloneNode(true);
+    primary.className = 'btn';
+    right.append(primary);
+  }
+
+  inner.append(right);
+  nav.append(inner);
+  el.replaceChildren(nav);
 }

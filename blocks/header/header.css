@@ -1,0 +1,123 @@
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-rule);
+  height: var(--nav-h, 64px);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+}
+
+.nav-inner {
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 16px;
+  margin-right: auto;
+}
+
+.nav-logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-xl);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-g22);
+}
+
+.nav-links a {
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-signal);
+  border-bottom-color: var(--color-signal);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border: 1px solid var(--color-ink);
+  padding: 11px 22px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-block;
+}
+
+.btn-ghost:hover {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.btn {
+  display: inline-block;
+  background: var(--color-signal);
+  color: var(--color-paper);
+  padding: 16px 30px;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn:hover {
+  background: var(--color-shelter);
+}
+
+@media (max-width: 900px) {
+  .nav-inner { gap: var(--spacing-md); }
+  .nav-logo img { height: 34px; }
+
+  .nav-links {
+    gap: var(--spacing-lg);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { white-space: nowrap; }
+
+  .nav-right .btn-ghost { display: none !important; }
+  .nav-right { flex-shrink: 0; }
+}
+
+@media (max-width: 520px) {
+  .topnav { padding: 0 var(--gutter); }
+  .nav-logo { font-size: 14px; }
+  .nav-logo img { height: 28px; }
+  .btn { padding: 12px 18px; font-size: 12px; }
+}
