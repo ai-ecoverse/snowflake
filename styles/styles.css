@@ -1,4 +1,4 @@
-/* Edge Delivery default decoration */
+/* ─── Edge Delivery default decoration ─────────────────────────────────────── */
 main > div,
 .has-template,
 div[data-status] {
@@ -14,5 +14,265 @@ aem-sidekick {
 
   &[open="true"].is-ready {
     opacity: 1;
+  }
+}
+
+/* ─── Self-hosted fonts ──────────────────────────────────────────────────────
+   Archivo Variable (OFL 1.1 — self-hosting permitted)
+   Public Sans Variable (OFL 1.1 — self-hosting permitted)
+   Metric-matched fallbacks eliminate CLS on font swap.
+   All @font-face declarations live here — never in head.html.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('/styles/fonts/archivo-variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* Metric-matched Arial fallback for Archivo (sans-serif → sans-serif).
+   Calibration values via @fontsource-variable/archivo published metrics. */
+@font-face {
+  font-family: 'Arial';
+  src: local('Arial');
+  size-adjust: 99%;
+  ascent-override: 96%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  src: url('/styles/fonts/public-sans-variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+/* ─── Design tokens — lifted verbatim from stardust/prototypes/_tokens.css ── */
+:root {
+  /* Type */
+  --font-body:    'Public Sans', arial, sans-serif;
+  --font-display: 'Archivo', arial, sans-serif;
+  --font-serif:   'Source Serif 4', georgia, 'Times New Roman', serif;
+
+  --heading-xxl: 160px;
+  --heading-xl:  56px;
+  --heading-lg:  38px;
+  --heading-md:  26px;
+  --heading-sm:  20px;
+  --body:        16px;
+  --body-sm:     14px;
+  --micro:       11px;
+
+  --line-height-display: 1.02;
+  --line-height-heading: 1.15;
+  --line-height-body:    1.55;
+  --tracking-display:    -0.02em;
+  --tracking-heading:    -0.01em;
+  --tracking-eyebrow:    0.12em;
+
+  /* Color */
+  --color-signal:      #008192;
+  --color-shelter:     #005560;
+  --color-dusk:        #105560;
+  --color-ink:         #000000;
+  --color-paper:       #ffffff;
+  --color-g22:         #222222;
+  --color-g44:         #444444;
+  --color-g66:         #666666;
+  --color-g80:         #808080;
+  --color-rule:        #e9e9e9;
+  --color-tint:        #f0f8f9;
+  --color-tint-light:  #fafcfd;
+  --color-panel:       #f7f7f7;
+  --color-signal-soft: #7fd3dc;
+
+  /* Spacing */
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  16px;
+  --spacing-lg:  24px;
+  --spacing-xl:  40px;
+  --spacing-2xl: 72px;
+
+  /* Layout */
+  --section-padding: 88px;
+  --max-width:       1320px;
+  --gutter:          32px;
+  --radius:          0;
+  --nav-h:           64px;
+
+  /* Component proportions */
+  --btn-primary-padding:   16px 30px;
+  --btn-primary-font-size: 13px;
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: arial, sans-serif;   /* system fallback until session activates */
+  font-size: var(--body);
+  color: var(--color-ink);
+  background: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+body.session {
+  font-family: var(--font-body);
+}
+
+::selection { background: var(--color-signal); color: var(--color-paper); }
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 {
+  font-family: 'Archivo', arial, sans-serif;
+  margin: 0;
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+h1 {
+  line-height: var(--line-height-display);
+  letter-spacing: var(--tracking-display);
+}
+
+p { margin: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+/* Shared eyebrow utility */
+.eyebrow {
+  font-size: var(--micro);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  font-weight: 700;
+  color: var(--color-g66);
+  margin: 0 0 var(--spacing-md);
+}
+
+/* Shared inner container */
+.container, .inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ─── EDS section scaffold ────────────────────────────────────────────────── */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+
+/* ─── Global button system ───────────────────────────────────────────────── */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: var(--btn-primary-padding);
+  font-size: var(--btn-primary-font-size);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+}
+
+a.btn-primary {
+  background: var(--color-signal);
+  color: var(--color-paper);
+  border-color: var(--color-signal);
+}
+
+a.btn-primary:hover {
+  background: var(--color-shelter);
+  border-color: var(--color-shelter);
+}
+
+a.btn-secondary {
+  background: transparent;
+  color: currentcolor;
+  border-color: rgb(255 255 255 / 40%);
+}
+
+a.btn-secondary:hover {
+  border-color: currentcolor;
+  background: rgb(255 255 255 / 5%);
+}
+
+/* Secondary on light surfaces */
+main .section:not(.dark, .shelter, .faq-hero) a.btn-secondary {
+  border-color: var(--color-rule);
+  color: var(--color-g22);
+}
+
+main .section:not(.dark, .shelter, .faq-hero) a.btn-secondary:hover {
+  border-color: var(--color-ink);
+}
+
+/* Trailing arrow on primary */
+a.btn-primary::after {
+  content: '→';
+  font-weight: 600;
+  transition: transform 0.3s var(--ease-out);
+}
+
+a.btn-primary:hover::after {
+  transform: translateX(4px);
+}
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ─── Responsive breakpoints ─────────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  :root {
+    --heading-xxl:     120px;
+    --heading-xl:      48px;
+    --heading-lg:      32px;
+    --section-padding: 72px;
+    --spacing-2xl:     60px;
+    --gutter:          28px;
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --heading-xxl:     88px;
+    --heading-xl:      40px;
+    --heading-lg:      28px;
+    --heading-md:      22px;
+    --section-padding: 56px;
+    --spacing-2xl:     48px;
+    --spacing-xl:      32px;
+    --gutter:          20px;
+    --nav-h:           60px;
+  }
+}
+
+@media (max-width: 520px) {
+  :root {
+    --heading-xxl:     56px;
+    --heading-xl:      32px;
+    --heading-lg:      24px;
+    --heading-md:      20px;
+    --section-padding: 44px;
+    --spacing-2xl:     36px;
+    --spacing-xl:      24px;
+    --gutter:          16px;
   }
 }

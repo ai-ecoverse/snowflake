@@ -1,0 +1,63 @@
+.still-have {
+  padding: var(--section-padding) 0;
+  background: var(--color-shelter);
+  color: var(--color-paper);
+}
+
+.still-have-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.still-have h2 {
+  font-size: var(--heading-lg);
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-xl);
+  color: var(--color-paper);
+}
+
+.still-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgb(255 255 255 / 18%);
+  border: 1px solid rgb(255 255 255 / 18%);
+}
+
+.still-card {
+  background: var(--color-shelter);
+  padding: 28px 24px;
+}
+
+.still-card .eyebrow {
+  color: var(--color-signal-soft);
+  margin-bottom: 10px;
+}
+
+.still-card h3 {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--color-paper);
+  margin-bottom: 10px;
+}
+
+.still-card a {
+  color: var(--color-paper);
+  font-weight: 700;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 4px;
+  text-decoration: none;
+}
+
+.still-card a:hover {
+  color: var(--color-signal-soft);
+}
+
+@media (max-width: 900px) {
+  .still-grid {
+    grid-template-columns: 1fr;
+  }
+}
