@@ -1071,6 +1071,13 @@
         updateProgress(data);
       } else if (data.type === 'conversion-complete') {
         showServe(data);
+        // Re-engage the cone to start the deploy sequence. Without this,
+        // the cone reads conversion-complete as the end of its handler
+        // and the SERVE panel sits idle. (Bug 002.)
+        slicc.lick({
+          action: 'start-deploy',
+          data: { files: data.files || [], branch: data.branch }
+        });
       } else if (data.type === 'deploy-progress') {
         updateDeployProgress(data);
       } else if (data.type === 'deploy-complete') {

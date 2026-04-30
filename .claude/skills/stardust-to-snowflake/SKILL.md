@@ -90,11 +90,15 @@ When all files are processed, commit and push to the branch resolved during `con
 sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
 ```
 
-Each entry in `files` is the converted document's basename **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated. The sprinkle renders one row per file with all stages (Upload, Preview, Publish) in pending state, then waits for `deploy-progress` updates.
+Each entry in `files` is the converted document's basename **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
 
-### Serve panel — deploy each document
+The conversion handler ends here. The sprinkle renders the Serve panel with all stages pending and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
 
-Once the Serve panel is showing, deploy every converted document through three stages: upload to DA, then preview, then publish. Stream a `deploy-progress` event for each (file, stage) transition so the UI pulls the right pill into running, then done — and activates link buttons as URLs become available.
+### Lick: `start-deploy` (auto-fired by the sprinkle after `conversion-complete`)
+
+Payload: `{ files: ["<basename>", ...], branch: "<branch>" }` — the same `files` and `branch` the sprinkle just received in `conversion-complete`. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
+
+This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the upload → preview → publish sequence as soon as you receive it; do not wait for any further user input.**
 
 For each file (running them in parallel is fine — the sprinkle is keyed by file + stage):
 
