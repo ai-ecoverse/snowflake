@@ -485,6 +485,20 @@
 
     .sf-serve__pr a:hover { text-decoration: underline; }
 
+    /* Section heading inside the Serve panel (Fragments / Documents). */
+    .sf-serve__section-heading {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--s2-content-secondary, #888);
+      margin: 4px 0 8px;
+    }
+
+    #fragmentsContainer + #documentsContainer .sf-serve__section-heading {
+      margin-top: 16px;
+    }
+
     /* Select all / none toolbar */
     .sf-select-bar {
       display: flex;
@@ -681,6 +695,7 @@
     <!-- Step 4: Serve (deploy) -->
     <div class="sf-panel" id="panel-3">
       <div id="branchCard"></div>
+      <div id="fragmentsContainer"></div>
       <div id="documentsContainer"></div>
       <div class="sf-serve__stats" id="serveStats"></div>
       <div class="sf-serve__pr" id="prLink"></div>
@@ -987,11 +1002,11 @@
       branchCard.className = 'sf-serve__branch';
       branchCard.innerHTML = branchHtml;
 
-      // Documents list
+      // Fragments + Documents
+      var fragments = Array.isArray(data.fragments) ? data.fragments : [];
       var files = Array.isArray(data.files) ? data.files : [];
-      var docsHtml = '';
-      files.forEach(function(name) { docsHtml += renderDocRow(name); });
-      document.getElementById('documentsContainer').innerHTML = docsHtml;
+      renderItemSection('fragmentsContainer', 'Fragments', fragments);
+      renderItemSection('documentsContainer', 'Documents', files);
 
       // Stats
       var stats = files.length + ' file' + (files.length === 1 ? '' : 's');
@@ -1029,8 +1044,20 @@
       '</div>';
     }
 
-    function findDocRow(file) {
-      var rows = document.querySelectorAll('#documentsContainer .sf-doc');
+    function renderItemSection(containerId, label, items) {
+      var container = document.getElementById(containerId);
+      if (!items || items.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+      var html = '<div class="sf-serve__section-heading">' + label + '</div>';
+      items.forEach(function(name) { html += renderDocRow(name); });
+      container.innerHTML = html;
+    }
+
+    function findDocRow(file, kind) {
+      var containerId = kind === 'fragment' ? 'fragmentsContainer' : 'documentsContainer';
+      var rows = document.querySelectorAll('#' + containerId + ' .sf-doc');
       for (var i = 0; i < rows.length; i++) {
         if (rows[i].getAttribute('data-file') === file) return rows[i];
       }
@@ -1038,9 +1065,10 @@
     }
 
     function updateDeployProgress(data) {
-      var row = findDocRow(data.file);
+      var kind = data.kind || 'page';
+      var row = findDocRow(data.file, kind);
       if (!row) {
-        console.warn('snowflake: deploy-progress for unknown file', data.file);
+        console.warn('snowflake: deploy-progress for unknown', kind, data.file);
         return;
       }
       var stage = row.querySelector('.sf-doc__stage[data-stage="' + data.stage + '"]');
@@ -1076,7 +1104,11 @@
         // and the SERVE panel sits idle. (Bug 002.)
         slicc.lick({
           action: 'start-deploy',
-          data: { files: data.files || [], branch: data.branch }
+          data: {
+            files: data.files || [],
+            fragments: data.fragments || [],
+            branch: data.branch
+          }
         });
       } else if (data.type === 'deploy-progress') {
         updateDeployProgress(data);

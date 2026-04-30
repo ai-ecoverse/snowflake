@@ -106,48 +106,55 @@ sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":
 When all files are processed, commit and push to the branch resolved during `connect-repo` (and optionally open a PR), then advance the UI to the Serve panel by emitting:
 
 ```
-sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
+sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"fragments":["header","footer"],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
 ```
 
-Each entry in `files` is the converted document's basename **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
+`files` are the converted page basenames **without** the `.html` extension (e.g. `home` for `home.html`). `fragments` are the chrome fragment basenames (always `["header", "footer"]` in this skill — the chrome pair authored in Step 6). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
 
-The conversion handler ends here. The sprinkle renders the Serve panel with all stages pending and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
+The conversion handler ends here. The sprinkle renders the Serve panel with two sections (Fragments and Documents), all stages pending, and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
 
 ### Lick: `start-deploy` (auto-fired by the sprinkle after `conversion-complete`)
 
-Payload: `{ files: ["<basename>", ...], branch: "<branch>" }` — the same `files` and `branch` the sprinkle just received in `conversion-complete`. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
+Payload: `{ files: ["<basename>", ...], fragments: ["header","footer"], branch: "<branch>" }` — the same arrays and branch the sprinkle just received in `conversion-complete`. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
 
 This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the upload → preview → publish sequence as soon as you receive it; do not wait for any further user input.**
 
-For each file (running them in parallel is fine — the sprinkle is keyed by file + stage):
+**Deploy fragments first, then pages.** Pages reference fragments by path via the `metadata` block — once both are live the references resolve. Every `deploy-progress` event MUST carry `kind: "fragment"` or `kind: "page"` so the sprinkle routes the update to the correct section of the Serve panel.
 
-**1. Upload** — write the document to Document Authoring:
+#### URL templates
 
-```bash
-aem put https://main--<name>--<owner>.aem.page/<branch>/<filename> /workspace/<name>/content/<filename>.html
+| Kind     | Local path                                       | Upload URL (DA put)                                                  | DA Edit URL (`daUrl`)                                            | Live URL (`liveUrl`)                                                       |
+| -------- | ------------------------------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| fragment | `/workspace/<name>/content/fragments/nav/<n>.html` | `https://main--<name>--<owner>.aem.page/<branch>/fragments/nav/<n>` | `https://da.live/edit#/<owner>/<name>/<branch>/fragments/nav/<n>` | `https://<branch>--<name>--<owner>.aem.live/<branch>/fragments/nav/<n>` |
+| page     | `/workspace/<name>/content/<n>.html`             | `https://main--<name>--<owner>.aem.page/<branch>/<n>`               | `https://da.live/edit#/<owner>/<name>/<branch>/<n>`               | `https://<branch>--<name>--<owner>.aem.live/<branch>/<n>`               |
+
+The local file has the `.html` extension; the URLs do not. Use the branch host prefix (`<branch>--<name>--<owner>`) for `liveUrl`, never `main--`.
+
+#### Sequence per item
+
+For each item (parallelism is fine — the sprinkle is keyed by `kind + file + stage`), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
+
+**1. Upload** — `aem put <upload URL> <local path>`. Surround the call with:
+
 ```
-
-Surround the call with:
-
-```
-sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"upload","status":"running"}'
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"running"}'
 # ...aem put...
-sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"upload","status":"done","daUrl":"https://da.live/edit#/<owner>/<name>/<branch>/<filename>"}'
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"done","daUrl":"<DA Edit URL>"}'
 ```
 
-The `daUrl` activates the "DA Edit" button on that file's row.
+The `daUrl` activates the "DA Edit" button on that item's row.
 
-**2. Preview** — publish to the AEM EDS preview environment (`aem preview` or equivalent). Surround with `running` / `done` events; no URL needs to land on the row at this stage (the DA Edit button is already live, the Published button isn't).
+**2. Preview** — `aem preview` (or equivalent). Surround with `running` / `done` events; no URL needs to land on the row at this stage.
 
-**3. Publish** — push to live (`aem publish` or equivalent). Surround with `running` / `done` events. On `done`, include `liveUrl` so the "Published" button activates. **Use the branch host prefix, not `main--`** — only the main branch lives at `main--<name>--<owner>.aem.live`; every other branch is served from its own host:
+**3. Publish** — `aem publish` (or equivalent). On `done`, include `liveUrl`:
 
 ```
-sprinkle send snowflake '{"type":"deploy-progress","file":"<filename>","stage":"publish","status":"done","liveUrl":"https://<branch>--<name>--<owner>.aem.live/<branch>/<filename>"}'
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"publish","status":"done","liveUrl":"<Live URL>"}'
 ```
 
-On any per-file per-stage failure, send `"status":"error"` with an optional `"message"` and continue with the remaining files — one bad page shouldn't block the rest. Subsequent stages for the failed file should be skipped (don't try to publish a page that didn't preview).
+On any failure, send `"status":"error"` with an optional `"message"` and move on — one bad item must not block the rest.
 
-When every file has reached its final stage (done or error), emit:
+When every item (fragments + pages) has reached its final stage, emit:
 
 ```
 sprinkle send snowflake '{"type":"deploy-complete"}'
@@ -493,6 +500,8 @@ export default async function decorate(block) {
 
 ### 9. Content page scaffold
 
+Every page MUST end with a `metadata` section pointing at the branch-prefixed `header` and `footer` fragments. The author-kit's chrome blocks (`blocks/header/header.js`, `blocks/footer/footer.js`) read these via `getMetadata('header')` / `getMetadata('footer')` and call `loadFragment` against the resolved path. Without the `metadata` block, the chrome blocks fall back to `/fragments/nav/{header,footer}` — paths that don't exist when content is uploaded under a branch folder, so every page renders with no nav and no footer.
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -508,11 +517,19 @@ export default async function decorate(block) {
     <div>
       <!-- next section -->
     </div>
+    <div>
+      <div class="metadata">
+        <div><div>header</div><div>/<branch>/fragments/nav/header</div></div>
+        <div><div>footer</div><div>/<branch>/fragments/nav/footer</div></div>
+      </div>
+    </div>
   </main>
   <footer></footer>
 </body>
 </html>
 ```
+
+`<branch>` is the same value resolved during `connect-repo`. EDS at delivery time turns the `metadata` block into `<meta name="header" …>` / `<meta name="footer" …>` tags in `<head>`, which `getMetadata(...)` then reads — there's no `blocks/metadata/` because the conversion is handled upstream.
 
 **Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document chrome (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst. Same rule applies to fragment files (`content/fragments/**`).
 
@@ -563,6 +580,7 @@ Not every link is a button. Whole-card tile anchors, tel:/mailto: channel values
 - [ ] Each section in the prototype `<main>` has a corresponding block call in the content page.
 - [ ] **No `<head>` element.** The page goes `<!DOCTYPE html><html><body>…</body></html>` — EDS injects the project `head.html` at delivery. Fragment files follow the same rule.
 - [ ] `<header></header>` and `<footer></footer>` are EMPTY (chrome resolves via fragments).
+- [ ] Page ends with a `metadata` block pointing `header` / `footer` to `/<branch>/fragments/nav/{header,footer}` so the chrome blocks load the branch-isolated fragment instead of the root default.
 - [ ] Image URLs are fully qualified (`https://main--…/stardust/prototypes/images/…`).
 - [ ] No `<style>` or `<script>` tags in the content page.
 - [ ] No section-metadata blocks.
