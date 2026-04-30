@@ -1,7 +1,27 @@
 import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
-const FOOTER_PATH = '/fragments/footer';
+const FRAGMENT_NAME = 'footer';
+
+/**
+ * Derive the footer fragment path, branch-aware.
+ * DA stores the metadata value with /fragments/ stripped (e.g. '/6f0c0a99/footer').
+ * Reconstruct the full path, or derive the branch from the page pathname.
+ */
+function getFooterPath() {
+  const fromMeta = getMetadata('footer');
+  if (fromMeta && fromMeta !== 'footer' && fromMeta !== 'off') {
+    // DA stripped /fragments/ — reconstruct
+    return fromMeta.includes('/fragments/') ? fromMeta : fromMeta.replace(
+      /^(\/[^/]+)(\/footer)?$/,
+      (_, prefix) => `${prefix}/fragments/${FRAGMENT_NAME}`,
+    );
+  }
+  // Derive branch from pathname
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  const prefix = segments.length > 1 ? `/${segments[0]}` : '';
+  return `${prefix}/fragments/${FRAGMENT_NAME}`;
+}
 
 /**
  * footer — The Road Home site footer
@@ -14,8 +34,7 @@ const FOOTER_PATH = '/fragments/footer';
  */
 export default async function init(el) {
   const { locale } = getConfig();
-  const footerMeta = getMetadata('footer');
-  const path = footerMeta || FOOTER_PATH;
+  const path = getFooterPath();
 
   let fragment;
   try {

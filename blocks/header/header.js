@@ -3,7 +3,29 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
 
-const HEADER_PATH = '/fragments/nav';
+const FRAGMENT_NAME = 'nav';
+
+/**
+ * Derive the nav fragment path, branch-aware.
+ * DA normalises our "header" metadata key to "nav" and strips /fragments/ from the value.
+ * Fall back to deriving the branch from the page pathname so branch-scoped pages always
+ * load the right fragment even when metadata is missing or rewritten.
+ */
+function getNavPath() {
+  // DA stores the key as "nav" (the fragment filename) — try that first
+  const fromMeta = getMetadata('nav') || getMetadata('header');
+  if (fromMeta) {
+    // DA strips /fragments/ from the path; reconstruct it if needed
+    return fromMeta.includes('/fragments/') ? fromMeta : fromMeta.replace(
+      /^(\/[^/]+)(\/nav)?$/,
+      (_, prefix) => `${prefix}/fragments/${FRAGMENT_NAME}`,
+    );
+  }
+  // Derive branch from pathname: /6f0c0a99/faq → prefix = /6f0c0a99
+  const segments = window.location.pathname.split('/').filter(Boolean);
+  const prefix = segments.length > 1 ? `/${segments[0]}` : '';
+  return `${prefix}/fragments/${FRAGMENT_NAME}`;
+}
 
 /**
  * header — The Road Home site nav
@@ -15,8 +37,7 @@ const HEADER_PATH = '/fragments/nav';
  *   4. <strong><a> — primary CTA (Donate)
  */
 export default async function init(el) {
-  const headerMeta = getMetadata('header');
-  const path = headerMeta || HEADER_PATH;
+  const path = getNavPath();
 
   let fragment;
   try {
