@@ -9,7 +9,7 @@ export default async function decorate(block) {
   const rows = [...block.children];
 
   // Row 1 — heading
-  const h3 = document.createElement('h3');
+  const h3 = document.createElement('h2');
   h3.textContent = rows[0]?.firstElementChild?.textContent.trim() ?? '';
 
   // Arrow buttons
@@ -38,22 +38,24 @@ export default async function decorate(block) {
 
   const qlLabel = document.createElement('span');
   qlLabel.className = 'quicklinks-label';
-  qlLabel.textContent = 'Explore:';
+  qlLabel.textContent = 'Quick Links';
   quicklinksSection.append(qlLabel);
 
   const qlRow = document.createElement('div');
   qlRow.className = 'quicklinks-row';
 
   if (quicklinksRaw) {
-    quicklinksRaw.split(' | ').forEach((pair) => {
-      const [label, url] = pair.split('|').map((s) => s.trim());
-      if (!label) return;
+    // Format: "Label | URL | Label | URL | ..."
+    const parts = quicklinksRaw.split(' | ').map((s) => s.trim()).filter(Boolean);
+    for (let i = 0; i < parts.length; i += 2) {
+      const label = parts[i];
+      const url = parts[i + 1] || '#';
       const a = document.createElement('a');
       a.className = 'quicklink';
-      a.href = url || '#';
+      a.href = url;
       a.textContent = label;
       qlRow.append(a);
-    });
+    }
   }
 
   quicklinksSection.append(qlRow);
