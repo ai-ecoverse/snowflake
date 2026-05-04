@@ -11,14 +11,14 @@ import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
-const NAV_PATH = getMetadata('header') || `${locale.prefix || ''}/fragments/nav`;
 
 export default async function decorate(block) {
   const header = block.closest('header');
   if (!header) return;
   header.className = 'site-header';
 
-  const fragment = await loadFragment(NAV_PATH);
+  const navPath = getMetadata('header') || `${locale.prefix || ''}/fragments/nav`;
+  const fragment = await loadFragment(navPath);
   if (!fragment) return;
 
   const root = fragment.querySelector('.default-content') || fragment;

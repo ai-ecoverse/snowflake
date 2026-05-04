@@ -12,14 +12,14 @@ import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
-const FOOTER_PATH = getMetadata('footer') || `${locale.prefix || ''}/fragments/footer`;
 
 export default async function decorate(block) {
   const footer = block.closest('footer');
   if (!footer) return;
   footer.className = 'site-footer';
 
-  const fragment = await loadFragment(FOOTER_PATH);
+  const footerPath = getMetadata('footer') || `${locale.prefix || ''}/fragments/footer`;
+  const fragment = await loadFragment(footerPath);
   if (!fragment) return;
 
   const root = fragment.querySelector('.default-content') || fragment;
