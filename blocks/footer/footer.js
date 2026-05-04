@@ -26,12 +26,18 @@ function resolveFragmentPath(name) {
 }
 
 export default async function decorate(block) {
-  const footer = block.closest('footer');
-  if (!footer) return;
+  const footer = block.closest('footer') || block;
   footer.className = 'site-footer';
 
   const footerPath = resolveFragmentPath('footer');
-  const fragment = await loadFragment(footerPath);
+  let fragment;
+  try {
+    fragment = await loadFragment(footerPath);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(`footer: failed to load ${footerPath}`, e);
+    return;
+  }
   if (!fragment) return;
 
   const root = fragment.querySelector('.default-content') || fragment;
