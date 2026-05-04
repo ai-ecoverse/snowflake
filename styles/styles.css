@@ -1,9 +1,112 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/* ─────────────────────────────────────────────
+   :root token contract — Clark County Redesign
+   Source: stardust prototype DESIGN.md / DESIGN.json
+───────────────────────────────────────────── */
+:root {
+  --cc-brick: #963821;
+  --cc-brick-dark: #722922;
+  --cc-brick-light: #C54B2A;
+  --cc-navy: #243772;
+  --cc-teal: #0093B2;
+  --cc-gold: #FFB434;
+  --cc-surface: #EEEEEE;
+  --cc-sand: #F3ECDA;
+  --cc-white: #FFFFFF;
+  --cc-ink: #232222;
+  --cc-black: #000000;
+
+  --font-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --size-h1: 48px;
+  --size-h2: 38px;
+  --size-h3: 30px;
+  --size-h4: 24px;
+  --size-body: 18px;
+  --size-small: 15px;
+  --size-xs: 13px;
+
+  --space-section: 64px;
+  --space-section-tablet: 48px;
+  --space-section-mobile: 32px;
+  --content-max: 1280px;
+
+  --radius-button: 6px;
+  --radius-card: 8px;
+  --radius-badge: 50px;
+
+  --shadow-card: 0 5px 10px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.18);
+  --shadow-nav: 0 2px 15px rgba(0, 0, 0, 0.15);
 }
+
+/* ─────────────────────────────────────────────
+   Reset & Base
+───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  font-weight: 400;
+  color: var(--cc-ink);
+  background-color: var(--cc-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--cc-teal);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 3px solid var(--cc-teal);
+  outline-offset: 2px;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--cc-teal);
+  outline-offset: 2px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+h1 { font-size: var(--size-h1); }
+h2 { font-size: var(--size-h2); color: var(--cc-brick); }
+h3 { font-size: var(--size-h3); }
+h4 { font-size: var(--size-h4); }
+
+/* ─────────────────────────────────────────────
+   EDS Section Scaffold
+───────────────────────────────────────────── */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+main > div, .has-template, div[data-status] { display: none; }
 
 main div.section {
   display: unset;
@@ -11,8 +114,77 @@ main div.section {
 
 aem-sidekick {
   opacity: 0;
+}
 
-  &[open="true"].is-ready {
-    opacity: 1;
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Global Button System (EDS convention)
+───────────────────────────────────────────── */
+a.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  border-radius: var(--radius-button);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  border: 1.5px solid transparent;
+}
+
+a.btn:hover {
+  text-decoration: none;
+}
+
+a.btn-primary {
+  background: var(--cc-brick);
+  color: var(--cc-white);
+  border-color: var(--cc-brick);
+}
+
+a.btn-primary:hover {
+  background: var(--cc-brick-dark);
+  border-color: var(--cc-brick-dark);
+  color: var(--cc-white);
+}
+
+a.btn-secondary {
+  background: var(--cc-white);
+  color: var(--cc-brick);
+  border-color: var(--cc-brick);
+}
+
+a.btn-secondary:hover {
+  background: var(--cc-surface);
+}
+
+a.btn-accent {
+  background: var(--cc-gold);
+  color: var(--cc-ink);
+  border-color: var(--cc-gold);
+}
+
+a.btn-accent:hover {
+  background: #e8a020;
+  border-color: #e8a020;
+  color: var(--cc-ink);
+}
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

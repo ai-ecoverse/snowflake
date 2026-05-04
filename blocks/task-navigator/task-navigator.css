@@ -1,0 +1,105 @@
+/* ─────────────────────────────────────────────
+   Task Navigator — 3x3 numbered tile grid
+───────────────────────────────────────────── */
+.task-navigator {
+  background: var(--cc-surface);
+  padding: var(--space-section) 0;
+}
+
+.task-navigator .container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.task-navigator .task-nav-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.task-navigator .task-nav-header h2 {
+  font-size: var(--size-h2);
+  font-weight: 700;
+  color: var(--cc-brick);
+}
+
+.task-navigator .task-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.task-navigator .task-tile {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+  background: var(--cc-white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  border-top: 3px solid transparent;
+  transition: border-color 0.2s ease, background 0.18s ease, transform 0.18s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s ease;
+}
+
+.task-navigator .task-tile:hover {
+  border-top-color: var(--cc-brick);
+  background: #fdf8f6;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(150, 56, 33, 0.12);
+  text-decoration: none;
+}
+
+.task-navigator .task-number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cc-brick);
+  line-height: 1;
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.task-navigator .task-label {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--cc-ink);
+  line-height: 1.3;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .task-navigator .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .task-navigator .task-nav-header h2 {
+    font-size: 28px;
+  }
+
+  .task-navigator .task-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .task-navigator .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .task-navigator .task-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .task-navigator .task-tile {
+    transition: none;
+  }
+}

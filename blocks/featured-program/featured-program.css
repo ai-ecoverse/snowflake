@@ -1,0 +1,125 @@
+/* ─────────────────────────────────────────────
+   Featured Program — split section, navy bg
+───────────────────────────────────────────── */
+.featured-program {
+  background: var(--cc-navy);
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  min-height: 400px;
+}
+
+.featured-program .program-content {
+  padding: 72px 64px 72px 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.featured-program .program-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cc-gold);
+  margin-bottom: 16px;
+}
+
+.featured-program .program-title {
+  font-size: var(--size-h2);
+  font-weight: 700;
+  color: var(--cc-white);
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+
+.featured-program .program-body {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.65;
+  max-width: 520px;
+  margin-bottom: 32px;
+}
+
+.featured-program .program-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Gold button override for this block */
+.featured-program .program-ctas a.btn-accent {
+  background: var(--cc-gold);
+  color: var(--cc-ink);
+  border-color: var(--cc-gold);
+}
+
+.featured-program .program-ctas a.btn-accent:hover {
+  background: #e8a020;
+  border-color: #e8a020;
+}
+
+/* Secondary on dark bg override */
+.featured-program .program-ctas a.btn-secondary {
+  color: var(--cc-white);
+  border-color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+}
+
+.featured-program .program-ctas a.btn-secondary:hover {
+  border-color: var(--cc-white);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.featured-program .program-image {
+  overflow: hidden;
+}
+
+.featured-program .program-image img,
+.featured-program .program-image picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .featured-program .program-content {
+    padding: 56px 40px 56px 48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .featured-program {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .featured-program .program-image {
+    min-height: 260px;
+  }
+
+  .featured-program .program-content {
+    padding: 48px 40px;
+  }
+
+  .featured-program .program-title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-program .program-content {
+    padding: 40px 20px;
+  }
+
+  .featured-program .program-title {
+    font-size: 24px;
+  }
+
+  .featured-program .program-ctas {
+    flex-direction: column;
+  }
+}

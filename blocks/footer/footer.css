@@ -1,0 +1,109 @@
+/* ─────────────────────────────────────────────
+   Footer — Clark County two-tier
+───────────────────────────────────────────── */
+.footer-top {
+  background: var(--cc-surface);
+  padding: 56px 0 48px;
+}
+
+.footer-top-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1.8fr 1fr 1fr;
+  gap: 48px;
+}
+
+.footer-top-inner p {
+  font-size: 14px;
+  color: #545454;
+  line-height: 1.6;
+}
+
+.footer-top-inner img {
+  height: 56px;
+  width: auto;
+}
+
+.footer-top-inner ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.footer-top-inner ul a {
+  font-size: 14px;
+  color: #545454;
+  text-decoration: none;
+  padding: 2px 0;
+  transition: color 150ms;
+}
+
+.footer-top-inner ul a:hover {
+  color: var(--cc-brick);
+  text-decoration: underline;
+}
+
+.footer-top-inner h3,
+.footer-top-inner strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cc-ink);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.footer-bottom {
+  background: var(--cc-brick);
+  padding: 20px 0;
+}
+
+.footer-bottom-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-bottom-inner p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .footer-top-inner,
+  .footer-bottom-inner {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-top-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-top-inner,
+  .footer-bottom-inner {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
