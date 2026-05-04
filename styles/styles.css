@@ -1,18 +1,157 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/* ═══════════════════════════════════════════════════════════════════════════
+   NVIDIA EDS — Global Styles
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Typography */
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Arial, Helvetica, sans-serif;
+  --font-mono: 'SF Mono', Consolas, Menlo, monospace;
+
+  --heading-xxl: 61px;
+  --heading-xl: 39px;
+  --heading-lg: 25px;
+  --heading-md: 20px;
+  --body: 16px;
+  --body-sm: 13px;
+
+  --line-height-heading: 1.05;
+  --line-height-body: 1.5;
+
+  /* Colors */
+  --color-bg: #eee;
+  --color-surface: #fff;
+  --color-surface-dark: #000;
+  --color-surface-dark-alt: #111;
+  --color-fg: #000;
+  --color-fg-secondary: #1a1a1a;
+  --color-fg-muted: #666;
+  --color-fg-on-dark: #fff;
+  --color-fg-on-dark-muted: #ccc;
+  --color-accent: #76b900;
+  --color-accent-hover: #6aa800;
+  --color-border: #ccc;
+  --color-border-dark: rgb(255 255 255 / 8%);
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+  --spacing-2xl: 64px;
+  --section-padding: 48px;
+  --max-width: 1280px;
+
+  /* Shape */
+  --radius: 0px;
+  --radius-secondary: 2px;
+
+  /* Effects */
+  --shadow-focus: 0 0 0 2px var(--color-accent);
+  --shadow-sticky: 0 2px 8px rgb(0 0 0 / 16%);
 }
 
-main div.section {
-  display: unset;
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  font-size: var(--body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
 }
 
+body.session {
+  font-family: var(--font-body);
+}
+
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 700; margin: 0; }
+h1 { font-size: var(--heading-xxl); line-height: 1.05; letter-spacing: -0.01em; }
+h2 { font-size: var(--heading-xl); line-height: 1.15; }
+h3 { font-size: var(--heading-lg); line-height: 1.25; }
+p { margin: 0; }
+
+/* EDS section scaffold */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+main > div, .has-template, div[data-status] { display: none; }
+
+/* Button system — EDS link decorator applies .btn.btn-primary from <strong><a> */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+a.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus), 0 0 0 4px var(--color-surface-dark);
+}
+
+a.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-fg);
+}
+
+a.btn-primary:hover {
+  background: var(--color-accent-hover);
+}
+
+a.btn-secondary {
+  background: var(--color-surface-dark);
+  color: var(--color-fg-on-dark);
+}
+
+a.btn-secondary:hover {
+  background: #222;
+}
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Surface classes — applied by block JS or section-metadata */
+.surface-dark {
+  background: var(--color-surface-dark);
+  color: var(--color-fg-on-dark);
+}
+
+/* Sidekick */
 aem-sidekick {
   opacity: 0;
+}
 
-  &[open="true"].is-ready {
-    opacity: 1;
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

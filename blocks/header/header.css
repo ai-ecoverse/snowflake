@@ -1,0 +1,86 @@
+/* Header — NVIDIA dark sticky nav */
+.header {
+  background: var(--color-surface-dark);
+  color: var(--color-fg-on-dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding-inline: var(--spacing-md);
+  gap: var(--spacing-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.header-logo {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  font-family: var(--font-heading);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.header-links {
+  display: flex;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+
+.header-links a {
+  color: var(--color-fg-on-dark);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  padding: 22px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 150ms ease-out;
+  text-decoration: none;
+}
+
+.header-links a:hover,
+.header-links a:focus-visible {
+  border-bottom-color: var(--color-accent);
+  outline: none;
+}
+
+.header-actions {
+  display: flex;
+  gap: var(--spacing-xs);
+  align-items: center;
+}
+
+.header-actions .btn {
+  padding: 10px 18px;
+  font-size: 12px;
+}
+
+.header-actions .btn-ghost {
+  background: transparent;
+  color: var(--color-fg-on-dark);
+  border: 1px solid rgb(255 255 255 / 20%);
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.header-actions .btn-ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+@media (max-width: 639px) {
+  .header-links { display: none; }
+  .header-actions { display: none; }
+}

@@ -11,23 +11,23 @@ const HEADER_PATH = '/fragments/nav';
  * non-block default content in fragments).
  *
  * Fragment shape expected:
- *   <p><a href="/"><picture|img></a></p>   — logo
+ *   <p><a href="/">NVIDIA</a></p>          — text logo (or picture)
  *   <ul>…</ul>                              — nav links
- *   <p><a href="…">Find a Shelter</a></p>  — ghost CTA
- *   <p><a href="…">Donate</a></p>          — primary CTA
+ *   <p><a href="…">CTA</a></p>            — CTA
  */
 function buildNav(el, fragment) {
   if (!fragment) return;
   const root = fragment.querySelector('.default-content') || fragment;
 
-  // Logo: first anchor wrapping a picture or img
+  // Logo: first anchor (may wrap a picture/img OR just be text)
+  const firstAnchor = root.querySelector('a');
   const logoPicture = root.querySelector('picture, img');
-  const logoAnchor = logoPicture ? logoPicture.closest('a') : null;
+  const logoAnchor = logoPicture ? logoPicture.closest('a') : firstAnchor;
 
   // Nav list: first <ul>
   const navList = root.querySelector('ul');
 
-  // CTAs: anchors NOT inside the logo and NOT inside the nav list
+  // CTAs: anchors NOT the logo and NOT inside the nav list
   const allAnchors = [...root.querySelectorAll('a')];
   const ctaAnchors = allAnchors.filter((a) => (
     a !== logoAnchor
@@ -44,9 +44,12 @@ function buildNav(el, fragment) {
     const logoWrap = document.createElement('a');
     logoWrap.className = 'header-logo';
     logoWrap.href = logoAnchor.href || '/';
-    logoWrap.setAttribute('aria-label', 'The Road Home');
-    const img = logoPicture.cloneNode(true);
-    logoWrap.append(img);
+    logoWrap.setAttribute('aria-label', logoAnchor.getAttribute('aria-label') || 'Home');
+    if (logoPicture) {
+      logoWrap.append(logoPicture.cloneNode(true));
+    } else {
+      logoWrap.textContent = logoAnchor.textContent.trim();
+    }
     nav.append(logoWrap);
   }
 
@@ -63,7 +66,7 @@ function buildNav(el, fragment) {
     nav.append(links);
   }
 
-  // Action buttons (ghost + primary CTA)
+  // Action buttons
   if (ctaAnchors.length) {
     const actions = document.createElement('div');
     actions.className = 'header-actions';
@@ -72,7 +75,6 @@ function buildNav(el, fragment) {
       btn.href = a.href;
       btn.textContent = a.textContent.trim();
       if (i === ctaAnchors.length - 1) {
-        // Last anchor = primary CTA (Donate)
         btn.className = 'btn btn-primary';
       } else {
         btn.className = 'btn-ghost';
