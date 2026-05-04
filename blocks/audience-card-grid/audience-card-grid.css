@@ -1,0 +1,10 @@
+.audience-card-grid .audience-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--spacing-md); }
+.audience-card { display: flex; flex-direction: column; gap: var(--spacing-sm); padding: var(--spacing-lg); background: transparent; color: var(--color-fg-on-dark); border: 1px solid var(--color-border-dark); text-decoration: none; transition: border-color 150ms ease-out, background 150ms ease-out; }
+.audience-card:hover { border-color: var(--color-accent); background: rgba(118,185,0,0.03); }
+.audience-card:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.audience-card h3 { font-size: var(--heading-md); line-height: 1.2; }
+.audience-card p { font-size: var(--body-sm); color: var(--color-fg-on-dark-muted); flex: 1; }
+.audience-card-cta { font-family: var(--heading-font-family); font-weight: 700; font-size: var(--body-sm); color: var(--color-accent); }
+.audience-card-cta::after { content: ' →'; }
+@media (max-width: 1023px) { .audience-card-grid .audience-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 639px) { .audience-card-grid .audience-grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,5 @@
+.tier-header { padding-block: var(--spacing-2xl); }
+.tier-header-enum { font-family: var(--mono-font-family); font-size: var(--body-sm); font-weight: 400; letter-spacing: 0.12em; color: var(--color-accent); margin-bottom: var(--spacing-sm); }
+.tier-header h2 { font-size: var(--heading-xl); color: inherit; margin-bottom: var(--spacing-sm); text-wrap: balance; }
+.tier-header-purpose { font-size: var(--heading-md); line-height: 1.5; max-width: 65ch; color: var(--color-fg-secondary); }
+.surface-dark .tier-header-purpose { color: var(--color-fg-on-dark-muted); }

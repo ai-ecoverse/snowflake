@@ -1,0 +1,93 @@
+/* ── NVIDIA site footer (C2) ─────────────────────────────────────────────── */
+.site-footer {
+  background: var(--color-surface-dark);
+  color: var(--color-fg-on-dark);
+  padding: var(--spacing-2xl) 0 var(--spacing-md);
+  border-top: 1px solid var(--color-border-dark);
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) 1.5fr;
+  gap: var(--spacing-xl);
+}
+.footer-column h3 {
+  font-size: var(--body);
+  font-weight: 700;
+  color: var(--color-fg-on-dark);
+  margin-bottom: var(--spacing-md);
+}
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+.footer-column a {
+  color: var(--color-fg-on-dark-muted);
+  font-size: var(--body-sm);
+  transition: color 150ms ease-out;
+  text-decoration: none;
+}
+.footer-column a:hover { color: var(--color-fg-on-dark); }
+.footer-subscribe { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.footer-subscribe p { color: var(--color-fg-on-dark-muted); font-size: var(--body-sm); line-height: 1.5; }
+.footer-subscribe form { display: flex; gap: 0; }
+.footer-subscribe input {
+  flex: 1;
+  background: var(--color-surface);
+  color: var(--color-fg);
+  padding: 12px 16px;
+  border: 1px solid var(--color-border);
+  border-right: none;
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: var(--body-sm);
+  outline: none;
+  min-width: 0;
+  transition: border-color 150ms;
+}
+.footer-subscribe input:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+.footer-subscribe button {
+  background: var(--color-accent);
+  color: var(--color-fg);
+  padding: 12px 20px;
+  border: none;
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+.footer-subscribe button:hover { background: var(--color-accent-hover); }
+.footer-bottom {
+  margin-top: var(--spacing-2xl);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-border-dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+}
+.footer-legal {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: 12px;
+  color: var(--color-fg-on-dark-muted);
+  flex-wrap: wrap;
+}
+.footer-legal a { text-decoration: none; }
+.footer-legal a:hover { color: var(--color-fg-on-dark); }
+.footer-copyright { font-size: 12px; color: var(--color-fg-on-dark-muted); }
+.footer-social { display: flex; gap: 4px; }
+
+@media (max-width: 1023px) {
+  .footer-columns { grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
+}
+@media (max-width: 639px) {
+  .footer-columns { grid-template-columns: repeat(2, 1fr); }
+}

@@ -1,0 +1,9 @@
+.faq-accordion .faq-list { list-style: none; padding: 0; margin: 0; }
+.faq-accordion details { border-bottom: 1px solid var(--color-border-dark); padding-block: var(--spacing-md); }
+.faq-accordion details:first-of-type { border-top: 1px solid var(--color-border-dark); }
+.faq-accordion summary { font-family: var(--heading-font-family); font-weight: 700; font-size: var(--heading-md); color: var(--color-fg-on-dark); cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: var(--spacing-md); padding-block: var(--spacing-xs); }
+.faq-accordion summary::-webkit-details-marker { display: none; }
+.faq-accordion summary::after { content: '+'; font-family: var(--mono-font-family); font-size: 24px; font-weight: 400; color: var(--color-accent); flex-shrink: 0; line-height: 1; }
+.faq-accordion details[open] summary::after { content: '−'; }
+.faq-accordion summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.faq-answer { margin-top: var(--spacing-sm); color: var(--color-fg-on-dark-muted); font-size: var(--body); line-height: 1.6; max-width: 65ch; }

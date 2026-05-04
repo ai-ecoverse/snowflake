@@ -1,0 +1,3 @@
+.cta-band { background: var(--color-surface-dark); color: var(--color-fg-on-dark); text-align: center; padding-block: var(--spacing-2xl); }
+.cta-band h2 { color: var(--color-fg-on-dark); margin-bottom: var(--spacing-lg); }
+.cta-band .actions { display: flex; justify-content: center; gap: var(--spacing-sm); }

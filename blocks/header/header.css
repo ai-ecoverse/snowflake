@@ -1,0 +1,84 @@
+/* ── NVIDIA site header (C1) ─────────────────────────────────────────────── */
+.site-header {
+  background: var(--color-surface-dark);
+  color: var(--color-fg-on-dark);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding-inline: var(--spacing-md);
+  gap: var(--spacing-lg);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.site-logo {
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  font-family: var(--heading-font-family);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.site-nav {
+  display: flex;
+  gap: var(--spacing-md);
+  flex: 1;
+}
+.site-nav a {
+  color: var(--color-fg-on-dark);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  padding: 22px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 2px solid transparent;
+  transition: border-color 150ms ease-out;
+  text-decoration: none;
+}
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  border-bottom-color: var(--color-accent);
+  outline: none;
+}
+.site-nav .caret {
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  opacity: 0.7;
+}
+.site-utility {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.icon-btn {
+  background: transparent;
+  color: var(--color-fg-on-dark);
+  border: none;
+  padding: 12px;
+  min-width: 44px;
+  min-height: 44px;
+  font-size: var(--body-sm);
+  font-weight: 400;
+  border-radius: var(--radius);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-btn:hover { color: var(--color-accent); }
+.icon-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.icon-btn .ic { font-size: 18px; line-height: 1; }
+.locale-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+
+@media (max-width: 639px) {
+  .site-nav { display: none; }
+  .site-utility .icon-btn:not(.menu-toggle) { display: none; }
+}

@@ -1,0 +1,9 @@
+.architecture-spec .arch-block { display: grid; grid-template-columns: 5fr 7fr; gap: var(--spacing-2xl); align-items: center; }
+.arch-block-photo { aspect-ratio: 4/3; overflow: hidden; background: var(--color-surface-dark-alt); }
+.arch-block-photo img { width: 100%; height: 100%; object-fit: cover; }
+.arch-block-body h3 { font-size: var(--heading-xl); margin-bottom: var(--spacing-md); text-wrap: balance; }
+.arch-block-specs { list-style: none; padding: 0; margin: 0 0 var(--spacing-lg); display: flex; flex-direction: column; gap: var(--spacing-xs); border-top: 1px solid var(--color-border); padding-top: var(--spacing-md); }
+.arch-block-specs li { display: flex; gap: var(--spacing-md); font-size: var(--body); padding: var(--spacing-xs) 0; border-bottom: 1px solid var(--color-border); }
+.spec-label { font-family: var(--mono-font-family); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-fg-muted); flex: 0 0 30%; }
+.spec-value { color: var(--color-fg); font-weight: 700; }
+@media (max-width: 1023px) { .architecture-spec .arch-block { grid-template-columns: 1fr; gap: var(--spacing-md); } }

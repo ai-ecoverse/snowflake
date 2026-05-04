@@ -1,101 +1,69 @@
-import { getConfig, getMetadata } from '../../scripts/ak.js';
+/**
+ * header — NVIDIA site header (C1)
+ *
+ * Fragment shape (content/fragments/nav.html):
+ *   <p><a href="/" aria-label="NVIDIA home">NVIDIA</a></p>   — logo / wordmark
+ *   <ul>…nav links with optional trailing caret span…</ul>   — primary nav
+ *   <div> (utility buttons) — optional, rendered as icon buttons row
+ */
+
+import { getConfig } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
+const NAV_PATH = `${locale.prefix || ''}/fragments/nav`;
 
-const HEADER_PATH = '/fragments/nav';
+export default async function decorate(block) {
+  const header = block.closest('header');
+  if (!header) return;
+  header.className = 'site-header';
 
-/**
- * Builds the nav chrome structure from raw fragment default-content.
- * Identifies elements structurally (not by class — EDS strips classes from
- * non-block default content in fragments).
- *
- * Fragment shape expected:
- *   <p><a href="/"><picture|img></a></p>   — logo
- *   <ul>…</ul>                              — nav links
- *   <p><a href="…">Find a Shelter</a></p>  — ghost CTA
- *   <p><a href="…">Donate</a></p>          — primary CTA
- */
-function buildNav(el, fragment) {
+  const fragment = await loadFragment(NAV_PATH);
   if (!fragment) return;
+
   const root = fragment.querySelector('.default-content') || fragment;
 
-  // Logo: first anchor wrapping a picture or img
-  const logoPicture = root.querySelector('picture, img');
-  const logoAnchor = logoPicture ? logoPicture.closest('a') : null;
-
+  // Logo: first anchor (text link or wrapping picture)
+  const logoAnchor = root.querySelector('a');
   // Nav list: first <ul>
   const navList = root.querySelector('ul');
 
-  // CTAs: anchors NOT inside the logo and NOT inside the nav list
-  const allAnchors = [...root.querySelectorAll('a')];
-  const ctaAnchors = allAnchors.filter((a) => (
-    a !== logoAnchor
-    && !a.querySelector('picture, img')
-    && !a.closest('ul')
-  ));
-
-  // Build nav structure
-  const nav = document.createElement('div');
-  nav.className = 'header-nav';
+  // Build header inner
+  const inner = document.createElement('div');
+  inner.className = 'site-header-inner';
 
   // Logo
   if (logoAnchor) {
-    const logoWrap = document.createElement('a');
-    logoWrap.className = 'header-logo';
-    logoWrap.href = logoAnchor.href || '/';
-    logoWrap.setAttribute('aria-label', 'The Road Home');
-    const img = logoPicture.cloneNode(true);
-    logoWrap.append(img);
-    nav.append(logoWrap);
+    const logo = logoAnchor.cloneNode(true);
+    logo.className = 'site-logo';
+    logo.setAttribute('aria-label', 'NVIDIA home');
+    inner.append(logo);
   }
 
-  // Nav links
+  // Nav
   if (navList) {
-    const links = document.createElement('nav');
-    links.className = 'header-links';
-    [...navList.querySelectorAll('a')].forEach((a) => {
-      const link = document.createElement('a');
-      link.href = a.href;
-      link.textContent = a.textContent.trim();
-      links.append(link);
+    const nav = document.createElement('nav');
+    nav.className = 'site-nav';
+    nav.setAttribute('aria-label', 'Primary');
+    [...navList.querySelectorAll('li')].forEach((li) => {
+      const a = li.querySelector('a');
+      if (!a) return;
+      const link = a.cloneNode(true);
+      inner.append(link);
+      nav.append(link);
     });
-    nav.append(links);
+    inner.append(nav);
   }
 
-  // Action buttons (ghost + primary CTA)
-  if (ctaAnchors.length) {
-    const actions = document.createElement('div');
-    actions.className = 'header-actions';
-    ctaAnchors.forEach((a, i) => {
-      const btn = document.createElement('a');
-      btn.href = a.href;
-      btn.textContent = a.textContent.trim();
-      if (i === ctaAnchors.length - 1) {
-        // Last anchor = primary CTA (Donate)
-        btn.className = 'btn btn-primary';
-      } else {
-        btn.className = 'btn-ghost';
-      }
-      actions.append(btn);
-    });
-    nav.append(actions);
-  }
+  // Utility buttons (search, locale, account, menu)
+  const utility = document.createElement('div');
+  utility.className = 'site-utility';
+  utility.innerHTML = `
+    <button class="icon-btn" type="button" aria-label="Search"><span class="ic" aria-hidden="true">⌕</span></button>
+    <button class="icon-btn" type="button" aria-label="Account"><span class="ic" aria-hidden="true">◯</span></button>
+    <button class="icon-btn menu-toggle" type="button" aria-label="Menu"><span class="ic" aria-hidden="true">≡</span></button>
+  `;
+  inner.append(utility);
 
-  el.append(nav);
-}
-
-/**
- * loads and decorates the header
- * @param {Element} el The header element
- */
-export default async function init(el) {
-  const headerMeta = getMetadata('header');
-  const path = headerMeta || HEADER_PATH;
-  try {
-    const fragment = await loadFragment(`${locale.prefix}${path}`);
-    buildNav(el, fragment);
-  } catch (e) {
-    throw Error(e);
-  }
+  header.replaceChildren(inner);
 }

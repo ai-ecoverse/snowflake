@@ -1,18 +1,166 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/* ── Brand tokens (NVIDIA Mode A brand-faithful) ─────────────────────────── */
+:root {
+  /* Typography */
+  --heading-font-family: 'NVIDIA-NALA', Arial, Helvetica, sans-serif;
+  --body-font-family:    'NVIDIA-NALA', Arial, Helvetica, sans-serif;
+  --mono-font-family:    'IBM Plex Mono', 'SF Mono', Menlo, Consolas, monospace;
+
+  --heading-xxl: 61px;
+  --heading-xl:  39px;
+  --heading-lg:  25px;
+  --heading-md:  20px;
+  --body:        16px;
+  --body-sm:     13px;
+
+  --line-height-heading: 1.05;
+  --line-height-body:    1.5;
+
+  /* Colors */
+  --color-bg:               #eeeeee;
+  --color-surface:          #ffffff;
+  --color-surface-dark:     #000000;
+  --color-surface-dark-alt: #111111;
+  --color-surface-soft:     #f7f7f7;
+  --color-fg:               #000000;
+  --color-fg-secondary:     #1a1a1a;
+  --color-fg-muted:         #666666;
+  --color-fg-on-dark:       #ffffff;
+  --color-fg-on-dark-muted: #cccccc;
+  --color-accent:           #76b900;
+  --color-accent-hover:     #6aa800;
+  --color-border:           #cccccc;
+  --color-border-dark:      rgba(255, 255, 255, 0.08);
+
+  /* Spacing */
+  --spacing-xxs: 4px;
+  --spacing-xs:  8px;
+  --spacing-sm:  16px;
+  --spacing-md:  24px;
+  --spacing-lg:  32px;
+  --spacing-xl:  48px;
+  --spacing-2xl: 64px;
+  --section-padding: 48px;
+  --max-width:       1280px;
+  --radius:          0px;
+  --radius-secondary: 2px;
+
+  /* Shadows */
+  --shadow-focus:  0 0 0 2px var(--color-accent);
+  --shadow-sticky: 0 2px 8px rgba(0, 0, 0, 0.16);
 }
 
-main div.section {
-  display: unset;
+/* ── Fonts ───────────────────────────────────────────────────────────────── */
+/* IBM Plex Mono — SIL OFL 1.1 — self-hosted */
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/styles/fonts/ibm-plex-mono.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
 }
+
+/* NVIDIA-NALA is a proprietary typeface — no CDN load available.
+   Body and heading text falls back to Arial/Helvetica (sans-serif classification match).
+   Note: zero-CLS font swap cannot be guaranteed without a self-hostable brand woff2. */
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--body-font-family);
+  font-size: var(--body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  margin: 0;
+}
+h1 { font-size: var(--heading-xxl); line-height: 1.05; letter-spacing: -0.01em; }
+h2 { font-size: var(--heading-xl);  line-height: 1.15; }
+h3 { font-size: var(--heading-lg);  line-height: 1.25; }
+h4 { font-size: var(--heading-md);  line-height: 1.3; }
+p  { margin: 0; }
+ul, ol { margin: 0; }
+
+/* ── Utilities ───────────────────────────────────────────────────────────── */
+.container { max-width: var(--max-width); margin: 0 auto; padding-inline: var(--spacing-xl); }
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0;
+  margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+}
+
+/* ── EDS section scaffold ────────────────────────────────────────────────── */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+main > div,
+.has-template,
+div[data-status] { display: none; }
 
 aem-sidekick {
   opacity: 0;
+}
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
+}
 
-  &[open="true"].is-ready {
-    opacity: 1;
+/* ── Global button system ────────────────────────────────────────────────── */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 16px 24px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+a.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus), 0 0 0 4px var(--color-surface-dark);
+}
+
+a.btn-primary { background: var(--color-accent); color: var(--color-fg); }
+a.btn-primary:hover { background: var(--color-accent-hover); }
+
+a.btn-secondary { background: var(--color-surface-dark); color: var(--color-fg-on-dark); }
+.surface-dark a.btn-secondary {
+  background: transparent;
+  color: var(--color-fg-on-dark);
+  box-shadow: inset 0 0 0 1px var(--color-fg-on-dark);
+}
+.surface-dark a.btn-secondary:hover { background: rgba(255,255,255,0.08); }
+
+/* ── Surface helpers ─────────────────────────────────────────────────────── */
+.theme-section { padding-block: var(--section-padding); }
+.surface-white { background: var(--color-surface); color: var(--color-fg); }
+.surface-light { background: var(--color-bg); color: var(--color-fg); }
+.surface-dark  { background: var(--color-surface-dark); color: var(--color-fg-on-dark); }
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  :root { --section-padding: 36px; }
+  .container { padding-inline: var(--spacing-md); }
+}
+@media (max-width: 639px) {
+  :root { --section-padding: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

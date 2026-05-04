@@ -1,0 +1,7 @@
+.stats-row .stats-row-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-sm); }
+.stat-tile { padding: var(--spacing-lg) var(--spacing-md); border: 1px solid var(--color-border-dark); background: transparent; color: var(--color-fg-on-dark); display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.stat-number { font-family: var(--heading-font-family); font-size: 49px; font-weight: 700; line-height: 1; color: var(--color-fg-on-dark); display: inline-block; }
+.stat-unit { font-family: var(--mono-font-family); font-size: var(--body-sm); color: var(--color-accent); letter-spacing: 0.08em; text-transform: uppercase; }
+.stat-label { font-size: var(--body-sm); color: var(--color-fg-on-dark-muted); line-height: 1.4; margin-top: var(--spacing-xs); }
+@media (max-width: 1023px) { .stats-row .stats-row-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 639px) { .stats-row .stats-row-grid { grid-template-columns: 1fr; } }

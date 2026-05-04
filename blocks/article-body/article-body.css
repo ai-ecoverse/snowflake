@@ -1,0 +1,11 @@
+.article-body-wrap { max-width: 65ch; margin: 0 auto; padding-block: var(--spacing-md); }
+.article-headline { font-size: var(--heading-xl); margin-bottom: var(--spacing-md); line-height: 1.15; text-wrap: balance; }
+.lead { font-size: var(--heading-md); line-height: 1.5; color: var(--color-fg-secondary); margin-bottom: var(--spacing-lg); }
+.article-body-wrap h3 { font-size: var(--heading-lg); margin-block: var(--spacing-xl) var(--spacing-sm); }
+.article-body-wrap p { font-size: var(--body); line-height: 1.6; margin-bottom: var(--spacing-md); }
+.article-related { margin-top: var(--spacing-2xl); padding-top: var(--spacing-md); border-top: 1px solid var(--color-border); }
+.article-related h3 { font-family: var(--mono-font-family); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--color-fg-muted); font-weight: 400; margin-bottom: var(--spacing-sm); }
+.article-related ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.article-related a { color: var(--color-fg); font-weight: 700; text-decoration: none; }
+.article-related a:hover { color: var(--color-accent); }
+.article-related a::after { content: ' →'; color: var(--color-accent); }

@@ -1,0 +1,11 @@
+.library-index { padding-block: var(--spacing-xl); border-bottom: 1px solid var(--color-border); }
+.library-index-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--spacing-md); }
+.library-index-tier h2 { font-family: var(--heading-font-family); font-size: var(--body); font-weight: 700; color: var(--color-fg); margin-bottom: var(--spacing-sm); padding-bottom: var(--spacing-xs); border-bottom: 2px solid var(--color-fg); }
+.library-index-tier ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.library-index-tier li { display: flex; align-items: baseline; gap: var(--spacing-xs); }
+.lib-id { font-family: var(--mono-font-family); font-size: 11px; color: var(--color-accent); font-weight: 400; letter-spacing: 0.08em; flex-shrink: 0; width: 24px; }
+.library-index-tier a { font-size: var(--body-sm); color: var(--color-fg-secondary); transition: color 150ms ease-out; text-decoration: none; }
+.library-index-tier a:hover { color: var(--color-accent); }
+.lib-status { font-family: var(--mono-font-family); font-size: 9px; color: var(--color-fg-muted); letter-spacing: 0.08em; text-transform: uppercase; margin-left: auto; flex-shrink: 0; }
+@media (max-width: 1023px) { .library-index-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 639px) { .library-index-grid { grid-template-columns: 1fr; } }
