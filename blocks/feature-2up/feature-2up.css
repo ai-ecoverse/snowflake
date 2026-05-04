@@ -1,0 +1,74 @@
+/* ── feature-2up — 2-up feature tile grid (data-center unified-platform) ──── */
+.feature-2up .feature-2up-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+.feature-tile {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  color: var(--color-fg);
+  text-decoration: none;
+  border: 1px solid var(--color-border);
+  transition: border-color 150ms ease-out;
+}
+.surface-dark .feature-tile {
+  background: var(--color-surface-dark-alt);
+  color: var(--color-fg-on-dark);
+  border-color: var(--color-border-dark);
+}
+.feature-tile:hover { border-color: var(--color-accent); }
+.feature-tile:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+.feature-tile-photo {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-surface-dark-alt);
+}
+.feature-tile-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 200ms ease-out;
+  display: block;
+}
+.feature-tile:hover .feature-tile-photo img { transform: scale(1.02); }
+.feature-tile-photo-empty {
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  background: var(--color-surface-dark-alt);
+}
+.feature-tile-body {
+  padding: var(--spacing-md) var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+.feature-tile-body h3 {
+  font-size: var(--heading-lg);
+  line-height: 1.25;
+  color: inherit;
+  margin: 0;
+  text-wrap: balance;
+}
+.feature-tile-cta {
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  font-size: var(--body-sm);
+  color: var(--color-accent);
+  margin-top: auto;
+}
+.feature-tile-cta::after { content: ' →'; }
+
+.feature-2up .theme-header { margin-bottom: var(--spacing-lg); }
+.feature-2up .theme-header h2,
+.feature-2up .theme-header h3 { text-wrap: balance; }
+
+@media (max-width: 639px) {
+  .feature-2up .feature-2up-grid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .feature-tile-photo img { transition: none; }
+}
