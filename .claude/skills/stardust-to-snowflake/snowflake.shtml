@@ -1208,6 +1208,18 @@
         slicc.lick({ action: 'install-deps' });
       } catch (err) {
         console.error('[snowflake] checkDeps error:', err);
+        // Timeout = slicc bridge is stuck. Proceed optimistically rather
+        // than blocking the user with a scary "Setup error" banner —
+        // the skill is almost certainly present (it's the prerequisite
+        // for opening this sprinkle in the first place), and if it
+        // genuinely isn't, the cone will surface a real error when it
+        // tries to use it. Cache the optimistic state so subsequent
+        // opens skip the broken FS check entirely.
+        if (err && /timed out/.test(err.message || '')) {
+          console.warn('[snowflake] checkDeps: timed out — assuming aem skill is present and proceeding');
+          markDepsReady();
+          return;
+        }
         state.depsReady = false;
         showSetupBanner(
           'Setup error: ' + escapeHtml(err.message || String(err)) +
