@@ -63,6 +63,26 @@ export default async function decorate(block) {
       col.append(sib.cloneNode(true));
       sib = sib.nextElementSibling;
     }
+    // Detect subscribe column (no <ul>, has description text)
+    if (!col.querySelector('ul') && h.textContent.toLowerCase().includes('sign up')) {
+      col.classList.add('footer-subscribe');
+      // DA strips <form>, so inject it via JS
+      const desc = col.querySelector('p');
+      if (desc) {
+        // Remove any mangled form text that DA left behind
+        const extraP = [...col.querySelectorAll('p')].slice(1);
+        extraP.forEach((p) => p.remove());
+      }
+      const form = document.createElement('form');
+      form.action = 'https://www.nvidia.com/en-us/preferences/email-signup/';
+      form.method = 'post';
+      form.innerHTML = `
+        <label for="footer-email" class="visually-hidden">Email address</label>
+        <input id="footer-email" type="email" name="email" placeholder="Email Address" required autocomplete="email">
+        <button type="submit">Subscribe</button>
+      `;
+      col.append(form);
+    }
     columns.append(col);
   });
 
