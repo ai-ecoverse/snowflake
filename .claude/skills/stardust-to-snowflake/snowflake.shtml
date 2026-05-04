@@ -1122,11 +1122,16 @@
         // Final signal — nothing to do beyond what deploy-progress already did,
         // but kept for symmetry / future stats updates.
       } else if (data.type === 'deps-installed') {
-        checkDeps();
+        // Trust the cone's ack — it explicitly verifies before sending.
+        // Avoids a post-install live check that could hit the re-open
+        // bridge hang.
+        console.log('[snowflake] deps-installed received, marking ready');
+        markDepsReady();
       } else if (data.type === 'deps-error') {
+        setDepsCache(false);
         showSetupBanner(
           'Could not install dependencies: ' + escapeHtml(data.message || 'unknown error') +
-          ' <a href="#" onclick="checkDeps();return false;">Retry</a>',
+          ' <a href="#" onclick="checkDeps({force:true});return false;">Retry</a>',
           true
         );
       } else if (data.type === 'error') {
@@ -1135,7 +1140,30 @@
       }
     });
 
-    async function checkDeps() {
+    function getDepsCache() {
+      try {
+        var s = slicc.getState && slicc.getState();
+        return s && typeof s === 'object' ? s : null;
+      } catch (_) { return null; }
+    }
+
+    function setDepsCache(ready) {
+      try {
+        if (slicc.setState) slicc.setState({ depsReady: !!ready });
+      } catch (_) { /* ignore */ }
+    }
+
+    function markDepsReady() {
+      state.depsReady = true;
+      setDepsCache(true);
+      hideSetupBanner();
+      if (state.step === 0) {
+        document.getElementById('nextBtn').disabled = false;
+      }
+    }
+
+    async function checkDeps(opts) {
+      opts = opts || {};
       // Guard against concurrent calls — deps-installed acks can fire fast
       // and a re-entrant check piles work onto a possibly-stuck bridge.
       if (checkDepsRunning) {
@@ -1143,12 +1171,24 @@
         return;
       }
       checkDepsRunning = true;
-      console.log('[snowflake] checkDeps: checking', DEPS_AEM_PATH);
-      showSetupBanner('Checking aem skill&hellip;', false);
       try {
-        // Wrap in a timeout — slicc's bridge has been observed to hang on
-        // slicc.exists after sprinkle close+reopen. Surface a clear error
-        // instead of leaving the banner stuck on "Checking...".
+        // Cache fast-path: once a previous open confirmed the aem skill is
+        // present, trust that on subsequent opens. Skips slicc.exists,
+        // which has been observed to hang after sprinkle close+reopen.
+        // Bypassed when the caller passes {force:true} (Retry link).
+        if (!opts.force) {
+          var cached = getDepsCache();
+          if (cached && cached.depsReady) {
+            console.log('[snowflake] checkDeps: cached depsReady=true, skipping live check');
+            markDepsReady();
+            return;
+          }
+        }
+
+        console.log('[snowflake] checkDeps: checking', DEPS_AEM_PATH);
+        showSetupBanner('Checking aem skill&hellip;', false);
+        // Wrap in a timeout — surface a clear error instead of leaving
+        // the banner stuck on "Checking..." if slicc.exists hangs.
         var hasAem = await Promise.race([
           slicc.exists(DEPS_AEM_PATH),
           new Promise(function (_, reject) {
@@ -1159,14 +1199,11 @@
         ]);
         console.log('[snowflake] checkDeps: hasAem =', hasAem);
         if (hasAem) {
-          state.depsReady = true;
-          hideSetupBanner();
-          if (state.step === 0) {
-            document.getElementById('nextBtn').disabled = false;
-          }
+          markDepsReady();
           return;
         }
         state.depsReady = false;
+        setDepsCache(false);
         showSetupBanner('Installing aem skill from ai-ecoverse/skills&hellip;', false);
         slicc.lick({ action: 'install-deps' });
       } catch (err) {
@@ -1174,7 +1211,9 @@
         state.depsReady = false;
         showSetupBanner(
           'Setup error: ' + escapeHtml(err.message || String(err)) +
-          ' <a href="#" onclick="checkDeps();return false;">Retry</a>',
+          ' <a href="#" onclick="checkDeps({force:true});return false;">Retry</a>' +
+          ' <span style="opacity:0.5">|</span> ' +
+          '<a href="#" onclick="markDepsReady();return false;">Skip check</a>',
           true
         );
       } finally {
