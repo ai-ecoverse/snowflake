@@ -29,7 +29,7 @@ export default async function decorate(block) {
   const footer = block.closest('footer') || block;
   footer.className = 'site-footer';
 
-  const footerPath = resolveFragmentPath('footer');
+  const footerPath = footer.dataset.fragmentPath || resolveFragmentPath('footer');
   let fragment;
   try {
     fragment = await loadFragment(footerPath);
