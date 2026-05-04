@@ -8,11 +8,11 @@
  *   Footer bottom row inferred from last elements.
  */
 
-import { getConfig } from '../../scripts/ak.js';
+import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
-const FOOTER_PATH = `${locale.prefix || ''}/fragments/footer`;
+const FOOTER_PATH = getMetadata('footer') || `${locale.prefix || ''}/fragments/footer`;
 
 export default async function decorate(block) {
   const footer = block.closest('footer');

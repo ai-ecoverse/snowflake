@@ -7,11 +7,11 @@
  *   <div> (utility buttons) — optional, rendered as icon buttons row
  */
 
-import { getConfig } from '../../scripts/ak.js';
+import { getConfig, getMetadata } from '../../scripts/ak.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
-const NAV_PATH = `${locale.prefix || ''}/fragments/nav`;
+const NAV_PATH = getMetadata('header') || `${locale.prefix || ''}/fragments/nav`;
 
 export default async function decorate(block) {
   const header = block.closest('header');
