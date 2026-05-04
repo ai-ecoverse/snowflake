@@ -723,6 +723,8 @@
     };
 
     var DEPS_AEM_PATH = '/workspace/skills/aem/SKILL.md';
+    var DEPS_CHECK_TIMEOUT_MS = 5000;
+    var checkDepsRunning = false;
 
     var stepLabels = ['Connect', 'Convert', 'Converting...', 'Done'];
     var flavorTexts = ['freshly scooped', 'pick your sprinkles', 'swirling it together', 'ready to serve'];
@@ -1134,10 +1136,27 @@
     });
 
     async function checkDeps() {
+      // Guard against concurrent calls — deps-installed acks can fire fast
+      // and a re-entrant check piles work onto a possibly-stuck bridge.
+      if (checkDepsRunning) {
+        console.log('[snowflake] checkDeps: already running, skipping concurrent call');
+        return;
+      }
+      checkDepsRunning = true;
       console.log('[snowflake] checkDeps: checking', DEPS_AEM_PATH);
       showSetupBanner('Checking aem skill&hellip;', false);
       try {
-        var hasAem = await slicc.exists(DEPS_AEM_PATH);
+        // Wrap in a timeout — slicc's bridge has been observed to hang on
+        // slicc.exists after sprinkle close+reopen. Surface a clear error
+        // instead of leaving the banner stuck on "Checking...".
+        var hasAem = await Promise.race([
+          slicc.exists(DEPS_AEM_PATH),
+          new Promise(function (_, reject) {
+            setTimeout(function () {
+              reject(new Error('check timed out after ' + (DEPS_CHECK_TIMEOUT_MS / 1000) + 's'));
+            }, DEPS_CHECK_TIMEOUT_MS);
+          }),
+        ]);
         console.log('[snowflake] checkDeps: hasAem =', hasAem);
         if (hasAem) {
           state.depsReady = true;
@@ -1158,6 +1177,8 @@
           ' <a href="#" onclick="checkDeps();return false;">Retry</a>',
           true
         );
+      } finally {
+        checkDepsRunning = false;
       }
       if (state.step === 0) {
         document.getElementById('nextBtn').disabled = true;
