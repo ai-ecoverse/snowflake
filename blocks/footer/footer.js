@@ -13,12 +13,24 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
 
+function resolveFragmentPath(name) {
+  // Try metadata first (set by the metadata block)
+  const meta = getMetadata(name);
+  if (meta) return meta;
+  // Derive from current page path: /nvidia/page → /nvidia/fragments/<name>
+  const segs = window.location.pathname.split('/').filter(Boolean);
+  if (segs.length >= 1 && segs[0] !== 'fragments') {
+    return `/${segs[0]}/fragments/${name === 'header' ? 'nav' : name}`;
+  }
+  return `${locale.prefix || ''}/fragments/${name === 'header' ? 'nav' : name}`;
+}
+
 export default async function decorate(block) {
   const footer = block.closest('footer');
   if (!footer) return;
   footer.className = 'site-footer';
 
-  const footerPath = getMetadata('footer') || `${locale.prefix || ''}/fragments/footer`;
+  const footerPath = resolveFragmentPath('footer');
   const fragment = await loadFragment(footerPath);
   if (!fragment) return;
 

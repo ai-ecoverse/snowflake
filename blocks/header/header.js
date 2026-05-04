@@ -12,12 +12,22 @@ import { loadFragment } from '../fragment/fragment.js';
 
 const { locale } = getConfig();
 
+function resolveFragmentPath(name) {
+  const meta = getMetadata(name);
+  if (meta) return meta;
+  const segs = window.location.pathname.split('/').filter(Boolean);
+  if (segs.length >= 1 && segs[0] !== 'fragments') {
+    return `/${segs[0]}/fragments/${name === 'header' ? 'nav' : name}`;
+  }
+  return `${locale.prefix || ''}/fragments/${name === 'header' ? 'nav' : name}`;
+}
+
 export default async function decorate(block) {
   const header = block.closest('header');
   if (!header) return;
   header.className = 'site-header';
 
-  const navPath = getMetadata('header') || `${locale.prefix || ''}/fragments/nav`;
+  const navPath = resolveFragmentPath('header');
   const fragment = await loadFragment(navPath);
   if (!fragment) return;
 
