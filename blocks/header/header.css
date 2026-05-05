@@ -1,5 +1,190 @@
-/* Header styles are self-contained in the fragment HTML.
-   This file intentionally left minimal — only structural overrides for EDS integration. */
+/* === Header chrome — pixel-perfect from prototype === */
 header {
   display: block;
+}
+
+header [data-section="utility-strip"] {
+  background: var(--obsidian);
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+header [data-section="utility-strip"] .ds-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+header [data-section="utility-strip"] p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+header [data-section="utility-strip"] p:last-child {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 599px) {
+  header [data-section="utility-strip"] {
+    height: auto;
+    padding: 6px 0;
+  }
+  header [data-section="utility-strip"] p {
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+  }
+  header [data-section="utility-strip"] p:last-child {
+    display: none;
+  }
+}
+
+header [data-section="header"] {
+  background: var(--vellum);
+  border-bottom: 1px solid var(--platinum-edge);
+}
+
+header .ds-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 64px;
+}
+
+header .ds-sitemark {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+header .ds-sitemark .ds-sitemark-mark {
+  height: 24px;
+  width: auto;
+  display: block;
+  filter: brightness(0);
+  opacity: 0.85;
+  transition: opacity 120ms ease;
+}
+
+header .ds-sitemark:hover .ds-sitemark-mark {
+  opacity: 1;
+}
+
+header .ds-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  justify-content: center;
+}
+
+header .ds-nav-link {
+  font-family: var(--font-ui);
+  font-size: var(--type-14);
+  font-weight: 500;
+  color: var(--char);
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+header .ds-nav-link:hover {
+  background: var(--ink-haze);
+  color: var(--ink);
+}
+
+header .ds-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+header .ds-search-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--platinum);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+}
+
+header .ds-search-form:focus-within {
+  border-color: var(--ink);
+  background: var(--vellum);
+}
+
+header .ds-search-icon {
+  color: var(--graphite-mute);
+}
+
+header .ds-search-input {
+  border: none;
+  background: transparent;
+  font-family: var(--font-ui);
+  font-size: var(--type-14);
+  color: var(--char);
+  width: 160px;
+  padding: 2px 0;
+}
+
+header .ds-search-input:focus {
+  outline: none;
+}
+
+header .ds-menu-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--platinum-edge);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+header .ds-menu-toggle[aria-expanded="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--vellum);
+}
+
+header .ds-container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 600px) {
+  header .ds-container { padding-inline: 32px; }
+}
+
+@media (min-width: 1024px) {
+  header .ds-container { padding-inline: 48px; }
+}
+
+@media (max-width: 1399px) {
+  header .ds-nav { display: none; }
+  header .ds-search-input { width: 160px; }
+  header .ds-menu-toggle { display: inline-flex; }
+}
+
+@media (max-width: 699px) {
+  header .ds-search-input { width: 100px; }
+}
+
+@media (max-width: 599px) {
+  header .ds-search-form { display: none; }
 }
