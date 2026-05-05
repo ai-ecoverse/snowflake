@@ -81,12 +81,15 @@ export default function decorate(block) {
     // Thumb
     const thumb = document.createElement('span');
     thumb.className = 'ds-mini-thumb';
-    const pic = picCell.querySelector('picture, img');
+    // Image URL and alt are authored as plain <p> text (EDS strips <picture> content)
+    const imgPs = picCell ? [...picCell.querySelectorAll('p')] : [];
+    const imgSrc = imgPs[0]?.textContent.trim() || '';
+    const imgAlt = imgPs[1]?.textContent.trim() || '';
+    const pic = imgSrc; // truthy check
     if (pic) {
-      const origImg = pic.querySelector('img') || pic;
       const img = document.createElement('img');
-      img.src = origImg.getAttribute('src') || '';
-      img.alt = origImg.getAttribute('alt') || '';
+      img.src = imgSrc;
+      img.alt = imgAlt;
       img.setAttribute('loading', 'lazy');
       img.width = 96;
       img.height = 96;

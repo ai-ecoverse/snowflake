@@ -22,15 +22,15 @@ function chipVariant(text) {
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
 
-  // Row 0: thumbnail — read src from img before AEM optimises it away
+  // Row 0: thumbnail — image URL and alt text authored as plain <p> text (EDS strips <picture><img>)
   const thumbCell = rows[0]?.querySelector(':scope > div');
   const thumbLink = thumbCell?.querySelector('a');
-  const origImg = thumbCell?.querySelector('img');
-  // Grab the original src attribute (not the .src property which may be about:error)
-  const imgSrc = origImg?.getAttribute('src') || '';
-  const imgAlt = origImg?.getAttribute('alt') || '';
-  const imgWidth = origImg?.getAttribute('width') || '309';
-  const imgHeight = origImg?.getAttribute('height') || '309';
+  // Image URL is in the first <p> text node; alt in the second
+  const thumbPs = thumbCell ? [...thumbCell.querySelectorAll('p')] : [];
+  const imgSrc = thumbPs[0]?.textContent.trim() || '';
+  const imgAlt = thumbPs[1]?.textContent.trim() || '';
+  const imgWidth = '309';
+  const imgHeight = '309';
 
   // Row 1: eyebrow
   const eyebrow = rows[1]?.querySelector(':scope > div')?.textContent.trim() || '';

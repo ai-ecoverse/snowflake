@@ -57,12 +57,13 @@ function buildHeader(el, fragment) {
     const logoOrigImg = logoPic?.querySelector ? logoPic.querySelector('img') || logoPic : logoPic;
     if (logoOrigImg) {
       const img = document.createElement('img');
-      img.src = logoOrigImg.getAttribute('src') || '';
+      const logoSrc = logoOrigImg.getAttribute('src') || '';
+      img.src = logoSrc.startsWith('about:') ? '' : logoSrc;
       img.alt = logoOrigImg.getAttribute('alt') || 'The Channel Company';
       img.className = 'ds-sitemark-mark';
       img.setAttribute('width', '116');
       img.setAttribute('height', '24');
-      logoWrap.append(img);
+      if (img.src) logoWrap.append(img);
     }
     inner.append(logoWrap);
   }
