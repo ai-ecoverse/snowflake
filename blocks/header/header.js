@@ -1,45 +1,33 @@
-import { getConfig, getMetadata } from '../../scripts/ak.js';
-
-const HEADER_PATH = '/fragments/nav';
+import { getConfig, loadStyle } from '../../scripts/ak.js';
 
 /**
- * Loads the static header fragment and injects its rendered HTML directly.
- * The fragment is a self-contained HTML file with inline <style> —
- * we extract the <style> and <body> content and inject both for pixel-perfect rendering.
+ * Loads the static header HTML file from the code repo and injects it directly.
+ * The file is served as a static asset from GitHub — no EDS content processing.
  */
 export default async function init(el) {
-  const { locale } = getConfig();
-  const headerMeta = getMetadata('header');
-  const path = headerMeta || HEADER_PATH;
+  const { codeBase } = getConfig();
 
   try {
-    const resp = await fetch(`${locale.prefix}${path}.plain.html`);
-    if (!resp.ok) throw new Error(`Failed to load header fragment: ${resp.status}`);
+    const resp = await fetch(`${codeBase}/fragments/header.html`);
+    if (!resp.ok) throw new Error(`Header fetch failed: ${resp.status}`);
     const html = await resp.text();
 
-    // Parse the fragment
+    // Parse and inject only the body content
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
 
-    // Extract <style> if present and inject into document head
-    const styles = doc.querySelectorAll('style');
-    styles.forEach((style) => {
-      if (!document.querySelector(`style[data-source="header-fragment"]`)) {
-        const s = document.createElement('style');
-        s.setAttribute('data-source', 'header-fragment');
-        s.textContent = style.textContent;
-        document.head.append(s);
-      }
-    });
-
-    // Inject body content directly
-    const body = doc.body;
-    if (body) {
-      el.innerHTML = body.innerHTML;
+    // Extract style and inject to head
+    const style = doc.querySelector('style');
+    if (style && !document.querySelector('style[data-source="header"]')) {
+      const s = document.createElement('style');
+      s.setAttribute('data-source', 'header');
+      s.textContent = style.textContent;
+      document.head.append(s);
     }
+
+    // Inject body content
+    el.innerHTML = doc.body.innerHTML;
   } catch (e) {
-    // Fallback: silent fail — page still works without chrome
-    // eslint-disable-next-line no-console
-    console.warn('Header fragment load failed:', e);
+    console.warn('Header load failed:', e);
   }
 }
