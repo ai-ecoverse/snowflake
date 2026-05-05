@@ -89,9 +89,9 @@ export default function decorate(block) {
     const picCell = cells[0];
     const bodyCell = cells[1];
 
-    const picAnchor = picCell.querySelector('a');
+    // pic cell anchor href = image URL; get article link from body cell
     const bodyAnchor = bodyCell.querySelector('a');
-    const href = picAnchor?.href || bodyAnchor?.href || '#';
+    const href = bodyAnchor?.href || '#';
 
     const { chipText, headlineText, deckText, metaText } = parseBody(bodyCell);
 
@@ -102,10 +102,10 @@ export default function decorate(block) {
     // Thumb
     const thumb = document.createElement('span');
     thumb.className = 'ds-roster-thumb';
-    // Image URL and alt are authored as plain <p> text (EDS strips <picture> content)
-    const imgPs = picCell ? [...picCell.querySelectorAll('p')] : [];
-    const imgSrc = imgPs[0]?.textContent.trim() || '';
-    const imgAlt = imgPs[1]?.textContent.trim() || '';
+    // Pic cell: <p><a href="img-url">alt text</a></p> — DA preserves href values
+    const imgAnchor = picCell?.querySelector('a');
+    const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
+    const imgAlt = imgAnchor?.textContent.trim() || '';
     const pic = imgSrc; // truthy check
     if (pic) {
       const img = document.createElement('img');

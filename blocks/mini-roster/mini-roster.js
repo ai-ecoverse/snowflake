@@ -69,10 +69,14 @@ export default function decorate(block) {
     const picCell = cells[0];
     const bodyCell = cells[1];
 
-    // Resolve card href — from anchor wrapping picture, or first link in body
-    const picAnchor = picCell.querySelector('a');
+    // Pic cell: <p><a href="img-url">alt text</a></p>
+    // DA preserves <a href>; we read href as the image src.
+    // Article link comes from the body cell's h3 <a> or first link.
+    const imgAnchor = picCell?.querySelector('a');
+    const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
+    const imgAlt = imgAnchor?.textContent.trim() || '';
     const bodyAnchor = bodyCell.querySelector('a');
-    const href = picAnchor?.href || bodyAnchor?.href || '#';
+    const href = bodyAnchor?.href || '#';
 
     const card = document.createElement('a');
     card.className = 'ds-mini-card';
@@ -81,10 +85,6 @@ export default function decorate(block) {
     // Thumb
     const thumb = document.createElement('span');
     thumb.className = 'ds-mini-thumb';
-    // Image URL and alt are authored as plain <p> text (EDS strips <picture> content)
-    const imgPs = picCell ? [...picCell.querySelectorAll('p')] : [];
-    const imgSrc = imgPs[0]?.textContent.trim() || '';
-    const imgAlt = imgPs[1]?.textContent.trim() || '';
     const pic = imgSrc; // truthy check
     if (pic) {
       const img = document.createElement('img');

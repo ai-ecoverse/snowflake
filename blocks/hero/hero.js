@@ -22,13 +22,13 @@ function chipVariant(text) {
 export default function decorate(block) {
   const rows = [...block.querySelectorAll(':scope > div')];
 
-  // Row 0: thumbnail — image URL and alt text authored as plain <p> text (EDS strips <picture><img>)
+  // Row 0: thumbnail — image authored as <p><a href="img-url">alt text</a></p>
+  // DA preserves <a href> values; block JS reads href as img src.
   const thumbCell = rows[0]?.querySelector(':scope > div');
-  const thumbLink = thumbCell?.querySelector('a');
-  // Image URL is in the first <p> text node; alt in the second
-  const thumbPs = thumbCell ? [...thumbCell.querySelectorAll('p')] : [];
-  const imgSrc = thumbPs[0]?.textContent.trim() || '';
-  const imgAlt = thumbPs[1]?.textContent.trim() || '';
+  const imgAnchor = thumbCell?.querySelector('a');
+  const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
+  const imgAlt = imgAnchor?.textContent.trim() || '';
+  const thumbLink = null; // article link comes from Row 6 CTA
   const imgWidth = '309';
   const imgHeight = '309';
 
