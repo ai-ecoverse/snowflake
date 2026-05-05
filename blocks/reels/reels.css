@@ -1,0 +1,155 @@
+/* Reels — Watch & learn */
+.reels {
+  padding-block: var(--space-section-d);
+  background: var(--vellum);
+  border-bottom: 1px solid var(--platinum-edge);
+}
+
+.reels .ds-reels-grid {
+  display: grid;
+  grid-template-columns: 8fr 4fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.reels .ds-reels-featured {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-deep);
+  box-shadow: var(--shadow-md);
+}
+
+.reels .ds-reels-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.reels .ds-reels-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.reels .ds-reel {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--char);
+  text-decoration: none;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.reels .ds-reel:hover {
+  background: var(--platinum);
+  border-color: var(--platinum-edge);
+}
+
+.reels .ds-reel.is-active {
+  background: var(--ink-haze);
+  border-color: var(--ink);
+}
+
+.reels .ds-reel.is-active .ds-reel-eyebrow {
+  color: var(--brass-deep);
+  font-weight: 600;
+}
+
+.reels .ds-reel-thumb {
+  position: relative;
+  width: 120px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--ink-haze);
+  border: 1px solid var(--platinum-edge);
+  display: block;
+}
+
+.reels .ds-reel-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.reels .ds-reel-thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 31, 47, 0.18);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.reels .ds-reel:hover .ds-reel-thumb::after,
+.reels .ds-reel.is-active .ds-reel-thumb::after { opacity: 1; }
+
+.reels .ds-reel-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: rgba(0, 48, 73, 0.85);
+  color: var(--vellum);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.reels .ds-reel:hover .ds-reel-play,
+.reels .ds-reel.is-active .ds-reel-play { opacity: 1; }
+
+.reels .ds-reel-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.reels .ds-reel-eyebrow {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+}
+
+.reels .ds-reel-title {
+  font-family: var(--display);
+  font-size: var(--type-14);
+  font-weight: 500;
+  color: var(--char);
+  line-height: 1.3;
+}
+
+@media (max-width: 1023px) {
+  .reels .ds-reels-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 599px) {
+  .reels { padding-block: var(--space-section-m); }
+
+  .reels .ds-reel {
+    grid-template-columns: 96px 1fr;
+  }
+
+  .reels .ds-reel-thumb { width: 96px; }
+}

@@ -16,3 +16,513 @@ aem-sidekick {
     opacity: 1;
   }
 }
+
+/* ============================================================
+   1. @font-face — self-hosted woff2 files in /styles/fonts/
+   ============================================================ */
+
+/* Manrope variable (display / body) */
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/styles/fonts/manrope-variable.woff2") format("woff2 supports variations"),
+       url("/styles/fonts/manrope-variable.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* Inter variable (UI) */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/styles/fonts/inter-variable.woff2") format("woff2 supports variations"),
+       url("/styles/fonts/inter-variable.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* Newsreader variable normal */
+@font-face {
+  font-family: "Newsreader";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/styles/fonts/newsreader-variable.woff2") format("woff2 supports variations"),
+       url("/styles/fonts/newsreader-variable.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* Newsreader variable italic */
+@font-face {
+  font-family: "Newsreader";
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/styles/fonts/newsreader-italic-variable.woff2") format("woff2 supports variations"),
+       url("/styles/fonts/newsreader-italic-variable.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* IBM Plex Mono — 400 */
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/styles/fonts/ibm-plex-mono-400.woff2") format("woff2");
+}
+
+/* IBM Plex Mono — 500 */
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/styles/fonts/ibm-plex-mono-500.woff2") format("woff2");
+}
+
+/* IBM Plex Mono — 600 */
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/styles/fonts/ibm-plex-mono-600.woff2") format("woff2");
+}
+
+/* Metric-matched Arial override for Manrope — eliminates CLS on font swap */
+@font-face {
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 200 800;
+  src: local("Arial");
+  ascent-override: 92%;
+  descent-override: 23%;
+  line-gap-override: 0%;
+  size-adjust: 103%;
+}
+
+/* Metric-matched Arial override for Inter */
+@font-face {
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 100 900;
+  src: local("Arial");
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+  size-adjust: 107%;
+}
+
+/* ============================================================
+   2. :root tokens — verbatim from prototype
+   ============================================================ */
+:root {
+  --ink: #003049;
+  --ink-deep: #001f2f;
+  --ink-haze: #e8eef2;
+  --obsidian: #000000;
+  --vellum: #ffffff;
+  --char: #0a0d12;
+  --graphite: #3d4651;
+  --graphite-mute: #6b7480;
+  --platinum: #f4f5f7;
+  --platinum-edge: #dfe3e8;
+  --navy-deep: #0b1f3a;
+  --brass: #b88830;
+  --brass-soft: #d4a45a;
+  --brass-deep: #8a6420;
+  --cordovan: #5b1116;
+  --tint-datacenter: rgba(0, 48, 73, 0.06);
+  --tint-ai: rgba(184, 136, 48, 0.12);
+  --tint-workplace: rgba(91, 17, 22, 0.08);
+  --tint-neutral: var(--platinum);
+  --display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --editorial: "Newsreader", "Iowan Old Style", Charter, Georgia, serif;
+  --ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --type-12: 0.75rem;
+  --type-14: 0.875rem;
+  --type-16: 1rem;
+  --type-18: 1.125rem;
+  --type-20: 1.25rem;
+  --type-24: 1.5rem;
+  --type-30: 1.875rem;
+  --type-36: 2.25rem;
+  --type-48: 3rem;
+  --type-60: 3.75rem;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgba(10, 13, 18, 0.04), 0 1px 4px rgba(10, 13, 18, 0.04);
+  --shadow-md: 0 4px 12px rgba(10, 13, 18, 0.08), 0 2px 6px rgba(10, 13, 18, 0.06);
+  --space-section-d: 80px;
+  --space-section-t: 56px;
+  --space-section-m: 40px;
+  --space-gap-d: 24px;
+  --space-gap-t: 16px;
+  --space-gap-m: 12px;
+  --content-max: 1280px;
+  --motion-fast: 120ms;
+  --motion-base: 220ms;
+  --motion-slow: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --img-hero: 309px;
+  --img-roster: 200px;
+  --img-mini: 96px;
+
+  /* EDS button system aliases */
+  --font-body: "Manrope", arial, sans-serif;
+  --font-display: "Manrope", arial, sans-serif;
+  --font-editorial: "Newsreader", times, "Times New Roman", serif;
+  --font-ui: "Inter", arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  --color-wavelength: var(--brass);
+  --color-ink-rich: var(--ink-deep);
+  --color-canvas: var(--platinum);
+  --color-rule-strong: var(--platinum-edge);
+  --weight-bold: 700;
+  --ease-out: var(--ease-standard);
+}
+
+@media (min-width: 1600px) {
+  :root { --content-max: 1440px; }
+}
+
+/* ============================================================
+   3. Document reset
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body { margin: 0; padding: 0; }
+
+img,
+svg { display: block; max-width: 100%; }
+
+button { font: inherit; cursor: pointer; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================================
+   4. Body — fallback first; session (post-LCP) swaps to custom
+   ============================================================ */
+body {
+  background: var(--vellum);
+  color: var(--char);
+  font-family: arial, sans-serif;
+  font-size: var(--type-16);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.session {
+  font-family: var(--font-body);
+}
+
+/* ============================================================
+   5. Headings
+   ============================================================ */
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--char);
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   6. Global button system (EDS decorateButton targets)
+   ============================================================ */
+a.btn {
+  display: inline-flex;
+  align-items: stretch;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Two-tone primary: ink slab body + brass arrow tab */
+a.btn-primary {
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 13px 18px;
+  align-items: center;
+  position: relative;
+  padding-right: 52px;
+}
+
+a.btn-primary::after {
+  content: "→";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 44px;
+  background: var(--brass);
+  color: var(--ink-deep);
+  font-family: var(--mono);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--motion-base) var(--ease-standard);
+}
+
+a.btn-primary:hover { background: var(--ink-deep); }
+a.btn-primary:hover::after { background: var(--brass-soft); }
+
+a.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 14px;
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-md);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background var(--motion-base) var(--ease-standard);
+}
+
+a.btn-secondary:hover { background: var(--ink-haze); }
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+/* ============================================================
+   7. Design-system shared classes (.ds-eyebrow, .ds-chip, .ds-tag)
+   ============================================================ */
+.ds-eyebrow {
+  font-family: var(--mono);
+  font-size: var(--type-12);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+  display: inline-block;
+}
+
+.ds-eyebrow--brass     { color: var(--brass); }
+.ds-eyebrow--brass-soft { color: var(--brass-soft); }
+.ds-eyebrow--brass-deep { color: var(--brass-deep); }
+
+.ds-chip {
+  display: inline-flex;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--tint-datacenter);
+  color: var(--ink);
+}
+
+.ds-chip--datacenter { background: var(--tint-datacenter); color: var(--ink); }
+.ds-chip--ai         { background: var(--tint-ai); color: var(--brass); }
+.ds-chip--workplace  { background: var(--tint-workplace); color: var(--cordovan); }
+.ds-chip--neutral    { background: var(--platinum); color: var(--graphite); }
+.ds-chip--on-ink     { background: rgba(255, 255, 255, 0.14); color: var(--vellum); }
+
+.ds-tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ds-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+  background: var(--platinum);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (pointer: coarse) {
+  .ds-tag { padding: 8px 12px; min-height: 32px; }
+}
+
+.ds-tag:hover { background: var(--ink-haze); color: var(--ink); }
+.ds-tag--on-ink { color: rgba(255, 255, 255, 0.75); background: rgba(255, 255, 255, 0.10); }
+.ds-tag--on-ink:hover { background: rgba(184, 136, 48, 0.18); color: var(--brass-soft); }
+
+/* ============================================================
+   8. .ds-container — width + padding
+   ============================================================ */
+.ds-container {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 600px) { .ds-container { padding-inline: 32px; } }
+@media (min-width: 1024px) { .ds-container { padding-inline: 48px; } }
+
+/* ============================================================
+   9. .ds-ph — placeholder styling
+   ============================================================ */
+.ds-ph {
+  font-family: var(--editorial);
+  font-style: italic;
+  font-size: inherit;
+  color: var(--graphite-mute);
+  opacity: 0.68;
+  border-bottom: 1px dotted rgba(184, 136, 48, 0.45);
+  padding: 0 1px;
+}
+
+.ds-ph::before {
+  content: "›";
+  margin-right: 4px;
+  color: var(--brass);
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
+
+.ds-ph--on-ink { color: rgba(255, 255, 255, 0.65); border-bottom-color: rgba(212, 164, 90, 0.5); }
+.ds-ph--on-ink::before { color: var(--brass-soft); }
+
+/* ============================================================
+   10. :focus-visible
+   ============================================================ */
+:focus-visible {
+  outline: 3px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   11. @media prefers-reduced-motion — global reset
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   Shared section-head used by mini-roster, reads, departments, etc.
+   ============================================================ */
+.ds-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.ds-section-head h2 {
+  font-size: var(--type-30);
+  letter-spacing: -0.018em;
+  line-height: 1.4;
+  display: inline;
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 6px 12px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border-radius: 2px;
+}
+
+.ds-section-head .ds-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.ds-link-arrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+
+.ds-link-arrow:hover {
+  border-bottom-color: var(--brass-deep);
+  color: var(--brass-deep);
+}
+
+.ds-link-arrow--on-ink:hover {
+  border-bottom-color: var(--brass-soft);
+  color: var(--brass-soft);
+}
+
+/* Skip link */
+.ds-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--vellum);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.ds-skip:focus { left: 0; outline: 3px solid var(--brass); }
+
+/* Input */
+.ds-input {
+  flex: 1;
+  font-family: var(--ui);
+  font-size: var(--type-16);
+  padding: 12px 14px;
+  background: var(--vellum);
+  color: var(--char);
+  border: 1px solid var(--platinum-edge);
+  border-radius: var(--radius-md);
+}
+
+.ds-input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(0, 48, 73, 0.15);
+}

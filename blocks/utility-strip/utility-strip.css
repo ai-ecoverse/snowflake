@@ -1,0 +1,44 @@
+/* Utility Strip — thin black attribution bar */
+.utility-strip {
+  background: var(--obsidian);
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.utility-strip .ds-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.utility-strip p {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.utility-strip p:last-child {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 599px) {
+  .utility-strip {
+    height: auto;
+    padding: 6px 0;
+  }
+
+  .utility-strip p {
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .utility-strip p:last-child {
+    display: none;
+  }
+}

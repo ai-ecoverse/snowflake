@@ -1,0 +1,118 @@
+/* Footer — 4-col mega footer */
+.footer {
+  background: var(--obsidian);
+  color: var(--vellum);
+  border-top: 1px solid var(--navy-deep);
+  padding-block: 56px 36px;
+}
+
+.footer .ds-footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-gap-d);
+  margin-bottom: 40px;
+}
+
+.footer .ds-footer-col h3 {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+  margin-bottom: 16px;
+}
+
+.footer .ds-footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer .ds-footer-col a {
+  font-family: var(--ui);
+  font-size: var(--type-14);
+  color: var(--vellum);
+  opacity: 0.85;
+  text-decoration: none;
+}
+
+.footer .ds-footer-col a:hover { opacity: 1; color: var(--brass); }
+
+/* Social icons */
+.footer .ds-social {
+  display: flex;
+  gap: 12px;
+}
+
+.footer .ds-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  opacity: 0.8;
+  color: var(--vellum);
+}
+
+.footer .ds-social a:hover {
+  opacity: 1;
+  border-color: var(--brass);
+  background: rgba(184, 136, 48, 0.10);
+}
+
+/* Legal row */
+.footer .ds-legal {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--graphite-mute);
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  padding-top: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.footer .ds-legal a { color: var(--graphite-mute); text-decoration: none; }
+.footer .ds-legal a:hover { color: var(--vellum); }
+
+/* Cobrand row */
+.footer .ds-cobrand {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.footer .ds-cobrand-mark {
+  font-family: var(--display);
+  font-size: var(--type-14);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--vellum);
+  opacity: 0.9;
+}
+
+.footer .ds-cobrand-mark img { height: 28px; width: auto; }
+
+@media (max-width: 1023px) {
+  .footer .ds-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 599px) {
+  .footer { padding-block: var(--space-section-m); }
+  .footer .ds-footer-grid { grid-template-columns: 1fr; }
+  .footer .ds-cobrand { flex-direction: column; gap: 16px; }
+}

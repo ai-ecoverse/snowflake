@@ -1,0 +1,103 @@
+/* Reads — "This week's reads" 2×2 grid */
+.reads {
+  padding-block: var(--space-section-d);
+  background: var(--platinum);
+}
+
+.reads .ds-roster {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px var(--space-gap-d);
+}
+
+.reads .ds-roster-card {
+  display: grid;
+  grid-template-columns: var(--img-roster) 1fr;
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.reads .ds-roster-thumb {
+  width: var(--img-roster);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-haze);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  display: block;
+}
+
+.reads .ds-roster-thumb img,
+.reads .ds-roster-thumb picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-slow) var(--ease-standard);
+  display: block;
+}
+
+.reads .ds-roster-card:hover .ds-roster-thumb img { transform: scale(1.03); }
+
+.reads .ds-roster-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.reads .ds-roster-body .ds-chip { align-self: flex-start; }
+
+.reads .ds-roster-body h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: var(--type-20);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: var(--char);
+}
+
+.reads .ds-roster-card:hover .ds-roster-body h3 { color: var(--ink); }
+
+.reads .ds-roster-body .ds-deck {
+  font-family: var(--editorial);
+  font-style: italic;
+  font-size: var(--type-14);
+  line-height: 1.5;
+  color: var(--graphite);
+}
+
+.reads .ds-roster-body .ds-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--graphite-mute);
+  display: flex;
+  gap: 6px 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+@media (max-width: 1023px) {
+  .reads .ds-roster {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 599px) {
+  .reads { padding-block: var(--space-section-m); }
+
+  .reads .ds-roster-card {
+    grid-template-columns: 110px 1fr;
+    gap: 14px;
+  }
+
+  .reads .ds-roster-thumb { width: 110px; }
+  .reads .ds-roster-body h3 { font-size: var(--type-16); line-height: 1.3; }
+  .reads .ds-roster-body .ds-deck { display: none; }
+  .reads .ds-roster-body .ds-meta { font-size: 10px; }
+}
