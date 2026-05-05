@@ -1,46 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+:root {
+  --ink:#003049; --ink-deep:#001f2f; --ink-haze:#e8eef2;
+  --obsidian:#000000; --vellum:#ffffff;
+  --char:#0a0d12; --graphite:#3d4651; --graphite-mute:#6b7480;
+  --platinum:#f4f5f7; --platinum-edge:#dfe3e8;
+  --navy-deep:#0b1f3a; --brass:#b88830; --brass-soft:#d4a45a;
+  --display:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --ui:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --type-14:.875rem; --type-16:1rem;
+  --radius-pill:999px;
+  --content-max:1280px;
+  --space-gap-d:24px;
+  --space-section-m:40px;
+}
+@media (min-width:1600px){:root{--content-max:1440px;}}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;font-family:var(--ui);-webkit-font-smoothing:antialiased;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+
+[data-section="footer"]{background:var(--obsidian);color:var(--vellum);border-top:1px solid var(--navy-deep);padding-block:56px 36px;}
+.ds-footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-gap-d);margin-bottom:40px;}
+.ds-footer-col h3{font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--graphite-mute);margin-bottom:16px;margin-top:0;}
+.ds-footer-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+.ds-footer-col a{font-family:var(--ui);font-size:var(--type-14);color:var(--vellum);opacity:.85;}
+.ds-footer-col a:hover{opacity:1;color:var(--brass);}
+.ds-social{display:flex;gap:12px;}
+.ds-social a{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:var(--radius-pill);border:1px solid rgba(255,255,255,.18);opacity:.8;}
+.ds-social a:hover{opacity:1;border-color:var(--brass);background:rgba(184,136,48,.10);}
+.ds-social svg{width:16px;height:16px;}
+.ds-legal{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--graphite-mute);border-top:1px solid rgba(255,255,255,.10);padding-top:24px;margin-bottom:24px;display:flex;gap:18px;flex-wrap:wrap;}
+.ds-legal a{color:var(--graphite-mute);}
+.ds-legal a:hover{color:var(--vellum);}
+.ds-cobrand{display:flex;gap:32px;align-items:center;justify-content:center;padding-top:24px;border-top:1px solid rgba(255,255,255,.10);}
+.ds-cobrand-mark{font-family:var(--display);font-size:var(--type-14);font-weight:500;letter-spacing:.02em;color:var(--vellum);opacity:.9;}
+.ds-cobrand-mark img{height:28px;width:auto;}
+.ds-container{width:100%;max-width:var(--content-max);margin:0 auto;padding-inline:24px;}
+@media (min-width:600px){.ds-container{padding-inline:32px;}}
+@media (min-width:1024px){.ds-container{padding-inline:48px;}}
+@media (max-width:1023px){.ds-footer-grid{grid-template-columns:repeat(2,1fr);gap:32px;}}
+@media (max-width:599px){[data-section="footer"]{padding-block:var(--space-section-m);}.ds-footer-grid{grid-template-columns:1fr;}.ds-cobrand{flex-direction:column;gap:16px;}}
+</style>
+</head>
 <body>
-<header></header>
-<main>
-<div>
-  <div>
-    <div>
-      <p><strong>About</strong></p>
-      <ul>
-        <li><a href="https://www.thechannelco.com/company">About The Channel Company</a></li>
-        <li><a href="https://www.crn.com/about">About CRN</a></li>
-        <li><a href="/sitemap">Sitemap</a></li>
-      </ul>
+<footer data-section="footer">
+  <div class="ds-container">
+    <div class="ds-footer-grid">
+      <div class="ds-footer-col">
+        <h3>About</h3>
+        <ul>
+          <li><a href="https://www.thechannelco.com/company" target="_blank" rel="noopener">About The Channel Company</a></li>
+          <li><a href="https://www.crn.com/about" target="_blank" rel="noopener">About CRN</a></li>
+          <li><a href="/sitemap">Sitemap</a></li>
+        </ul>
+      </div>
+      <div class="ds-footer-col">
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="https://www.dell.com/en-us/lp/contact-us" target="_blank" rel="noopener">Contact Dell Technologies</a></li>
+          <li><a href="https://www.thechannelco.com/company/contact" target="_blank" rel="noopener">Contact The Channel Company</a></li>
+        </ul>
+      </div>
+      <div class="ds-footer-col">
+        <h3>CRN Awards</h3>
+        <ul>
+          <li><a href="https://pages.thechannelco.com/CRN-Lists-and-Awards.html?source=TCCwebsite" target="_blank" rel="noopener">Subscribe</a></li>
+          <li><a href="https://www.crn.com/rankings-and-lists" target="_blank" rel="noopener">CRN Lists &amp; Awards</a></li>
+        </ul>
+      </div>
+      <div class="ds-footer-col">
+        <h3>Follow</h3>
+        <div class="ds-social">
+          <a href="https://www.instagram.com/dell/" aria-label="Instagram (Dell)" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+          </a>
+          <a href="https://www.youtube.com/channel/UC01FW5V9UVohbPtqKSmXX-w" aria-label="YouTube (Dell)" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://twitter.com/delltech?lang=en" aria-label="X / Twitter (Dell Tech)" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.7 3h3l-6.6 7.6L22 21h-6.2l-4.9-6.4L5.3 21H2.3l7.1-8.1L2 3h6.3l4.4 5.8L17.7 3zm-1.1 16h1.7L7.5 5H5.7l10.9 14z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/delltechnologies" aria-label="LinkedIn (Dell Technologies)" rel="noopener" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="9" width="4" height="12"/><circle cx="5" cy="5" r="2"/><path d="M10 9h4v2c.7-1.3 2.2-2.2 4-2.2 3.3 0 5 2 5 5.5V21h-4v-6c0-1.7-.7-2.8-2.3-2.8-1.6 0-2.7 1.1-2.7 2.8v6h-4z"/></svg>
+          </a>
+        </div>
+      </div>
     </div>
-    <div>
-      <p><strong>Contact</strong></p>
-      <ul>
-        <li><a href="https://www.dell.com/en-us/lp/contact-us">Contact Dell Technologies</a></li>
-        <li><a href="https://www.thechannelco.com/company/contact">Contact The Channel Company</a></li>
-      </ul>
+    <div class="ds-legal">
+      <a href="https://pages.thechannelco.com/standard-policies-INTL-Privacy.html" target="_blank" rel="noopener">The Channel Company Privacy Policy</a>
+      <a href="https://pages.thechannelco.com/standard-policies-Global-cookies" target="_blank" rel="noopener">The Channel Company Cookie Policy</a>
+      <a href="https://www.thechannelco.com/privacy-choices" target="_blank" rel="noopener">Do Not Sell or Share My Personal Information</a>
     </div>
-    <div>
-      <p><strong>CRN Awards</strong></p>
-      <ul>
-        <li><a href="https://pages.thechannelco.com/CRN-Lists-and-Awards.html?source=TCCwebsite">Subscribe</a></li>
-        <li><a href="https://www.crn.com/rankings-and-lists">CRN Lists &amp; Awards</a></li>
-      </ul>
-    </div>
-    <div>
-      <p><strong>Follow</strong></p>
-      <ul>
-        <li><a href="https://www.instagram.com/dell/">Instagram</a></li>
-        <li><a href="https://www.youtube.com/channel/UC01FW5V9UVohbPtqKSmXX-w">YouTube</a></li>
-        <li><a href="https://twitter.com/delltech">X / Twitter</a></li>
-        <li><a href="https://www.linkedin.com/company/delltechnologies">LinkedIn</a></li>
-      </ul>
+    <div class="ds-cobrand">
+      <span class="ds-cobrand-mark"><img src="https://www.enterprisetechprovider.com/sites/all/themes/etp2023/images/dell_logo_white_160px.png" alt="Dell Technologies (sponsor)" width="160" height="28"></span>
+      <span class="ds-cobrand-mark">The Channel Company</span>
     </div>
   </div>
-  <p><a href="https://pages.thechannelco.com/standard-policies-INTL-Privacy.html">The Channel Company Privacy Policy</a> | <a href="https://pages.thechannelco.com/standard-policies-Global-cookies">Cookie Policy</a> | <a href="https://www.thechannelco.com/privacy-choices">Do Not Sell or Share My Personal Information</a></p>
-  <p><img src="https://www.enterprisetechprovider.com/sites/all/themes/etp2023/images/dell_logo_white_160px.png" alt="Dell Technologies" width="160" height="28"> The Channel Company</p>
-</div>
-</main>
-<footer></footer>
+</footer>
 </body>
 </html>

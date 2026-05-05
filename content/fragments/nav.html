@@ -1,22 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+:root {
+  --ink:#003049; --ink-deep:#001f2f; --ink-haze:#e8eef2;
+  --obsidian:#000000; --vellum:#ffffff;
+  --char:#0a0d12; --graphite:#3d4651; --graphite-mute:#6b7480;
+  --platinum:#f4f5f7; --platinum-edge:#dfe3e8;
+  --navy-deep:#0b1f3a; --brass:#b88830; --brass-soft:#d4a45a; --brass-deep:#8a6420;
+  --display:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --editorial:"Newsreader","Iowan Old Style",Charter,Georgia,serif;
+  --ui:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --type-12:.75rem; --type-14:.875rem; --type-16:1rem;
+  --radius-md:4px;
+  --content-max:1280px;
+  --motion-fast:120ms;
+  --ease-standard:cubic-bezier(.2,.8,.2,1);
+}
+@media (min-width:1600px){:root{--content-max:1440px;}}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;padding:0;font-family:var(--ui);-webkit-font-smoothing:antialiased;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+
+[data-section="utility-strip"]{background:var(--obsidian);height:28px;display:flex;align-items:center;}
+[data-section="utility-strip"] .ds-container{display:flex;justify-content:space-between;align-items:center;height:100%;}
+[data-section="utility-strip"] p{margin:0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.72);}
+[data-section="utility-strip"] p:last-child{color:rgba(255,255,255,.45);}
+@media (max-width:599px){[data-section="utility-strip"]{height:auto;padding:6px 0;}[data-section="utility-strip"] p{font-size:10px;line-height:1.4;text-align:center;}[data-section="utility-strip"] p:last-child{display:none;}}
+
+[data-section="header"]{background:var(--vellum);border-bottom:1px solid var(--platinum-edge);}
+.ds-header-inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:64px;}
+.ds-sitemark{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none;}
+.ds-sitemark .ds-sitemark-mark{height:24px;width:auto;display:block;filter:brightness(0);opacity:.85;transition:opacity 120ms ease;}
+.ds-sitemark:hover .ds-sitemark-mark{opacity:1;}
+.ds-nav{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;}
+.ds-nav-link{font-family:var(--ui);font-size:var(--type-14);font-weight:500;color:var(--char);padding:10px 8px;border-radius:var(--radius-md);white-space:nowrap;min-height:44px;display:inline-flex;align-items:center;}
+.ds-nav-link:hover{background:var(--ink-haze);color:var(--ink);}
+.ds-header-actions{display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.ds-search-form{display:flex;align-items:center;gap:6px;background:var(--platinum);border:1px solid transparent;border-radius:var(--radius-md);padding:6px 10px;}
+.ds-search-form:focus-within{border-color:var(--ink);background:var(--vellum);}
+.ds-search-icon{color:var(--graphite-mute);}
+.ds-search-input{border:none;background:transparent;font-family:var(--ui);font-size:var(--type-14);color:var(--char);width:160px;padding:2px 0;}
+.ds-search-input:focus{outline:none;}
+.ds-menu-toggle{display:none;background:transparent;border:1px solid var(--platinum-edge);border-radius:var(--radius-md);padding:8px 10px;cursor:pointer;}
+.ds-menu-toggle[aria-expanded="true"]{background:var(--ink);border-color:var(--ink);color:var(--vellum);}
+.ds-container{width:100%;max-width:var(--content-max);margin:0 auto;padding-inline:24px;}
+@media (min-width:600px){.ds-container{padding-inline:32px;}}
+@media (min-width:1024px){.ds-container{padding-inline:48px;}}
+@media (max-width:1399px){.ds-nav{display:none;}.ds-search-input{width:160px;}.ds-menu-toggle{display:inline-flex;}}
+@media (max-width:699px){.ds-search-input{width:100px;}}
+@media (max-width:599px){.ds-search-form{display:none;}}
+</style>
+</head>
 <body>
-<header></header>
-<main>
-<div>
-  <p><a href="https://www.thechannelco.com/" aria-label="The Channel Company"><img src="https://www.enterprisetechprovider.com/sites/all/themes/etp2023/images/thechannelco_logo_white_300w.png" alt="The Channel Company" width="116" height="24"></a></p>
-  <ul>
-    <li><a href="/category/dta">Dell Tech Advantage</a></li>
-    <li><a href="/category/ai">AI</a></li>
-    <li><a href="/category/mdi">Modern Datacenter</a></li>
-    <li><a href="/category/storage">Storage</a></li>
-    <li><a href="/category/hybrid-work">Modern Workplace</a></li>
-    <li><a href="/category/intel">Intel</a></li>
-    <li><a href="/category/microsoft">Microsoft</a></li>
-  </ul>
-  <p><a href="/search/node">Search</a></p>
-</div>
-</main>
-<footer></footer>
+<header data-section="utility-strip">
+  <div class="ds-container">
+    <p>Produced by The Channel Company &nbsp;&middot;&nbsp; Sponsored by Dell Technologies</p>
+    <p style="opacity:.7">A trade publication for the Dell channel</p>
+  </div>
+</header>
+<header data-section="header">
+  <div class="ds-container ds-header-inner">
+    <a href="https://www.thechannelco.com/" class="ds-sitemark" rel="noopener" target="_blank" aria-label="The Channel Company">
+      <img class="ds-sitemark-mark" src="https://www.enterprisetechprovider.com/sites/all/themes/etp2023/images/thechannelco_logo_white_300w.png" alt="The Channel Company" width="116" height="24">
+    </a>
+    <nav class="ds-nav" aria-label="Primary">
+      <a class="ds-nav-link" href="/category/dta">Dell Tech Advantage</a>
+      <a class="ds-nav-link" href="/category/ai">AI</a>
+      <a class="ds-nav-link" href="/category/mdi">Modern Datacenter</a>
+      <a class="ds-nav-link" href="/category/storage">Storage</a>
+      <a class="ds-nav-link" href="/category/hybrid-work">Modern Workplace</a>
+      <a class="ds-nav-link" href="/category/intel">Intel</a>
+      <a class="ds-nav-link" href="/category/microsoft">Microsoft</a>
+    </nav>
+    <div class="ds-header-actions">
+      <form class="ds-search-form" action="/search/node" role="search">
+        <svg class="ds-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input type="search" name="keys" class="ds-search-input" placeholder="Search articles" aria-label="Search articles">
+      </form>
+      <button class="ds-menu-toggle" aria-label="Open menu" aria-expanded="false" type="button">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true"><path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
 </body>
 </html>

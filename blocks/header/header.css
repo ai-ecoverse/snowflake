@@ -1,0 +1,5 @@
+/* Header styles are self-contained in the fragment HTML.
+   This file intentionally left minimal — only structural overrides for EDS integration. */
+header {
+  display: block;
+}
