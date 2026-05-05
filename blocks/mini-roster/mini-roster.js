@@ -18,6 +18,8 @@ function chipVariant(text) {
 }
 
 export default function decorate(block) {
+  // eslint-disable-next-line no-console
+  console.log('[mini-roster] block.innerHTML at start:', block.innerHTML.substring(0, 300));
   const rows = [...block.querySelectorAll(':scope > div')];
 
   // First row may be a section head (contains h2) — check
