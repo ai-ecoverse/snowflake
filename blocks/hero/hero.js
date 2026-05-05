@@ -76,7 +76,7 @@ export default function decorate(block) {
     thumbWrap.setAttribute('aria-label', 'Read the lead story');
     thumbWrap.setAttribute('tabindex', '-1');
     const img = document.createElement('img');
-    img.src = imgSrc;
+    img.setAttribute('src', imgSrc);
     img.alt = imgAlt;
     img.width = imgWidth;
     img.height = imgHeight;

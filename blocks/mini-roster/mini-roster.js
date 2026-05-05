@@ -88,7 +88,7 @@ export default function decorate(block) {
     const pic = imgSrc; // truthy check
     if (pic) {
       const img = document.createElement('img');
-      img.src = imgSrc;
+      img.setAttribute('src', imgSrc);
       img.alt = imgAlt;
       img.setAttribute('loading', 'lazy');
       img.width = 96;
