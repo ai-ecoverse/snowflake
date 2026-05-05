@@ -312,8 +312,8 @@ This means the conversion phase (Swirl) needs to know the `daPath` so it can emi
 
 ---
 
-## Open Questions
+## Decisions (resolved)
 
-1. **Should `daPath` default to `/<branch>` or to `/`?** — Defaulting to `/<branch>` isolates branch content from main. Recommended.
-2. **Preview vs Live URL distinction** — In DA-backed sites, preview and live are the same CDN with different hostnames. Should we surface both, or just the live URL? — Recommend just live URL since there's no separate publish step.
-3. **Batch refresh granularity** — One `mount refresh` after all writes vs. one per item? Batching is faster but means all items report success together. — Recommend batch with a single refresh.
+1. **`daPath` defaults to `/<branch>`** — isolates branch content from main.
+2. **Live URL only** — no separate preview URL surfaced. DA content is live post-refresh.
+3. **Per-item refresh** — each file gets its own `mount refresh` confirmation before reporting success. Slower but gives individual guarantees.

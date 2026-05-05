@@ -48,11 +48,13 @@ Steps (executed in the cone):
 
 ### Lick: `connect-repo` (Scoop panel)
 
-Payload: `{ repo: "<owner>/<name>", branch: "<branch>" }`.
+Payload: `{ repo: "<owner>/<name>", branch: "<branch>", daSpace: "<daOrg>/<daRepo>", daPath: "/<path>" }`.
 
 Split `repo` on `/` into `<owner>` and `<name>` (e.g. `ai-ecoverse/snowflake` → owner `ai-ecoverse`, name `snowflake`). These names are reused throughout the rest of the flow — the local clone always lives at `/workspace/<name>`.
 
 The `branch` field is pre-filled with a fresh short hash on each sprinkle load. Treat the value as authoritative — the user may have replaced it with an existing branch name they want to target.
+
+`daSpace` contains the DA space in `<daOrg>/<daRepo>` format. `daPath` is the sub-path within that DA repo where content will be written (defaults to `/<branch>`).
 
 Steps:
 
@@ -62,7 +64,12 @@ Steps:
    - Local branch `<branch>` exists → `git checkout <branch>`.
    - Remote branch `origin/<branch>` exists → `git checkout -b <branch> origin/<branch>` (tracks remote).
    - Otherwise → create it from the origin default branch: `git checkout -b <branch> origin/main` (fall back to `origin/master` when main is absent).
-4. Push: `sprinkle send snowflake '{"type":"repo-connected"}'` so the UI advances to the Sprinkle panel.
+4. **Mount the DA space.** Split `daSpace` on `/` into `<daOrg>` and `<daRepo>`. Run:
+   ```bash
+   mount --source da://<daOrg>/<daRepo> /mnt/da
+   ```
+   Verify with `mount list` — confirm `/mnt/da` appears in the output. If the mount probe fails with `EACCES`, push an error telling the user to authenticate via Settings → Providers → Adobe (or `oauth-token adobe`) and retry.
+5. Push: `sprinkle send snowflake '{"type":"repo-connected","daMount":"/mnt/da"}'` so the UI advances to the Sprinkle panel.
 
 On any failure, push `sprinkle send snowflake '{"type":"error","message":"<reason>"}'` and let the user retry from the Scoop panel.
 
@@ -72,7 +79,7 @@ The Sprinkle panel walks the chosen folder on its own using `slicc.readDir` and 
 
 ### Lick: `start-conversion` (Swirl panel)
 
-Payload: `{ files: ["<absolute path>", ...] }` — every entry is an `.html` path the sprinkle has already verified via the bridge. No re-validation needed.
+Payload: `{ files: ["<absolute path>", ...], daPath: "/<path>" }` — every entry is an `.html` path the sprinkle has already verified via the bridge. `daPath` is the DA sub-path for the metadata fragment references. No re-validation needed.
 
 **Do not use `scoop_wait` for this lick.** Perform the conversion work directly in the cone or dispatch a fire-and-forget scoop; do not gate progress on a wait timer. Completion is signalled by the `conversion-complete` sprinkle push, not by scoop resolution.
 
@@ -115,53 +122,102 @@ The conversion handler ends here. The sprinkle renders the Serve panel with two 
 
 ### Lick: `start-deploy` (auto-fired by the sprinkle after `conversion-complete`)
 
-Payload: `{ files: ["<basename>", ...], fragments: ["header","footer"], branch: "<branch>" }` — the same arrays and branch the sprinkle just received in `conversion-complete`. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
+Payload: `{ files: ["<basename>", ...], fragments: ["nav","footer"], branch: "<branch>", daSpace: "<daOrg>/<daRepo>", daPath: "/<path>" }` — the same arrays and branch the sprinkle just received in `conversion-complete`, plus the DA target fields from state. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
 
-This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the upload → preview → publish sequence as soon as you receive it; do not wait for any further user input.**
+This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the write → refresh → live sequence as soon as you receive it; do not wait for any further user input.**
 
 **Deploy fragments first, then pages.** Pages reference fragments by path via the `metadata` block — once both are live the references resolve. Every `deploy-progress` event MUST carry `kind: "fragment"` or `kind: "page"` so the sprinkle routes the update to the correct section of the Serve panel.
 
+#### Prerequisites
+
+The DA mount at `/mnt/da` MUST already be active (established during `connect-repo`). Verify with `mount list` before starting. If the mount is gone (e.g. session expired), re-mount:
+
+```bash
+mount --source da://<daOrg>/<daRepo> /mnt/da
+```
+
+Split `daSpace` on `/` to get `<daOrg>` and `<daRepo>`.
+
 #### URL templates
 
-| Kind     | Local path                                       | Upload URL (DA put)                                                  | DA Edit URL (`daUrl`)                                            | Live URL (`liveUrl`)                                                       |
-| -------- | ------------------------------------------------ | -------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| fragment | `/workspace/<name>/content/fragments/<n>.html` | `https://main--<name>--<owner>.aem.page/<branch>/fragments/<n>` | `https://da.live/edit#/<owner>/<name>/<branch>/fragments/<n>` | `https://<branch>--<name>--<owner>.aem.live/<branch>/fragments/<n>` |
-| page     | `/workspace/<name>/content/<n>.html`             | `https://main--<name>--<owner>.aem.page/<branch>/<n>`               | `https://da.live/edit#/<owner>/<name>/<branch>/<n>`               | `https://<branch>--<name>--<owner>.aem.live/<branch>/<n>`               |
+| Kind     | Local path                                       | Mount write path                               | DA Edit URL (`daUrl`)                                                   | Live URL (`liveUrl`)                                                          |
+| -------- | ------------------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| fragment | `/workspace/<name>/content/fragments/<n>.html` | `/mnt/da/<daPath>/fragments/<n>.html`        | `https://da.live/edit#/<daOrg>/<daRepo>/<daPath>/fragments/<n>` | `https://<branch>--<daRepo>--<daOrg>.aem.live/<daPath>/fragments/<n>` |
+| page     | `/workspace/<name>/content/<n>.html`             | `/mnt/da/<daPath>/<n>.html`                  | `https://da.live/edit#/<daOrg>/<daRepo>/<daPath>/<n>`               | `https://<branch>--<daRepo>--<daOrg>.aem.live/<daPath>/<n>`               |
 
-The local file has the `.html` extension; the URLs do not. Use the branch host prefix (`<branch>--<name>--<owner>`) for `liveUrl`, never `main--`.
+The local file has the `.html` extension; mount write paths include `.html`; the DA Edit and Live URLs do NOT include the extension. Use the branch host prefix (`<branch>--<daRepo>--<daOrg>`) for `liveUrl`, never `main--`.
 
 #### Sequence per item
 
-For each item (parallelism is fine — the sprinkle is keyed by `kind + file + stage`), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
+For each item (fragments first, then pages — sequential, not parallel), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
 
-**1. Upload** — sanitise non-ASCII characters first, then `aem put`. DA strips `<head>` on ingestion and parses without a charset declaration, so any multibyte UTF-8 sequence (`·`, `–`, `→`, accented letters, emoji) gets corrupted to U+FFFD. The repo ships `tools/da/sanitise.js`, a zero-dependency Node script that rewrites all non-ASCII code points to named or numeric HTML entities in-place — entities survive the round-trip unchanged.
+**1. Write** — sanitise non-ASCII characters first, then write via the DA mount. DA strips `<head>` on ingestion and parses without a charset declaration, so any multibyte UTF-8 sequence (`·`, `–`, `→`, accented letters, emoji) gets corrupted to U+FFFD. The repo ships `tools/da/sanitise.js`, a zero-dependency Node script that rewrites all non-ASCII code points to named or numeric HTML entities in-place — entities survive the round-trip unchanged.
 
 ```bash
 node tools/da/sanitise.js <local path>          # in-place, idempotent
-aem put <upload URL> <local path>
 ```
 
-This applies to **every** uploaded file — both pages and fragments. Skipping it is the most common cause of corrupted typography in the deployed pages. The script is idempotent (running it twice is a no-op), so you can safely call it before each upload without checking whether the file is already clean.
+Then read the sanitised content and write it to the mount:
 
-Surround the upload with:
+```bash
+cat <local path>
+# Use write_file to write the content:
+write_file /mnt/da/<daPath>/<relative>.html <content>
+```
+
+This applies to **every** deployed file — both pages and fragments. Skipping the sanitise step is the most common cause of corrupted typography in the deployed pages. The script is idempotent (running it twice is a no-op), so you can safely call it before each write without checking whether the file is already clean.
+
+Surround the write with:
 
 ```
-sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"running"}'
-# ...sanitise + aem put...
-sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"upload","status":"done","daUrl":"<DA Edit URL>"}'
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"write","status":"running"}'
+# ...sanitise + write_file...
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"write","status":"done","daUrl":"<DA Edit URL>"}'
 ```
 
 The `daUrl` activates the "DA Edit" button on that item's row.
 
-**2. Preview** — `aem preview` (or equivalent). Surround with `running` / `done` events; no URL needs to land on the row at this stage.
+**2. Refresh** — confirm the write landed on the DA backend. Run:
 
-**3. Publish** — `aem publish` (or equivalent). On `done`, include `liveUrl`:
+```bash
+mount refresh /mnt/da
+```
+
+Parse the output — it prints a structured summary like `Refreshed /mnt/da: +2 -1 ~3 (47 unchanged, 0 errors)`. If `0 errors` appears → success. If errors > 0, mark the item as `error`.
 
 ```
-sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"publish","status":"done","liveUrl":"<Live URL>"}'
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"refresh","status":"running"}'
+# ...mount refresh...
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"refresh","status":"done"}'
+```
+
+**This is the critical confirmation step.** Without it, a write could be cached locally in the mount layer but not yet synced to the DA backend. Do NOT skip this or collapse it into the write stage.
+
+**3. Live** — DA content is live immediately after a confirmed refresh (no separate publish API call). Resolve the live URL and report:
+
+```
+sprinkle send snowflake '{"type":"deploy-progress","kind":"<kind>","file":"<n>","stage":"live","status":"done","liveUrl":"<Live URL>"}'
 ```
 
 On any failure, send `"status":"error"` with an optional `"message"` and move on — one bad item must not block the rest.
+
+#### Mount persistence
+
+Do NOT unmount `/mnt/da` after deploy. The mount stays active for:
+- Ongoing bidirectional sync (user edits in DA UI → `mount refresh` → local view updates)
+- Subsequent conversions without re-mounting
+- Manual edits via `write_file /mnt/da/...` from chat
+
+#### Error handling
+
+| Error | Detection | Response |
+|---|---|---|
+| `EACCES: da access denied` | Write or refresh | Push error for the item; suggest re-authenticating via Adobe provider |
+| `EBUSY: remote modified since last read` | Write conflict | Re-read the mount path (`read_file`), retry write once |
+| `EFBIG: body exceeds maxBodyBytes` | Write of very large page (>5 MB) | Report per-item error, continue with others |
+| `mount refresh` reports errors > 0 | Refresh output parsing | Mark affected item as `error`, continue with others |
+
+#### Completion
 
 When every item (fragments + pages) has reached its final stage, emit:
 
@@ -509,7 +565,7 @@ export default async function decorate(block) {
 
 ### 9. Content page scaffold
 
-Every page MUST end with a `metadata` section pointing at the branch-prefixed nav + footer fragments. The author-kit's chrome blocks (`blocks/header/header.js`, `blocks/footer/footer.js`) read these via `getMetadata('header')` / `getMetadata('footer')` and call `loadFragment` against the resolved path. The metadata KEYS are `header` and `footer` (matching what the chrome blocks query), but the VALUES point at `/fragments/nav` and `/fragments/footer` — `nav` for the navigation, `footer` for the footer. Without the `metadata` block, the chrome blocks fall back to the kit defaults — root-level paths that don't exist when content is uploaded under a branch folder, so every page renders with no nav and no footer.
+Every page MUST end with a `metadata` section pointing at the DA-path-prefixed nav + footer fragments. The author-kit's chrome blocks (`blocks/header/header.js`, `blocks/footer/footer.js`) read these via `getMetadata('header')` / `getMetadata('footer')` and call `loadFragment` against the resolved path. The metadata KEYS are `header` and `footer` (matching what the chrome blocks query), but the VALUES point at `/fragments/nav` and `/fragments/footer` — `nav` for the navigation, `footer` for the footer. Without the `metadata` block, the chrome blocks fall back to the kit defaults — root-level paths that don't exist when content is uploaded under a DA path folder, so every page renders with no nav and no footer.
 
 ```html
 <!DOCTYPE html>
@@ -528,8 +584,8 @@ Every page MUST end with a `metadata` section pointing at the branch-prefixed na
     </div>
     <div>
       <div class="metadata">
-        <div><div>header</div><div>/<branch>/fragments/nav</div></div>
-        <div><div>footer</div><div>/<branch>/fragments/footer</div></div>
+        <div><div>header</div><div>/<daPath>/fragments/nav</div></div>
+        <div><div>footer</div><div>/<daPath>/fragments/footer</div></div>
       </div>
     </div>
   </main>
@@ -538,7 +594,9 @@ Every page MUST end with a `metadata` section pointing at the branch-prefixed na
 </html>
 ```
 
-`<branch>` is the same value resolved during `connect-repo`. EDS at delivery time turns the `metadata` block into `<meta name="header" …>` / `<meta name="footer" …>` tags in `<head>`, which `getMetadata(...)` then reads — there's no `blocks/metadata/` because the conversion is handled upstream.
+`<daPath>` is the DA path value resolved during `connect-repo` (defaults to `/<branch>`). EDS at delivery time turns the `metadata` block into `<meta name="header" …>` / `<meta name="footer" …>` tags in `<head>`, which `getMetadata(...)` then reads — there's no `blocks/metadata/` because the conversion is handled upstream.
+
+**Important:** The `start-conversion` handler needs `daPath` to emit correct metadata. The sprinkle includes `daPath` in the `start-conversion` lick payload: `{ files: [...], daPath: "/<path>" }`. Use this value when generating the metadata block in each content page.
 
 **Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document chrome (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst. Same rule applies to fragment files (`content/fragments/**`).
 
