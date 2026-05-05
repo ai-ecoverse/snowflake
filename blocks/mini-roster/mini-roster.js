@@ -83,12 +83,14 @@ export default function decorate(block) {
     thumb.className = 'ds-mini-thumb';
     const pic = picCell.querySelector('picture, img');
     if (pic) {
-      const clone = pic.closest('picture') ? pic.closest('picture').cloneNode(true) : pic.cloneNode(true);
-      const img = clone.querySelector('img') || clone;
+      const origImg = pic.querySelector('img') || pic;
+      const img = document.createElement('img');
+      img.src = origImg.getAttribute('src') || '';
+      img.alt = origImg.getAttribute('alt') || '';
       img.setAttribute('loading', 'lazy');
       img.width = 96;
       img.height = 96;
-      thumb.append(clone);
+      thumb.append(img);
     }
     card.append(thumb);
 

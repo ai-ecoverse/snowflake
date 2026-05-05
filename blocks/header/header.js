@@ -54,16 +54,16 @@ function buildHeader(el, fragment) {
     logoWrap.target = '_blank';
     logoWrap.setAttribute('aria-label', 'The Channel Company');
 
-    const picClone = logoPic?.closest('picture')?.cloneNode(true) || logoPic?.cloneNode(true);
-    if (picClone) {
-      const img = picClone.querySelector ? picClone.querySelector('img') || picClone : picClone;
+    const logoOrigImg = logoPic?.querySelector ? logoPic.querySelector('img') || logoPic : logoPic;
+    if (logoOrigImg) {
+      const img = document.createElement('img');
+      img.src = logoOrigImg.getAttribute('src') || '';
+      img.alt = logoOrigImg.getAttribute('alt') || 'The Channel Company';
       img.className = 'ds-sitemark-mark';
-      img.removeAttribute('width');
-      img.removeAttribute('height');
       img.setAttribute('width', '116');
       img.setAttribute('height', '24');
+      logoWrap.append(img);
     }
-    if (picClone) logoWrap.append(picClone);
     inner.append(logoWrap);
   }
 
