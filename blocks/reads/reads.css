@@ -1,6 +1,7 @@
 .reads {
   padding-block: var(--space-section-d);
   background: var(--platinum);
+  text-align: left;
 }
 
 .reads > div {
@@ -24,6 +25,7 @@
   gap: 16px;
   margin-bottom: 32px;
   flex-wrap: wrap;
+  text-align: left;
 }
 
 .reads-eyebrow {
@@ -48,6 +50,7 @@
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   border-radius: 2px;
+  text-align: left;
 }
 
 .reads-all-link {
