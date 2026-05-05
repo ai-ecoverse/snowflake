@@ -1,0 +1,128 @@
+.mini-roster {
+  padding-block: var(--space-section-d) 56px;
+  background: var(--vellum);
+  border-bottom: 1px solid var(--platinum-edge);
+}
+
+.mini-roster > div {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 600px) {
+  .mini-roster > div { padding-inline: 32px; }
+}
+
+@media (min-width: 1024px) {
+  .mini-roster > div { padding-inline: 48px; }
+}
+
+.mini-roster-head {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 32px;
+}
+
+.mini-roster-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--type-12);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.mini-roster-head h2 {
+  font-size: var(--type-30);
+  letter-spacing: -0.018em;
+  line-height: 1.4;
+  display: inline;
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 6px 12px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  border-radius: 2px;
+}
+
+.mini-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-gap-d);
+}
+
+.mini-card {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 16px;
+  align-items: start;
+  text-decoration: none;
+  color: var(--char);
+}
+
+.mini-thumb {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-haze);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  display: block;
+}
+
+.mini-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.mini-chip {
+  display: inline-flex;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--tint-datacenter);
+  color: var(--ink);
+}
+
+.mini-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--type-14);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--char);
+  margin: 0;
+}
+
+.mini-card:hover .mini-body h3 { color: var(--ink); }
+
+.mini-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--graphite-mute);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 1023px) {
+  .mini-roster-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-gap-t);
+  }
+}
