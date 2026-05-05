@@ -103,10 +103,10 @@ export default function decorate(block) {
     // Thumb
     const thumb = document.createElement('span');
     thumb.className = 'ds-roster-thumb';
-    // Pic cell: <p><a href="img-url">alt text</a></p> — DA preserves href values
-    const imgAnchor = picCell?.querySelector('a');
-    const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
-    const imgAlt = imgAnchor?.textContent.trim() || '';
+    // Pic cell: <p><code>img-url</code></p> — DA passes <code> through verbatim.
+    const imgCode = picCell?.querySelector('code');
+    const imgSrc = imgCode?.textContent.trim() || '';
+    const imgAlt = picCell?.querySelector('a')?.textContent.trim() || '';
     const pic = imgSrc; // truthy check
     if (pic) {
       const img = document.createElement('img');

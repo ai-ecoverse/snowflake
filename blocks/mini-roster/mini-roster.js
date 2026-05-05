@@ -69,12 +69,10 @@ export default function decorate(block) {
     const picCell = cells[0];
     const bodyCell = cells[1];
 
-    // Pic cell: <p><a href="img-url">alt text</a></p>
-    // DA preserves <a href>; we read href as the image src.
-    // Article link comes from the body cell's h3 <a> or first link.
-    const imgAnchor = picCell?.querySelector('a');
-    const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
-    const imgAlt = imgAnchor?.textContent.trim() || '';
+    // Pic cell: <p><code>img-url</code></p> — DA passes <code> through verbatim.
+    const imgCode = picCell?.querySelector('code');
+    const imgSrc = imgCode?.textContent.trim() || '';
+    const imgAlt = picCell?.querySelector('a')?.textContent.trim() || '';
     // Article href: prefer h3 > a, then any link in body
     const h3Anchor = bodyCell?.querySelector('h3 a');
     const bodyAnchor = h3Anchor || bodyCell.querySelector('a');
