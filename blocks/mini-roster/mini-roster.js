@@ -72,6 +72,8 @@ export default function decorate(block) {
     // Pic cell: <p><code>img-url</code></p> — DA passes <code> through verbatim.
     const imgCode = picCell?.querySelector('code');
     const imgSrc = imgCode?.textContent.trim() || '';
+    // eslint-disable-next-line no-console
+    console.log('[mini-roster] picCell innerHTML:', picCell?.innerHTML?.substring(0,200), 'imgSrc:', imgSrc);
     const imgAlt = picCell?.querySelector('a')?.textContent.trim() || '';
     // Article href: prefer h3 > a, then any link in body
     const h3Anchor = bodyCell?.querySelector('h3 a');
