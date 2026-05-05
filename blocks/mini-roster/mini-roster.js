@@ -75,7 +75,9 @@ export default function decorate(block) {
     const imgAnchor = picCell?.querySelector('a');
     const imgSrc = imgAnchor?.href || imgAnchor?.getAttribute('href') || '';
     const imgAlt = imgAnchor?.textContent.trim() || '';
-    const bodyAnchor = bodyCell.querySelector('a');
+    // Article href: prefer h3 > a, then any link in body
+    const h3Anchor = bodyCell?.querySelector('h3 a');
+    const bodyAnchor = h3Anchor || bodyCell.querySelector('a');
     const href = bodyAnchor?.href || '#';
 
     const card = document.createElement('a');

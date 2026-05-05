@@ -90,7 +90,8 @@ export default function decorate(block) {
     const bodyCell = cells[1];
 
     // pic cell anchor href = image URL; get article link from body cell
-    const bodyAnchor = bodyCell.querySelector('a');
+    const h3Anchor = bodyCell?.querySelector('h3 a');
+    const bodyAnchor = h3Anchor || bodyCell.querySelector('a');
     const href = bodyAnchor?.href || '#';
 
     const { chipText, headlineText, deckText, metaText } = parseBody(bodyCell);
