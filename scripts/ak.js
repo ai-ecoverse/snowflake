@@ -261,19 +261,15 @@ function decorateSections(parent, isDoc) {
 function decorateHeader() {
   const header = document.querySelector('header');
   if (!header) return;
-  const meta = getMetadata('header') || 'header';
+  const meta = getMetadata('header');
   if (meta === 'off') {
     document.body.classList.add('no-header');
     header.remove();
     return;
   }
+  // Static fragment — header content is loaded by postlcp.js from
+  // fragments/header.html. No block decoration needed here.
   header.className = 'header';
-  header.dataset.status = 'decorated';
-  const breadcrumbs = document.body.querySelector('breadcrumbs');
-  const breadcrumbsPath = getMetadata('breadcrumbs');
-  if (!(breadcrumbs || breadcrumbsPath)) return;
-  document.body.classList.add('has-breadcrumbs');
-  if (breadcrumbs) header.append(breadcrumbs);
 }
 
 function decorateSession() {

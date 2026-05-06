@@ -33,9 +33,9 @@ cat /workspace/<name>/content/<relative>.html
 write_file /mnt/da/<daPath>/<relative>.html <content>
 ```
 
-Where `<relative>` is:
-- Fragments: `fragments/<n>` (e.g. `fragments/nav`)
-- Pages: `<n>` (e.g. `home`)
+Where `<relative>` is the page basename (e.g. `home`, `about`).
+
+Note: Static fragments (header/footer) are NOT deployed to DA — they are code committed to the GitHub branch under `fragments/`.
 
 Sprinkle events:
 ```
@@ -94,10 +94,7 @@ Note: NO `.html` extension. Use branch host prefix, never `main--`.
 
 ## Ordering
 
-1. Deploy all fragments first (nav, footer)
-2. Then deploy all pages
-
-Pages reference fragments via metadata paths — fragments must be live before pages render correctly.
+Deploy pages sequentially. Static fragments (header/footer) are not part of the DA deploy — they are code served from the GitHub branch via the EDS CDN.
 
 ## Completion
 

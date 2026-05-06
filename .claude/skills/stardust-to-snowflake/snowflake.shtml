@@ -525,9 +525,7 @@
       margin: 4px 0 8px;
     }
 
-    #fragmentsContainer + #documentsContainer .sf-serve__section-heading {
-      margin-top: 16px;
-    }
+
 
     /* Select all / none toolbar */
     .sf-select-bar {
@@ -741,7 +739,6 @@
         <span class="sf-serve__mount-dot"></span>
         <span class="sf-serve__mount-label">DA Mount: /mnt/da</span>
       </div>
-      <div id="fragmentsContainer"></div>
       <div id="documentsContainer"></div>
       <div class="sf-serve__stats" id="serveStats"></div>
       <div class="sf-serve__pr" id="prLink"></div>
@@ -1090,10 +1087,8 @@
       branchCard.className = 'sf-serve__branch';
       branchCard.innerHTML = branchHtml;
 
-      // Fragments + Documents
-      var fragments = Array.isArray(data.fragments) ? data.fragments : [];
+      // Documents (pages deployed to DA — fragments are static code on GitHub)
       var files = Array.isArray(data.files) ? data.files : [];
-      renderItemSection('fragmentsContainer', 'Fragments', fragments);
       renderItemSection('documentsContainer', 'Documents', files);
 
       // Stats
@@ -1143,9 +1138,8 @@
       container.innerHTML = html;
     }
 
-    function findDocRow(file, kind) {
-      var containerId = kind === 'fragment' ? 'fragmentsContainer' : 'documentsContainer';
-      var rows = document.querySelectorAll('#' + containerId + ' .sf-doc');
+    function findDocRow(file) {
+      var rows = document.querySelectorAll('#documentsContainer .sf-doc');
       for (var i = 0; i < rows.length; i++) {
         if (rows[i].getAttribute('data-file') === file) return rows[i];
       }
@@ -1153,8 +1147,7 @@
     }
 
     function updateDeployProgress(data) {
-      var kind = data.kind || 'page';
-      var row = findDocRow(data.file, kind);
+      var row = findDocRow(data.file);
       if (!row) {
         console.warn('snowflake: deploy-progress for unknown', kind, data.file);
         return;
@@ -1195,7 +1188,6 @@
           action: 'start-deploy',
           data: {
             files: data.files || [],
-            fragments: data.fragments || [],
             branch: data.branch,
             daSpace: state.daSpace,
             daPath: state.daPath
