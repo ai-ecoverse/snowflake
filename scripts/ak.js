@@ -267,7 +267,7 @@ function decorateHeader() {
     header.remove();
     return;
   }
-  // Static chrome — header content is loaded by postlcp.js from
+  // Static fragment — header content is loaded by postlcp.js from
   // fragments/header.html. No block decoration needed here.
   header.className = 'header';
 }

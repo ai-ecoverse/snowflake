@@ -25,7 +25,7 @@ async function loadStaticFragment(el, name) {
     const html = await resp.text();
     el.innerHTML = html;
   } catch (e) {
-    // Silent fail — page renders without chrome
+    // Silent fail — page renders without header/footer
   }
 }
 

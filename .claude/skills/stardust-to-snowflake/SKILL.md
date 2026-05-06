@@ -11,7 +11,7 @@ references:
 
 The user has:
 1. Static HTML prototypes (one per page) under `stardust/prototypes/**/*.html` with inline `<style>` blocks. Typically produced by the `stardust:prototype` skill, but any per-page styled HTML works.
-2. An EDS project at the repo root — `blocks/`, `styles/`, `scripts/`, `head.html`, plus existing chrome blocks (`header`, `footer`, `fragment`, `section-metadata`).
+2. An EDS project at the repo root — `blocks/`, `styles/`, `scripts/`, `head.html`, plus existing blocks (`fragment`, `section-metadata`).
 3. A goal to convert: prototypes → authorable EDS blocks + EDS content pages under `content/**`.
 
 If the user has prototypes but no EDS scaffolding, stop and ask whether to bootstrap. If they have EDS but no prototypes, this skill doesn't apply.
@@ -85,7 +85,7 @@ Payload: `{ files: ["<absolute path>", ...], daPath: "/<path>" }` — every entr
 
 **Do not use `scoop_wait` for this lick.** Perform the conversion work directly in the cone or dispatch a fire-and-forget scoop; do not gate progress on a wait timer. Completion is signalled by the `conversion-complete` sprinkle push, not by scoop resolution.
 
-The conversion runs in two phases: a one-time **site setup** that produces site-wide artifacts, then a **per-file loop** that scaffolds each page. **Do not collapse the two — running site-setup tasks per-file silently overwrites prior work; skipping them entirely leaves the site without global tokens, fonts, buttons, or chrome and every page renders unstyled.**
+The conversion runs in two phases: a one-time **site setup** that produces site-wide artifacts, then a **per-file loop** that scaffolds each page. **Do not collapse the two — running site-setup tasks per-file silently overwrites prior work; skipping them entirely leaves the site without global tokens, fonts, buttons, or header/footer and every page renders unstyled.**
 
 #### Phase 1 — site setup (run ONCE for the whole batch, before any per-file work)
 
@@ -120,7 +120,7 @@ sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<
 
 `files` are the converted page basenames **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
 
-Note: Chrome fragments (`fragments/header.html`, `fragments/footer.html`) are committed to the GitHub branch along with block code — they are NOT deployed to DA. They don't appear in the `files` array and are not part of the deploy sequence.
+Note: Static fragments (`fragments/header.html`, `fragments/footer.html`) are committed to the GitHub branch along with block code — they are NOT deployed to DA. They don't appear in the `files` array and are not part of the deploy sequence.
 
 The conversion handler ends here. The sprinkle renders the Serve panel with the Documents section (pages to deploy to DA), all stages pending, and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
 
@@ -130,7 +130,7 @@ Payload: `{ files: ["<basename>", ...], branch: "<branch>", daSpace: "<daOrg>/<d
 
 This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the write → refresh → live sequence as soon as you receive it; do not wait for any further user input.**
 
-**Only content pages are deployed to DA.** Chrome fragments (header/footer) are static code committed to the GitHub branch — they don't go through the DA deploy flow. Every `deploy-progress` event MUST carry `kind: "page"` so the sprinkle routes the update correctly.
+**Only content pages are deployed to DA.** Static fragments (header/footer) are code committed to the GitHub branch — they don't go through the DA deploy flow. Every `deploy-progress` event MUST carry `kind: "page"` so the sprinkle routes the update correctly.
 
 #### Prerequisites
 
@@ -459,7 +459,7 @@ Some links are NOT buttons. Examples:
 
 For these: the author leaves the `<a>` as a plain anchor in content (no `<strong>` / `<em>` wrap), and the owning block styles it with per-block CSS. The convention is for buttons; if it's not a button, don't apply it.
 
-### 6. Chrome (static header + footer fragments)
+### 6. Static header + footer fragments
 
 Header and footer are **static fragments** — extracted verbatim from the prototype with their full DOM and styles intact. No EDS authoring, no block JS parsing. They are stored in `fragments/header.html` and `fragments/footer.html` at the repo root and committed to GitHub as code.
 
@@ -492,7 +492,7 @@ No `<!DOCTYPE>`, no `<html>`, no `<body>` wrapper. Just the raw `<style>` + DOM.
 
 **Loading mechanism:** `scripts/postlcp.js` fetches `fragments/header.html` and `fragments/footer.html` from the code origin (`codeBase`) and injects via `innerHTML`. On branch-hosted pages (`<branch>--repo--org.aem.live`), relative paths resolve to the correct branch automatically.
 
-**`header: off` / `footer: off`:** To suppress chrome on a specific page, add a metadata block with `header: off` or `footer: off`. The loader checks `getMetadata('header')` / `getMetadata('footer')` before fetching.
+**`header: off` / `footer: off`:** To suppress header/footer on a specific page, add a metadata block with `header: off` or `footer: off`. The loader checks `getMetadata('header')` / `getMetadata('footer')` before fetching.
 
 ### 7. Blocks (parallel agents)
 
@@ -551,7 +551,7 @@ export default async function decorate(block) {
 
 ### 9. Content page scaffold
 
-Content pages contain only the body sections — no metadata block for chrome. The header and footer are static fragments loaded automatically by `postlcp.js` from `fragments/header.html` and `fragments/footer.html` on the same code origin. No per-page configuration is needed.
+Content pages contain only the body sections — no metadata block for header/footer. The static fragments are loaded automatically by `postlcp.js` from `fragments/header.html` and `fragments/footer.html` on the same code origin. No per-page configuration is needed.
 
 ```html
 <!DOCTYPE html>
@@ -574,7 +574,7 @@ Content pages contain only the body sections — no metadata block for chrome. T
 </html>
 ```
 
-To suppress chrome on a specific page, add a `metadata` block with `header: off` and/or `footer: off`:
+To suppress header/footer on a specific page, add a `metadata` block with `header: off` and/or `footer: off`:
 
 ```html
     <div>
@@ -584,7 +584,7 @@ To suppress chrome on a specific page, add a `metadata` block with `header: off`
     </div>
 ```
 
-**Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document chrome (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst.
+**Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document metadata (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst.
 
 Image URLs MUST be fully qualified (`https://main--<repo>--<owner>.aem.page/stardust/prototypes/images/…`) so EDS preview and the rendered prototype agree on what to show.
 
@@ -604,8 +604,8 @@ A wave SVG that all blocks import seems reusable. But each prototype section use
 **4. Manually creating button anchors in block JS.**
 Code like `cta.className = 'btn-loud'; cta.innerHTML = '<span>…</span>' + ARROW_SVG;` duplicates the EDS button decorator's job, fights its class-application order, and ties block JS to specific button classes. **Clone the cell anchor; let `decorateButton()` apply the class.** Block CSS overrides the global button style only when something is actually different (size, hover variant).
 
-**5. Building complex block JS to parse and rebuild chrome fragments.**
-The old pattern (fetch flat DA fragment → parse structurally → rebuild DOM) is fragile and lossy. Static chrome fragments (`fragments/header.html`, `fragments/footer.html`) are injected verbatim — no parsing, no rebuild. If you find yourself writing block JS for header/footer, stop. Extract the prototype's chrome as-is.
+**5. Building complex block JS to parse and rebuild header/footer.**
+The old pattern (fetch flat DA fragment → parse structurally → rebuild DOM) is fragile and lossy. Static fragments (`fragments/header.html`, `fragments/footer.html`) are injected verbatim — no parsing, no rebuild. If you find yourself writing block JS for header/footer, stop. Extract the prototype's header/footer as-is.
 
 **6. `.default-content-wrapper` (or any guess about EDS's section DOM).**
 The actual EDS shape is `<div class="section"><div class="default-content">…</div><div class="block-content">…</div></div>`. Confirm by inspecting a rendered page in the browser before designing CSS that relies on the wrapping shape.
@@ -632,8 +632,8 @@ Not every link is a button. Whole-card tile anchors, tel:/mailto: channel values
 
 - [ ] Each section in the prototype `<main>` has a corresponding block call in the content page.
 - [ ] **No `<head>` element.** The page goes `<!DOCTYPE html><html><body>…</body></html>` — EDS injects the project `head.html` at delivery.
-- [ ] `<header></header>` and `<footer></footer>` are EMPTY (chrome loads automatically from static fragments via `postlcp.js`).
-- [ ] No `metadata` block needed for chrome. Only add one if suppressing chrome (`header: off` / `footer: off`).
+- [ ] `<header></header>` and `<footer></footer>` are EMPTY (static fragments load automatically via `postlcp.js`).
+- [ ] No `metadata` block needed for header/footer. Only add one if suppressing them (`header: off` / `footer: off`).
 - [ ] Image URLs are fully qualified (`https://main--…/stardust/prototypes/images/…`).
 - [ ] No `<style>` or `<script>` tags in the content page.
 - [ ] No section-metadata blocks.
