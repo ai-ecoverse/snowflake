@@ -1,0 +1,93 @@
+<style>
+  .site-footer { background: var(--color-surface-dark); color: var(--color-fg-on-dark); padding: var(--spacing-2xl) 0 var(--spacing-md); border-top: 1px solid var(--color-border-dark); }
+  .footer-columns { display: grid; grid-template-columns: repeat(4, 1fr) 1.5fr; gap: var(--spacing-xl); }
+  .footer-column h3 { font-size: var(--body); font-weight: 700; color: var(--color-fg-on-dark); margin-bottom: var(--spacing-md); }
+  .footer-column ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--spacing-xs); }
+  .footer-column a { color: var(--color-fg-on-dark-muted); font-size: var(--body-sm); transition: color 150ms ease-out; }
+  .footer-column a:hover { color: var(--color-fg-on-dark); }
+  .footer-subscribe { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+  .footer-subscribe p { color: var(--color-fg-on-dark-muted); font-size: var(--body-sm); line-height: 1.5; }
+  .footer-subscribe form { display: flex; gap: 0; }
+  .footer-subscribe input { flex: 1; background: var(--color-surface); color: var(--color-fg); padding: 12px 16px; border: 1px solid var(--color-border); border-radius: var(--radius); font-family: inherit; font-size: var(--body-sm); outline: none; transition: border-color 150ms; min-width: 0; }
+  .footer-subscribe input:focus-visible { border-color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+  .footer-subscribe button { background: var(--color-accent); color: var(--color-fg); padding: 12px 20px; border: none; font-family: var(--heading-font-family); font-weight: 700; font-size: var(--body-sm); border-radius: var(--radius); cursor: pointer; }
+  .footer-subscribe button:hover { background: var(--color-accent-hover); }
+  .footer-bottom { margin-top: var(--spacing-2xl); padding-top: var(--spacing-md); border-top: 1px solid var(--color-border-dark); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md); }
+  .footer-legal { display: flex; gap: var(--spacing-md); font-size: 12px; color: var(--color-fg-on-dark-muted); flex-wrap: wrap; }
+  .footer-legal a:hover { color: var(--color-fg-on-dark); }
+  .footer-copyright { font-size: 12px; color: var(--color-fg-on-dark-muted); }
+  .footer-social { display: flex; gap: 4px; }
+  @media (max-width: 1023px) {
+    .footer-columns { grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
+  }
+  @media (max-width: 639px) {
+    .footer-columns { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h3>Company Information</h3>
+        <ul>
+          <li><a href="https://www.nvidia.com/en-us/about-nvidia/">About NVIDIA</a></li>
+          <li><a href="https://www.nvidia.com/en-us/about-nvidia/careers/">Careers</a></li>
+          <li><a href="https://investor.nvidia.com/">Investors</a></li>
+          <li><a href="https://www.nvidia.com/en-us/sustainability/">Sustainability</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Products</h3>
+        <ul>
+          <li><a href="https://www.nvidia.com/en-us/geforce/">GeForce</a></li>
+          <li><a href="https://www.nvidia.com/en-us/data-center/">Data Center</a></li>
+          <li><a href="https://www.nvidia.com/en-us/networking/">Networking</a></li>
+          <li><a href="https://www.nvidia.com/en-us/studio/">Studio</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Industries &amp; Solutions</h3>
+        <ul>
+          <li><a href="https://www.nvidia.com/en-us/industries/healthcare-life-sciences/">Healthcare</a></li>
+          <li><a href="https://www.nvidia.com/en-us/solutions/autonomous-vehicles/">Automotive</a></li>
+          <li><a href="https://www.nvidia.com/en-us/industries/industrial-sector/">Manufacturing</a></li>
+          <li><a href="https://www.nvidia.com/en-us/industries/telecom/">Telecom</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="https://blogs.nvidia.com/">Newsroom</a></li>
+          <li><a href="https://www.nvidia.com/en-us/partner-network/">NVIDIA Partner Network</a></li>
+          <li><a href="https://developer.nvidia.com/">Developer</a></li>
+          <li><a href="https://www.nvidia.com/en-us/training/">Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-column footer-subscribe">
+        <h3>Sign Up for NVIDIA News</h3>
+        <p>Get the latest NVIDIA announcements, product news, and stories from across the platform.</p>
+        <form action="https://www.nvidia.com/en-us/preferences/email-signup/" method="post">
+          <label for="footer-email" class="visually-hidden">Email address</label>
+          <input id="footer-email" type="email" name="email" placeholder="Email Address" required autocomplete="email">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">© 2026 NVIDIA Corporation</span>
+      <div class="footer-legal">
+        <a href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a>
+        <a href="https://www.nvidia.com/en-us/preferences/email-preferences/">Manage Cookies</a>
+        <a href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a>
+        <a href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a>
+        <a href="https://www.nvidia.com/en-us/sitemap/">Sitemap</a>
+      </div>
+      <div class="footer-social" aria-label="NVIDIA on social media">
+        <a class="icon-btn" href="https://www.linkedin.com/company/nvidia/" aria-label="LinkedIn">in</a>
+        <a class="icon-btn" href="https://x.com/nvidia" aria-label="X / Twitter">𝕏</a>
+        <a class="icon-btn" href="https://www.youtube.com/nvidia" aria-label="YouTube">▶</a>
+      </div>
+    </div>
+  </div>
+</footer>
