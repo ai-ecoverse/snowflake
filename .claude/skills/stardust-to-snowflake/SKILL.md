@@ -81,7 +81,7 @@ The Sprinkle panel walks the chosen folder on its own using `slicc.readDir` and 
 
 ### Lick: `start-conversion` (Swirl panel)
 
-Payload: `{ files: ["<absolute path>", ...], daPath: "/<path>" }` — every entry is an `.html` path the sprinkle has already verified via the bridge. `daPath` is the DA sub-path for the metadata fragment references. No re-validation needed.
+Payload: `{ files: ["<absolute path>", ...], daPath: "/<path>" }` — every entry is an `.html` path the sprinkle has already verified via the bridge. `daPath` is the DA sub-path where content pages are deployed. No re-validation needed.
 
 **Do not use `scoop_wait` for this lick.** Perform the conversion work directly in the cone or dispatch a fire-and-forget scoop; do not gate progress on a wait timer. Completion is signalled by the `conversion-complete` sprinkle push, not by scoop resolution.
 
@@ -96,7 +96,7 @@ Run Steps 1–6 from the [Steps](#steps) section below in order. None of them ar
 3. **Foundation** (Step 3) — write `styles/styles.css` with `:root` tokens, reset, and the EDS section scaffold.
 4. **Self-host fonts** (Step 4) — fetch woff2 files into `styles/fonts/`, write `@font-face` declarations in `styles/styles.css`, and set up the `body.session` metric-matched fallback pattern.
 5. **Button system** (Step 5) — append the global button CSS to `styles/styles.css`.
-6. **Chrome** (Step 6) — write `blocks/header/{header.js,header.css}`, `blocks/footer/{footer.js,footer.css}`, and the fragment pair at `content/fragments/{nav.html,footer.html}` (the navigation lives in `nav.html`, not `header.html` — standard EDS layout). One header block, one footer block, one fragment pair — shared by every page.
+6. **Chrome** (Step 6) — extract the header and footer from the prototype as static HTML fragments. Write `fragments/header.html` and `fragments/footer.html` at the repo root. These are raw HTML with an inline `<style>` block — no EDS authoring shape, no block JS. They are committed to GitHub (code) and served from the code origin.
 
 Phase 1 produces no `conversion-progress` events; the Swirl panel just shows the bar at 0 / N until the first per-file event in Phase 2.
 
@@ -115,20 +115,22 @@ sprinkle send snowflake '{"type":"conversion-progress","file":"<path>","status":
 When all files are processed, commit and push to the branch resolved during `connect-repo` (and optionally open a PR), then advance the UI to the Serve panel by emitting:
 
 ```
-sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"fragments":["nav","footer"],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
+sprinkle send snowflake '{"type":"conversion-complete","files":["<basename1>","<basename2>",...],"branch":"<branch>","branchUrl":"https://github.com/<owner>/<name>/tree/<branch>","blocks":<N>,"prUrl":"<optional>"}'
 ```
 
-`files` are the converted page basenames **without** the `.html` extension (e.g. `home` for `home.html`). `fragments` are the chrome fragment basenames (always `["nav", "footer"]` in this skill — the chrome pair authored in Step 6). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
+`files` are the converted page basenames **without** the `.html` extension (e.g. `home` for `home.html`). `branchUrl` becomes the "View on GitHub" link in the Serve panel's branch card. `blocks` is the total EDS blocks generated.
 
-The conversion handler ends here. The sprinkle renders the Serve panel with two sections (Fragments and Documents), all stages pending, and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
+Note: Chrome fragments (`fragments/header.html`, `fragments/footer.html`) are committed to the GitHub branch along with block code — they are NOT deployed to DA. They don't appear in the `files` array and are not part of the deploy sequence.
+
+The conversion handler ends here. The sprinkle renders the Serve panel with the Documents section (pages to deploy to DA), all stages pending, and **immediately fires a `start-deploy` lick** to re-engage the cone for the actual deployment — see the next section.
 
 ### Lick: `start-deploy` (auto-fired by the sprinkle after `conversion-complete`)
 
-Payload: `{ files: ["<basename>", ...], fragments: ["nav","footer"], branch: "<branch>", daSpace: "<daOrg>/<daRepo>", daPath: "/<path>" }` — the same arrays and branch the sprinkle just received in `conversion-complete`, plus the DA target fields from state. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
+Payload: `{ files: ["<basename>", ...], branch: "<branch>", daSpace: "<daOrg>/<daRepo>", daPath: "/<path>" }` — the page basenames and branch the sprinkle just received in `conversion-complete`, plus the DA target fields from state. `<owner>` and `<name>` are still the values resolved during `connect-repo`.
 
 This lick exists so the deploy sequence is event-driven and cannot be silently skipped. **Begin the write → refresh → live sequence as soon as you receive it; do not wait for any further user input.**
 
-**Deploy fragments first, then pages.** Pages reference fragments by path via the `metadata` block — once both are live the references resolve. Every `deploy-progress` event MUST carry `kind: "fragment"` or `kind: "page"` so the sprinkle routes the update to the correct section of the Serve panel.
+**Only content pages are deployed to DA.** Chrome fragments (header/footer) are static code committed to the GitHub branch — they don't go through the DA deploy flow. Every `deploy-progress` event MUST carry `kind: "page"` so the sprinkle routes the update correctly.
 
 #### Prerequisites
 
@@ -142,16 +144,15 @@ Split `daSpace` on `/` to get `<daOrg>` and `<daRepo>`.
 
 #### URL templates
 
-| Kind     | Local path                                       | Mount write path                               | DA Edit URL (`daUrl`)                                                   | Live URL (`liveUrl`)                                                          |
-| -------- | ------------------------------------------------ | ---------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| fragment | `/workspace/<name>/content/fragments/<n>.html` | `/mnt/da/<daPath>/fragments/<n>.html`        | `https://da.live/edit#/<daOrg>/<daRepo>/<daPath>/fragments/<n>` | `https://<branch>--<daRepo>--<daOrg>.aem.live/<daPath>/fragments/<n>` |
-| page     | `/workspace/<name>/content/<n>.html`             | `/mnt/da/<daPath>/<n>.html`                  | `https://da.live/edit#/<daOrg>/<daRepo>/<daPath>/<n>`               | `https://<branch>--<daRepo>--<daOrg>.aem.live/<daPath>/<n>`               |
+| Kind | Local path                           | Mount write path              | DA Edit URL (`daUrl`)                                      | Live URL (`liveUrl`)                                            |
+| ---- | ------------------------------------ | ----------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------- |
+| page | `/workspace/<name>/content/<n>.html` | `/mnt/da/<daPath>/<n>.html` | `https://da.live/edit#/<daOrg>/<daRepo>/<daPath>/<n>` | `https://<branch>--<daRepo>--<daOrg>.aem.live/<daPath>/<n>` |
 
 The local file has the `.html` extension; mount write paths include `.html`; the DA Edit and Live URLs do NOT include the extension. Use the branch host prefix (`<branch>--<daRepo>--<daOrg>`) for `liveUrl`, never `main--`.
 
 #### Sequence per item
 
-For each item (fragments first, then pages — sequential, not parallel), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
+For each page (sequential), run three stages in order. Skip subsequent stages on a stage failure for that item; other items keep going.
 
 **1. Write** — sanitise non-ASCII characters first, then write via the DA mount. DA strips `<head>` on ingestion and parses without a charset declaration, so any multibyte UTF-8 sequence (`·`, `–`, `→`, accented letters, emoji) gets corrupted to U+FFFD. The repo ships `tools/da/sanitise.js`, a zero-dependency Node script that rewrites all non-ASCII code points to named or numeric HTML entities in-place — entities survive the round-trip unchanged.
 
@@ -458,57 +459,40 @@ Some links are NOT buttons. Examples:
 
 For these: the author leaves the `<a>` as a plain anchor in content (no `<strong>` / `<em>` wrap), and the owning block styles it with per-block CSS. The convention is for buttons; if it's not a button, don't apply it.
 
-### 6. Chrome (header + footer)
+### 6. Chrome (static header + footer fragments)
 
-The header and footer blocks are special because they load from fragments and **EDS strips classes/ids from non-block default content.** Class-based identification works locally but fails in production.
+Header and footer are **static fragments** — extracted verbatim from the prototype with their full DOM and styles intact. No EDS authoring, no block JS parsing. They are stored in `fragments/header.html` and `fragments/footer.html` at the repo root and committed to GitHub as code.
 
-Identify elements **structurally**:
-
-```js
-// In header.js
-const root = doc.querySelector('main') || doc.body;
-
-// Logo: first <picture>; preserve its wrapping <a> if present.
-const picture = root.querySelector('picture, img');
-const wrappingAnchor = picture.closest('a');
-
-// Nav list: first <ul>.
-const list = root.querySelector('ul');
-
-// CTA: last <a> not inside the logo wrapper and not inside the nav <ul>.
-const ctaSource = [...root.querySelectorAll('a')].reverse().find((a) => (
-  !a.querySelector('picture, img') && !a.closest('ul')
-));
-```
-
-```js
-// In footer.js — columns are direct children of the wrapping <div>.
-const cols = [...wrapper.children].filter((c) => c.tagName === 'DIV');
-const lockupCol  = cols.find((c) => c.querySelector('picture, img'));
-const colophonCol = cols[cols.length - 1] !== lockupCol ? cols[cols.length - 1] : null;
-const linkCols    = cols.filter((c) => c !== lockupCol && c !== colophonCol && c.querySelector('ul'));
-```
-
-Then rebuild into a chrome shape with the classes the CSS expects (`.lockup`, `.group`, `.colophon`, `.cta-btn`).
-
-Fragment files at `content/fragments/{nav,footer}.html` follow the EDS document shape (the navigation file is `nav.html`, not `header.html` — the chrome `header` block reads it via `getMetadata('header')`):
+**Fragment file format:**
 
 ```html
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<header></header>
-<main>
-<div>
-  <p><a href="/" aria-label="Home"><picture><img src="…" alt="…"></picture></a></p>
-  <ul>…nav links…</ul>
-  <p><a href="/contact">Start a project</a></p>
-</div>
-</main>
-<footer></footer>
-</body>
-</html>
+<style>
+  /* Scoped styles lifted from the prototype's _tokens.css and page <style> */
+  .utility { background: var(--color-ink); ... }
+  nav.topnav { position: sticky; ... }
+  .nav-inner { ... }
+  /* Include responsive breakpoints */
+  @media (max-width: 900px) { ... }
+</style>
+<!-- Full prototype DOM, copied verbatim -->
+<div class="utility">...</div>
+<nav class="topnav">...</nav>
 ```
+
+No `<!DOCTYPE>`, no `<html>`, no `<body>` wrapper. Just the raw `<style>` + DOM. The EDS runtime injects it directly into the page's `<header>` or `<footer>` element via `innerHTML`.
+
+**Extraction rules:**
+
+1. Copy the header DOM (utility bar + topnav) from any prototype — it's shared across all pages.
+2. Copy the footer DOM from any prototype — also shared.
+3. For each fragment, collect the relevant CSS rules from the prototype's `_tokens.css` and any page `<style>` blocks. Include all responsive breakpoints.
+4. Scope the CSS inside a `<style>` tag at the top of the fragment file.
+5. Rewrite relative asset paths (e.g. `../assets/logo.png`) to fully-qualified URLs on the code origin: `https://main--<repo>--<owner>.aem.page/path/to/asset`.
+6. Rewrite relative link hrefs (e.g. `donate.html`) to root-relative paths (e.g. `/donate`) matching how EDS serves pages.
+
+**Loading mechanism:** `scripts/postlcp.js` fetches `fragments/header.html` and `fragments/footer.html` from the code origin (`codeBase`) and injects via `innerHTML`. On branch-hosted pages (`<branch>--repo--org.aem.live`), relative paths resolve to the correct branch automatically.
+
+**`header: off` / `footer: off`:** To suppress chrome on a specific page, add a metadata block with `header: off` or `footer: off`. The loader checks `getMetadata('header')` / `getMetadata('footer')` before fetching.
 
 ### 7. Blocks (parallel agents)
 
@@ -567,7 +551,7 @@ export default async function decorate(block) {
 
 ### 9. Content page scaffold
 
-Every page MUST end with a `metadata` section pointing at the DA-path-prefixed nav + footer fragments. The author-kit's chrome blocks (`blocks/header/header.js`, `blocks/footer/footer.js`) read these via `getMetadata('header')` / `getMetadata('footer')` and call `loadFragment` against the resolved path. The metadata KEYS are `header` and `footer` (matching what the chrome blocks query), but the VALUES point at `/fragments/nav` and `/fragments/footer` — `nav` for the navigation, `footer` for the footer. Without the `metadata` block, the chrome blocks fall back to the kit defaults — root-level paths that don't exist when content is uploaded under a DA path folder, so every page renders with no nav and no footer.
+Content pages contain only the body sections — no metadata block for chrome. The header and footer are static fragments loaded automatically by `postlcp.js` from `fragments/header.html` and `fragments/footer.html` on the same code origin. No per-page configuration is needed.
 
 ```html
 <!DOCTYPE html>
@@ -584,23 +568,23 @@ Every page MUST end with a `metadata` section pointing at the DA-path-prefixed n
     <div>
       <!-- next section -->
     </div>
-    <div>
-      <div class="metadata">
-        <div><div>header</div><div>/<daPath>/fragments/nav</div></div>
-        <div><div>footer</div><div>/<daPath>/fragments/footer</div></div>
-      </div>
-    </div>
   </main>
   <footer></footer>
 </body>
 </html>
 ```
 
-`<daPath>` is the DA path value resolved during `connect-repo` (defaults to `/<branch>`). EDS at delivery time turns the `metadata` block into `<meta name="header" …>` / `<meta name="footer" …>` tags in `<head>`, which `getMetadata(...)` then reads — there's no `blocks/metadata/` because the conversion is handled upstream.
+To suppress chrome on a specific page, add a `metadata` block with `header: off` and/or `footer: off`:
 
-**Important:** The `start-conversion` handler needs `daPath` to emit correct metadata. The sprinkle includes `daPath` in the `start-conversion` lick payload: `{ files: [...], daPath: "/<path>" }`. Use this value when generating the metadata block in each content page.
+```html
+    <div>
+      <div class="metadata">
+        <div><div>header</div><div>off</div></div>
+      </div>
+    </div>
+```
 
-**Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document chrome (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst. Same rule applies to fragment files (`content/fragments/**`).
+**Do NOT emit a `<head>` element.** EDS content pages are markdown-equivalent fragments: the document chrome (title, meta, stylesheets, scripts) lives in the project's `head.html`, which EDS injects at delivery time. A `<head>` block in a content page is dead weight at best and a duplication conflict at worst.
 
 Image URLs MUST be fully qualified (`https://main--<repo>--<owner>.aem.page/stardust/prototypes/images/…`) so EDS preview and the rendered prototype agree on what to show.
 
@@ -620,8 +604,8 @@ A wave SVG that all blocks import seems reusable. But each prototype section use
 **4. Manually creating button anchors in block JS.**
 Code like `cta.className = 'btn-loud'; cta.innerHTML = '<span>…</span>' + ARROW_SVG;` duplicates the EDS button decorator's job, fights its class-application order, and ties block JS to specific button classes. **Clone the cell anchor; let `decorateButton()` apply the class.** Block CSS overrides the global button style only when something is actually different (size, hover variant).
 
-**5. Class-based element detection in fragments.**
-EDS strips classes from non-block default content when loading fragments. `fragment.querySelector('.lockup')` works locally, returns `null` in production. **Always identify by structure**: first `<picture>`, last `<a>`, only `<ul>`, etc.
+**5. Building complex block JS to parse and rebuild chrome fragments.**
+The old pattern (fetch flat DA fragment → parse structurally → rebuild DOM) is fragile and lossy. Static chrome fragments (`fragments/header.html`, `fragments/footer.html`) are injected verbatim — no parsing, no rebuild. If you find yourself writing block JS for header/footer, stop. Extract the prototype's chrome as-is.
 
 **6. `.default-content-wrapper` (or any guess about EDS's section DOM).**
 The actual EDS shape is `<div class="section"><div class="default-content">…</div><div class="block-content">…</div></div>`. Confirm by inspecting a rendered page in the browser before designing CSS that relies on the wrapping shape.
@@ -647,9 +631,9 @@ Not every link is a button. Whole-card tile anchors, tel:/mailto: channel values
 ## Checklist (per page)
 
 - [ ] Each section in the prototype `<main>` has a corresponding block call in the content page.
-- [ ] **No `<head>` element.** The page goes `<!DOCTYPE html><html><body>…</body></html>` — EDS injects the project `head.html` at delivery. Fragment files follow the same rule.
-- [ ] `<header></header>` and `<footer></footer>` are EMPTY (chrome resolves via fragments).
-- [ ] Page ends with a `metadata` block pointing `header` → `/<branch>/fragments/nav` and `footer` → `/<branch>/fragments/footer` so the chrome blocks load the branch-isolated fragments instead of the root defaults.
+- [ ] **No `<head>` element.** The page goes `<!DOCTYPE html><html><body>…</body></html>` — EDS injects the project `head.html` at delivery.
+- [ ] `<header></header>` and `<footer></footer>` are EMPTY (chrome loads automatically from static fragments via `postlcp.js`).
+- [ ] No `metadata` block needed for chrome. Only add one if suppressing chrome (`header: off` / `footer: off`).
 - [ ] Image URLs are fully qualified (`https://main--…/stardust/prototypes/images/…`).
 - [ ] No `<style>` or `<script>` tags in the content page.
 - [ ] No section-metadata blocks.
