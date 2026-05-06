@@ -1,0 +1,139 @@
+/* ============================================================
+   page-hero block
+   ============================================================ */
+
+.page-hero {
+  padding: var(--spacing-2xl) 0;
+  border-bottom: 1px solid var(--color-rule);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+}
+
+.page-hero.has-image {
+  grid-template-columns: 1.2fr 1fr;
+  align-items: center;
+}
+
+/* Hero art — contains the <picture>/<img> used as a visual panel */
+.page-hero .hero-art {
+  overflow: hidden;
+}
+
+.page-hero .hero-art picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.page-hero .hero-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.page-hero.has-image .hero-art {
+  aspect-ratio: 4 / 5;
+  margin-right: var(--gutter);
+}
+
+/* Hero copy */
+.page-hero .hero-copy {
+  padding: 0 var(--gutter);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-hero.has-image .hero-copy {
+  max-width: none;
+  margin: 0;
+  padding: 0 0 0 var(--gutter);
+}
+
+/* Eyebrow */
+.page-hero .hero-copy .eyebrow {
+  font-size: var(--micro);
+  font-weight: 700;
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-g66);
+  margin: 0 0 var(--spacing-md);
+  font-family: var(--heading-font-family);
+}
+
+/* Headline */
+.page-hero .hero-copy h1 {
+  font-size: var(--heading-xl);
+  text-transform: uppercase;
+  margin-bottom: var(--spacing-md);
+  max-width: 20ch;
+  font-family: var(--heading-font-family);
+  font-weight: 900;
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--tracking-display);
+}
+
+/* Sub / lead text (optional) */
+.page-hero .hero-copy .hero-sub {
+  font-size: 18px;
+  color: var(--color-g22);
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+/* Animation: fade-up copy on load */
+@media (prefers-reduced-motion: no-preference) {
+  .page-hero .hero-copy {
+    animation: hero-copy-in 0.5s ease both;
+  }
+
+  @keyframes hero-copy-in {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .page-hero.has-image .hero-art {
+    animation: hero-art-in 0.6s ease both;
+  }
+
+  @keyframes hero-art-in {
+    from {
+      opacity: 0;
+      scale: 1.02;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .page-hero.has-image {
+    grid-template-columns: 1fr;
+  }
+
+  .page-hero.has-image .hero-art {
+    aspect-ratio: 5 / 3;
+    order: -1;
+    margin: 0;
+  }
+
+  .page-hero.has-image .hero-copy {
+    padding: 0 var(--gutter);
+  }
+
+  .page-hero .hero-copy h1 {
+    font-size: clamp(32px, 6vw, var(--heading-xl));
+  }
+}

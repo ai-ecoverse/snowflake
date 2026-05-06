@@ -1,18 +1,349 @@
-/* Edge Delivery default decoration */
+/* ============================================================
+   SNOWFLAKE / THE ROAD HOME — styles.css
+   Edge Delivery Services global stylesheet
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Self-hosted fonts
+   ------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/styles/fonts/archivo-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Archivo Fallback';
+  src: local('Arial');
+  size-adjust: 99%;
+  ascent-override: 103%;
+  descent-override: 28%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/styles/fonts/public-sans-variable.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Public Sans Fallback';
+  src: local('Arial');
+  size-adjust: 97%;
+  ascent-override: 105%;
+  descent-override: 27%;
+  line-gap-override: 0%;
+}
+
+/* ------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------ */
+
+:root {
+  --heading-font-family: 'Archivo', 'Archivo Fallback', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --body-font-family: 'Public Sans', 'Public Sans Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --serif-font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+
+  --heading-xxl: 160px;
+  --heading-xl: 56px;
+  --heading-lg: 38px;
+  --heading-md: 26px;
+  --heading-sm: 20px;
+
+  --body: 16px;
+  --body-sm: 14px;
+  --micro: 11px;
+
+  --line-height-display: 1.02;
+  --line-height-heading: 1.15;
+  --line-height-body: 1.55;
+
+  --tracking-display: -0.02em;
+  --tracking-heading: -0.01em;
+  --tracking-eyebrow: 0.12em;
+
+  --color-signal: #008192;
+  --color-shelter: #005560;
+  --color-dusk: #105560;
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+
+  --color-g22: #222222;
+  --color-g44: #444444;
+  --color-g66: #666666;
+  --color-g80: #808080;
+
+  --color-rule: #e9e9e9;
+  --color-tint: #f0f8f9;
+  --color-tint-light: #fafcfd;
+  --color-panel: #f7f7f7;
+  --color-signal-soft: #7fd3dc;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+  --spacing-2xl: 72px;
+
+  --section-padding: 64px;
+  --gutter: 32px;
+  --max-width: 1200px;
+  --nav-h: 72px;
+
+  /* Body font is the fallback until fonts load */
+  --body-font-family-loaded: 'Public Sans', 'Public Sans Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --heading-font-family-loaded: 'Archivo', 'Archivo Fallback', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* ------------------------------------------------------------
+   Document reset
+   ------------------------------------------------------------ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body);
+  line-height: var(--line-height-body);
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apply loaded fonts once body.session is present (set by EDS after fonts render) */
+body.appear {
+  --body-font-family: var(--body-font-family-loaded);
+  --heading-font-family: var(--heading-font-family-loaded);
+}
+
+::selection {
+  background: var(--color-tint);
+  color: var(--color-shelter);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Button element reset */
+button {
+  appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 0;
+  z-index: 9999;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 8px 16px;
+  font-size: var(--body-sm);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ------------------------------------------------------------
+   EDS section scaffold
+   ------------------------------------------------------------ */
+
 main > div,
 .has-template,
 div[data-status] {
   display: none;
 }
 
-main div.section {
-  display: unset;
+main .section {
+  display: block;
 }
+
+main .section.loading,
+main .section[data-section-status='loading'] {
+  display: none;
+}
+
+main .section[data-section-status='loaded'] {
+  display: block;
+}
+
+/* Default section wrapper spacing — blocks override as needed */
+main .section > .section-wrapper {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ------------------------------------------------------------
+   Global button system
+   ------------------------------------------------------------ */
+
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-family: var(--heading-font-family);
+}
+
+a.btn-primary {
+  background: var(--color-signal);
+  color: var(--color-paper);
+  border-color: var(--color-signal);
+}
+
+a.btn-primary:hover {
+  background: var(--color-shelter);
+  border-color: var(--color-shelter);
+}
+
+a.btn-secondary {
+  background: transparent;
+  color: var(--color-signal);
+  border-color: var(--color-rule);
+}
+
+a.btn-secondary:hover {
+  border-color: var(--color-signal);
+}
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Block strong/em link → btn pattern (EDS convention) */
+main p > strong > a,
+main p > strong > a:visited {
+  @extend a.btn, a.btn-primary;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-signal);
+  text-decoration: none;
+  background: var(--color-signal);
+  color: var(--color-paper);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-family: var(--heading-font-family);
+}
+
+main p > strong > a:hover {
+  background: var(--color-shelter);
+  border-color: var(--color-shelter);
+}
+
+main p > em > a,
+main p > em > a:visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid var(--color-rule);
+  text-decoration: none;
+  background: transparent;
+  color: var(--color-signal);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-family: var(--heading-font-family);
+  font-style: normal;
+}
+
+main p > em > a:hover {
+  border-color: var(--color-signal);
+}
+
+/* ------------------------------------------------------------
+   Typography baseline
+   ------------------------------------------------------------ */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font-family);
+  line-height: var(--line-height-heading);
+  letter-spacing: var(--tracking-heading);
+  margin: 0 0 var(--spacing-md);
+  font-weight: 800;
+}
+
+h1 { font-size: var(--heading-xl); }
+h2 { font-size: var(--heading-lg); }
+h3 { font-size: var(--heading-md); }
+h4 { font-size: var(--heading-sm); }
+h5 { font-size: var(--body); }
+h6 { font-size: var(--body-sm); }
+
+p { margin: 0 0 var(--spacing-md); }
+
+a {
+  color: var(--color-signal);
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--color-shelter);
+}
+
+/* ------------------------------------------------------------
+   Sidekick fade-in (EDS standard)
+   ------------------------------------------------------------ */
 
 aem-sidekick {
   opacity: 0;
+}
 
-  &[open="true"].is-ready {
-    opacity: 1;
-  }
+aem-sidekick[open='true'].is-ready {
+  opacity: 1;
 }
