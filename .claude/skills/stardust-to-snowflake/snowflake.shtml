@@ -1311,19 +1311,19 @@
       window.top.open(href, '_blank', 'noopener');
     });
 
-    // Sync DA field placeholders with repo/branch values
-    function syncDaPlaceholders() {
+    // Sync DA field values with repo/branch values
+    function syncDaDefaults() {
       var repo = document.getElementById('repoInput').value.trim();
       var branch = document.getElementById('branchInput').value.trim();
-      document.getElementById('daSpaceInput').placeholder = repo || 'org/repo';
-      document.getElementById('daPathInput').placeholder = branch ? '/' + branch : '/<branch>';
+      document.getElementById('daSpaceInput').value = repo || '';
+      document.getElementById('daPathInput').value = branch ? '/' + branch : '';
     }
-    document.getElementById('repoInput').addEventListener('input', syncDaPlaceholders);
-    document.getElementById('branchInput').addEventListener('input', syncDaPlaceholders);
+    document.getElementById('repoInput').addEventListener('input', syncDaDefaults);
+    document.getElementById('branchInput').addEventListener('input', syncDaDefaults);
 
     // Init
     document.getElementById('branchInput').value = generateBranchHash();
-    syncDaPlaceholders();
+    syncDaDefaults();
     setStep(0);
     // Defer checkDeps — slicc.lick() requires the bridge's postMessage
     // channel to be established with the parent. On first render the
