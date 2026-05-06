@@ -680,7 +680,7 @@
         <label class="sf-field__label">GitHub Repository</label>
         <input type="text" class="sf-field__input" id="repoInput"
           value="ai-ecoverse/snowflake" placeholder="owner/repo">
-        <div class="sf-field__hint">The EDS project to commit generated blocks to</div>
+        <div class="sf-field__hint">The EDS project to commit generated blocks to (org/repo)</div>
       </div>
       <div class="sf-field">
         <label class="sf-field__label">Branch (optional)</label>
@@ -692,7 +692,7 @@
         <label class="sf-field__label">DA Space</label>
         <input type="text" class="sf-field__input" id="daSpaceInput"
           placeholder="org/repo">
-        <div class="sf-field__hint">DA space for content deployment (org/repo)</div>
+        <div class="sf-field__hint">DA space for content deployment &mdash; defaults to same as GitHub repo</div>
       </div>
       <div class="sf-field">
         <label class="sf-field__label">DA Path</label>
@@ -812,7 +812,7 @@
       if (state.step === 0) {
         state.repo = document.getElementById('repoInput').value.trim();
         state.branch = document.getElementById('branchInput').value.trim();
-        state.daSpace = document.getElementById('daSpaceInput').value.trim();
+        state.daSpace = document.getElementById('daSpaceInput').value.trim() || state.repo;
         state.daPath = document.getElementById('daPathInput').value.trim() || '/' + state.branch;
         if (!state.repo) return;
         // Validate DA Space format (org/repo)
@@ -1363,8 +1363,19 @@
       window.top.open(href, '_blank', 'noopener');
     });
 
+    // Sync DA field placeholders with repo/branch values
+    function syncDaPlaceholders() {
+      var repo = document.getElementById('repoInput').value.trim();
+      var branch = document.getElementById('branchInput').value.trim();
+      document.getElementById('daSpaceInput').placeholder = repo || 'org/repo';
+      document.getElementById('daPathInput').placeholder = branch ? '/' + branch : '/<branch>';
+    }
+    document.getElementById('repoInput').addEventListener('input', syncDaPlaceholders);
+    document.getElementById('branchInput').addEventListener('input', syncDaPlaceholders);
+
     // Init
     document.getElementById('branchInput').value = generateBranchHash();
+    syncDaPlaceholders();
     setStep(0);
     checkDeps();
   </script>
