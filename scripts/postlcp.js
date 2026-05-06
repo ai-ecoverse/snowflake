@@ -1,14 +1,14 @@
 import { getMetadata, getConfig } from './ak.js';
 
 /**
- * Loads a static chrome fragment (header or footer) from the code origin.
+ * Loads a static fragment (header or footer) from the code origin.
  * Fragments are raw HTML files with an inline <style> block — no EDS
  * authoring, no block JS. Injected directly via innerHTML.
  *
  * @param {HTMLElement} el - The <header> or <footer> element
  * @param {string} name - Fragment name ('header' or 'footer')
  */
-async function loadChromeFragment(el, name) {
+async function loadStaticFragment(el, name) {
   const meta = getMetadata(name);
   if (meta === 'off') {
     document.body.classList.add(`no-${name}`);
@@ -34,7 +34,7 @@ export default async function loadPostLCP() {
   const footer = document.querySelector('footer');
 
   await Promise.all([
-    header ? loadChromeFragment(header, 'header') : null,
-    footer ? loadChromeFragment(footer, 'footer') : null,
+    header ? loadStaticFragment(header, 'header') : null,
+    footer ? loadStaticFragment(footer, 'footer') : null,
   ]);
 }
