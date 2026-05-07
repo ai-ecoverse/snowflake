@@ -1,0 +1,119 @@
+/* engagement — centered newsletter sign-up */
+
+.engagement {
+  padding-block: var(--space-section-d);
+  background: var(--vellum);
+  border-top: 1px solid var(--platinum-edge);
+}
+
+.engagement .engagement-inner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+@media (min-width: 600px) {
+  .engagement .engagement-inner {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .engagement .engagement-inner {
+    padding-inline: 48px;
+  }
+}
+
+.newsletter-narrow {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.newsletter-narrow .ds-eyebrow {
+  color: var(--brass);
+}
+
+.newsletter-narrow h2 {
+  font-size: var(--type-36);
+  letter-spacing: -0.018em;
+  line-height: 1.4;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+
+.newsletter-narrow p {
+  font-family: var(--font-editorial);
+  font-size: var(--type-18);
+  line-height: 1.5;
+  color: var(--graphite);
+  max-width: 52ch;
+}
+
+.newsletter-narrow .newsletter-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.newsletter-narrow .newsletter-form .ds-input {
+  flex: 1;
+  font-family: var(--font-ui);
+  font-size: var(--type-16);
+  padding: 12px 14px;
+  background: var(--vellum);
+  color: var(--char);
+  border: 1px solid var(--platinum-edge);
+  border-radius: var(--radius-md);
+}
+
+.newsletter-narrow .newsletter-form .ds-input:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(0, 48, 73, 0.15);
+}
+
+.newsletter-foot {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+}
+
+.newsletter-foot a {
+  color: var(--ink);
+  border-bottom: 1px solid transparent;
+}
+
+.newsletter-foot a:hover {
+  border-bottom-color: var(--brass);
+}
+
+@media (max-width: 599px) {
+  .engagement {
+    padding-block: var(--space-section-m);
+  }
+
+  .newsletter-narrow h2 {
+    font-size: var(--type-24);
+  }
+
+  .newsletter-narrow p {
+    font-size: var(--type-16);
+  }
+
+  .newsletter-narrow .newsletter-form {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,82 @@
+/* publication-banner — dark ink masthead with brass hairlines */
+
+.publication-banner {
+  background: var(--ink-deep);
+  color: var(--vellum);
+  padding: 18px 0;
+  border-top: 2px solid var(--brass);
+  position: relative;
+}
+
+.publication-banner::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--brass) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.publication-banner .banner-inner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding-inline: 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 600px) {
+  .publication-banner .banner-inner {
+    padding-inline: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .publication-banner .banner-inner {
+    padding-inline: 48px;
+  }
+}
+
+.publication-banner .banner-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.012em;
+  color: var(--vellum);
+  margin: 0;
+}
+
+.publication-banner .banner-tagline {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass-soft);
+  margin: 0;
+}
+
+.publication-banner .banner-tagline::before {
+  content: "§ ";
+  color: rgba(255, 255, 255, 0.4);
+}
+
+@media (max-width: 599px) {
+  .publication-banner {
+    padding: 14px 0;
+  }
+
+  .publication-banner .banner-name {
+    font-size: 18px;
+  }
+
+  .publication-banner .banner-tagline {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+  }
+}
