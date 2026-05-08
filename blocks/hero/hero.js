@@ -1,6 +1,9 @@
 /**
  * hero — Mosaic-convergence image grid + hub-router cards.
  *
+ * Produces the exact same DOM as the prototype so the original CSS
+ * and animation scripts work unchanged.
+ *
  * Authoring rows (positional):
  *   1.  Eyebrow text
  *   2.  h1 headline
@@ -16,46 +19,44 @@
  *   12. Mosaic col 5: cell 1 = top img | cell 2 = bottom img
  */
 
-const CX_KEYS = ['brand-intelligence', 'cx-coworker', 'cx-analytics'];
+const CX_KEYS = ['brand-intelligence', 'cx-coworker', 'cx-analytics', 'brand-concierge'];
 
 export default async function decorate(block) {
   const rows = [...block.children];
   if (!rows.length) return;
 
   const eyebrowCell = rows[0]?.firstElementChild;
-  const headCell    = rows[1]?.firstElementChild;
-  const bodyCell    = rows[2]?.firstElementChild;
-  const ctaCell     = rows[3]?.firstElementChild;
-  const hubRows     = rows.slice(4, 7);
-  const imgRows     = rows.slice(7, 12);
+  const headCell = rows[1]?.firstElementChild;
+  const bodyCell = rows[2]?.firstElementChild;
+  const ctaCell = rows[3]?.firstElementChild;
+  const hubRows = rows.slice(4, 7);
+  const imgRows = rows.slice(7, 12);
 
-  // ── 1. Hero text overlay ──────────────────────────────────────────────────
+  // ── 1. Hero text ──────────────────────────────────────────────────────────
   const heroText = document.createElement('div');
   heroText.className = 'hero-text';
 
   const appId = document.createElement('div');
   appId.className = 'hero-app-id';
-  const mark = document.createElement('span');
-  mark.className = 'cx-mark';
-  mark.setAttribute('aria-hidden', 'true');
   const eyebrow = document.createElement('span');
   eyebrow.className = 't-eyebrow';
   eyebrow.textContent = eyebrowCell?.textContent.trim() || '';
-  appId.append(mark, eyebrow);
+  appId.append(eyebrow);
   heroText.append(appId);
 
   if (headCell) {
-    const hEl = headCell.querySelector('h1') || document.createElement('h1');
-    if (!headCell.querySelector('h1')) {
-      hEl.textContent = headCell.textContent.trim();
+    const h1 = headCell.querySelector('h1');
+    if (h1) {
+      heroText.append(h1.cloneNode(true));
+    } else {
+      const h = document.createElement('h1');
+      h.textContent = headCell.textContent.trim();
+      heroText.append(h);
     }
-    hEl.className = 't-title-1';
-    heroText.append(hEl.cloneNode(true));
   }
 
   if (bodyCell) {
     const p = document.createElement('p');
-    p.className = 't-body-m';
     p.textContent = bodyCell.textContent.trim();
     heroText.append(p);
   }
@@ -81,10 +82,9 @@ export default async function decorate(block) {
     col.className = 'grid-col';
     col.dataset.col = String(colIdx + 1);
     const cells = [...row.children];
-    cells.forEach((cell, rowIdx) => {
+    cells.forEach((cell) => {
       const card = document.createElement('div');
       card.className = 'grid-card';
-      if (rowIdx > 0) card.dataset.gridRow = '2';
       const img = cell.querySelector('img');
       if (img) card.append(img.cloneNode(true));
       col.append(card);
@@ -115,7 +115,14 @@ export default async function decorate(block) {
     mobileGrid.append(col);
   });
 
-  // ── 4. Hub-router ─────────────────────────────────────────────────────────
+  // ── 4. Hub title ──────────────────────────────────────────────────────────
+  const hubTitleEl = document.createElement('h2');
+  hubTitleEl.className = 'hero-hub-title t-title-2';
+  hubTitleEl.setAttribute('data-ta', '');
+  hubTitleEl.setAttribute('aria-hidden', 'true');
+  hubTitleEl.textContent = eyebrowCell?.textContent.trim() || 'ADOBE FOR BUSINESS';
+
+  // ── 5. Hub-router ─────────────────────────────────────────────────────────
   const hubRouter = document.createElement('div');
   hubRouter.className = 'hero-hub-router';
   hubRouter.setAttribute('aria-hidden', 'true');
@@ -126,7 +133,7 @@ export default async function decorate(block) {
   hubRows.forEach((row, i) => {
     const cells = [...row.children];
     const label = cells[0]?.textContent.trim() || '';
-    const body  = cells[1]?.textContent.trim() || '';
+    const body = cells[1]?.textContent.trim() || '';
 
     const card = document.createElement('div');
     card.className = 'hhub-card';
@@ -167,12 +174,12 @@ export default async function decorate(block) {
   hubRouter.append(track);
 
   // ── Assemble ──────────────────────────────────────────────────────────────
-  block.replaceChildren(heroText, imageGrid, mobileGrid, hubRouter);
+  block.replaceChildren(heroText, imageGrid, mobileGrid, hubTitleEl, hubRouter);
 
   // Give the block the #hero id expected by the animation scripts
   block.id = 'hero';
 
-  // Wrap the hero section in a .hero-pin-spacer (scroll distance container)
+  // Wrap the hero section in a .hero-pin-spacer
   const section = block.closest('.section');
   if (section) {
     const pinSpacer = document.createElement('div');
@@ -180,14 +187,6 @@ export default async function decorate(block) {
     section.parentNode.insertBefore(pinSpacer, section);
     pinSpacer.append(section);
   }
-
-  // Add hub-title element (used by the animation for the scroll reveal)
-  const hubTitleEl = document.createElement('h2');
-  hubTitleEl.className = 'hero-hub-title t-title-2';
-  hubTitleEl.setAttribute('data-ta', '');
-  hubTitleEl.setAttribute('aria-hidden', 'true');
-  hubTitleEl.textContent = eyebrowCell?.textContent.trim() || 'ADOBE FOR BUSINESS';
-  block.insertBefore(hubTitleEl, hubRouter);
 
   // ── Load GSAP + animation scripts ─────────────────────────────────────────
   async function loadScript(src) {
@@ -200,7 +199,6 @@ export default async function decorate(block) {
     });
   }
 
-  // Reduced motion: skip animations entirely
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     try {
       await loadScript('/runtime/vendor/gsap.min.js');
@@ -210,7 +208,6 @@ export default async function decorate(block) {
       await loadScript('/runtime/scripts/hero-grid-mobile.js');
       await loadScript('/runtime/scripts/hero-breakpoint-orchestrator.js');
     } catch (e) {
-      // Animation scripts failed — hero still renders statically
       console.warn('Hero animation scripts failed to load:', e);
     }
   }
