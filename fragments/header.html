@@ -1,0 +1,68 @@
+<style>
+/* ---- gnav fragment styles ---- */
+.gnav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 8px; pointer-events: none; }
+.gnav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 16px; max-width: 1904px; margin: 0 auto; border-radius: var(--radius); pointer-events: auto; }
+.gnav-inner::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: var(--radius); background: rgba(255,255,255,0.51); backdrop-filter: blur(64px); -webkit-backdrop-filter: blur(64px); opacity: 0; transition: opacity 0.35s ease; pointer-events: none; }
+.gnav.is-scrolled .gnav-inner::before { opacity: 1; }
+.gnav-left { display: flex; align-items: center; gap: 32px; height: 100%; }
+.gnav-logo { display: inline-flex; align-items: center; gap: 8px; height: 100%; color: #ffffff; transition: color 0.35s ease; }
+.gnav.is-scrolled .gnav-logo { color: var(--color-fg); }
+.gnav-logo .wordmark { font-family: var(--heading-font-family); font-weight: 900; font-size: 18px; letter-spacing: -0.02em; line-height: 1; }
+.gnav-logo .glyph { width: 22px; height: 22px; border-radius: 4px; background: var(--color-adobe-red); flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; color: #ffffff; font-size: 12px; font-weight: 900; font-family: var(--heading-font-family); }
+.gnav-links { display: flex; align-items: center; gap: 24px; }
+.gnav-links button, .gnav-links a { font-family: var(--body-font-family); font-size: 14px; font-weight: 700; color: #ffffff; text-decoration: none; padding: 4px 8px; border-radius: 8px; transition: color 0.35s ease, opacity 0.15s ease, background var(--duration-fast) ease; }
+.gnav.is-scrolled .gnav-links button, .gnav.is-scrolled .gnav-links a { color: var(--color-fg); }
+.gnav-links:has(button:hover) button, .gnav-links:has(a:hover) a { opacity: 0.65; }
+.gnav-links:has(button:hover) button:hover, .gnav-links:has(a:hover) a:hover { opacity: 1; }
+.gnav-right { display: flex; align-items: center; gap: 12px; }
+.gnav .btn { display: inline-flex; align-items: center; justify-content: center; height: 40px; padding: 0 20px; font-family: var(--body-font-family); font-size: 14px; font-weight: 700; letter-spacing: 0; line-height: 1; white-space: nowrap; border-radius: var(--radius-pill); transition: background var(--duration-fast) ease, color var(--duration-fast) ease, border-color var(--duration-fast) ease, opacity var(--duration-fast) ease; }
+.gnav .btn--primary { background: var(--color-fg); color: #ffffff; border: none; }
+.gnav .btn--primary:hover { background: var(--color-ink-near-black); }
+.gnav .btn--ghost-white { background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.85); backdrop-filter: blur(16.5px); -webkit-backdrop-filter: blur(16.5px); }
+.gnav .btn--ghost-white:hover { background: rgba(255,255,255,0.15); }
+.gnav.is-scrolled .btn--ghost-white { color: var(--color-fg); border-color: rgba(0,0,0,0.7); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.gnav.is-scrolled .btn--ghost-white:hover { background: rgba(0,0,0,0.04); }
+@media (max-width: 1023px) {
+  .gnav-links { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gnav-inner::before { transition: none; }
+  .gnav-logo, .gnav-links button, .gnav-links a, .gnav .btn { transition: none; }
+}
+</style>
+<div class="gnav" id="gnav">
+  <div class="gnav-inner">
+    <div class="gnav-left">
+      <a href="/" class="gnav-logo" aria-label="Semrush">
+        <span class="glyph" aria-hidden="true">S</span>
+        <span class="wordmark">Semrush</span>
+      </a>
+      <nav class="gnav-links" aria-label="Primary">
+        <button type="button" aria-haspopup="true">Products</button>
+        <button type="button" aria-haspopup="true">Use Cases</button>
+        <button type="button" aria-haspopup="true">Solutions</button>
+        <a href="/pricing/">Pricing</a>
+        <a href="/free-tools/">Free Tools</a>
+      </nav>
+    </div>
+    <div class="gnav-right">
+      <a href="/login/" class="btn btn--ghost-white">Sign In</a>
+      <a href="/signup/" class="btn btn--primary">Start free trial</a>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var gnav = document.getElementById('gnav');
+  if (!gnav) return;
+  function onScroll() {
+    if (window.scrollY > 40) {
+      gnav.classList.add('is-scrolled');
+    } else {
+      gnav.classList.remove('is-scrolled');
+    }
+  }
+  document.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}());
+</script>

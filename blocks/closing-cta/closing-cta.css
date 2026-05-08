@@ -1,0 +1,29 @@
+/* closing-cta block — final ink-dark CTA */
+
+.closing-cta {
+  padding: var(--section-padding) 0 calc(var(--section-padding) + 60px);
+}
+
+.closing-cta .closing-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.closing-cta .closing-inner h2 {
+  max-width: 16ch;
+  color: var(--color-fg);
+}
+
+.closing-cta .closing-inner .closing-body { color: var(--color-text-mid); max-width: 48ch; }
+
+/* Slightly larger primary button for closing emphasis */
+.closing-cta .actions a.btn-primary {
+  height: 52px;
+  padding: 0 32px;
+}

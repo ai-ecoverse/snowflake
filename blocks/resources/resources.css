@@ -1,0 +1,91 @@
+/* resources block — 3-col resource/blog cards */
+
+.resources { padding: var(--section-padding) 0; }
+
+.resources .section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto var(--spacing-2xl);
+  padding: 0 24px;
+}
+
+.resources .resources-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.resources .resource-card {
+  background: var(--color-surface-soft);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-fast) ease;
+  cursor: pointer;
+}
+
+.resources .resource-card:hover { transform: translateY(-2px); }
+
+.resources .resource-card .resource-image {
+  background: var(--color-card-mid-gray);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.resources .resource-card .resource-image img,
+.resources .resource-card .resource-image picture { width: 100%; height: 100%; object-fit: cover; }
+
+.resources .resource-card .resource-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.resources .resource-card .resource-date { color: var(--color-text-muted); }
+
+.resources .resource-card .resource-title {
+  color: var(--color-fg);
+  font-family: var(--heading-font-family);
+  font-weight: 900;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.resources .resource-card .resource-excerpt { color: var(--color-text-mid); }
+
+.resources .resource-card .arrow {
+  margin-top: auto;
+  align-self: flex-start;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-fg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-fg);
+  text-decoration: none;
+  transition: background var(--duration-fast) ease;
+}
+
+.resources .resource-card:hover .arrow { background: rgba(0,0,0,0.06); }
+
+@media (max-width: 1023px) {
+  .resources .resources-row { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resources .resource-card { transition: none; }
+  .resources .resource-card .arrow { transition: none; }
+}

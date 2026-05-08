@@ -1,0 +1,98 @@
+/* hero block — full-bleed with mosaic background */
+
+.hero { padding: 189px 0 96px; min-height: 100vh; overflow: hidden; position: relative; }
+.hero .hero-section { position: relative; }
+
+/* Mosaic background — 5 cols x 3 rows */
+.hero .hero-mosaic {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  padding: 96px 8.333% 24px;
+  opacity: 0.18;
+  pointer-events: none;
+}
+.hero .hero-mosaic .tile {
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--color-surface-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero .hero-mosaic .tile img,
+.hero .hero-mosaic .tile picture { width: 100%; height: 100%; object-fit: cover; }
+.hero .hero-mosaic [data-placeholder] {
+  border: 2px dashed var(--color-trial-blue);
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+.hero .hero-mosaic .placeholder-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-trial-blue);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* Text */
+.hero .hero-text {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.hero .hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero .hero-eyebrow .glyph {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--color-adobe-red);
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: var(--heading-font-family);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.hero .hero-title { max-width: 16ch; color: var(--color-fg); }
+.hero .hero-body  { max-width: 48ch; color: var(--color-text-mid); }
+
+.hero .hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (max-width: 1023px) {
+  .hero .hero-mosaic { display: none; }
+}
+@media (max-width: 767px) {
+  .hero { padding: 120px 0 64px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero .hero-mosaic { transition: none !important; }
+}

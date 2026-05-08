@@ -1,0 +1,60 @@
+/* enterprise-band block — dark full-bleed CTA band */
+
+.enterprise-band {
+  background: var(--color-fg);
+  color: #ffffff;
+  padding: var(--section-padding) 0;
+  border-radius: 0 0 var(--radius-section-bottom) var(--radius-section-bottom);
+}
+
+.enterprise-band .enterprise-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.enterprise-band .enterprise-inner .t-eyebrow {
+  color: rgba(255,255,255,0.7);
+}
+
+.enterprise-band .enterprise-inner h2 {
+  color: #ffffff;
+  max-width: 18ch;
+}
+
+.enterprise-band .enterprise-inner .body {
+  color: rgba(255,255,255,0.7);
+  max-width: 56ch;
+}
+
+.enterprise-band .enterprise-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Ghost-white button overrides for dark surface */
+.enterprise-band a.btn,
+.enterprise-band a.btn-secondary {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.85);
+  height: 40px;
+  border-radius: var(--radius-full);
+}
+
+.enterprise-band a.btn:hover,
+.enterprise-band a.btn-secondary:hover {
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.85);
+}
+
+@media (max-width: 767px) {
+  .enterprise-band .enterprise-ctas { flex-direction: column; align-items: stretch; }
+}

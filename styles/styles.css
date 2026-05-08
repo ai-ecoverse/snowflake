@@ -1,18 +1,219 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/*
+ * Semrush · EDS Global Styles
+ * Converted from stardust/prototypes/home-proposed.html
+ *
+ * Font note: Adobe Clean Display and Adobe Clean are proprietary Adobe fonts.
+ * They are served by the EDS runtime environment (ak.js decorateSession())
+ * which applies body.session when the session is ready. At initial paint, we
+ * fall back to Source Sans 3 / system-ui. No @font-face declarations or
+ * <link> tags are needed — do NOT modify head.html.
+ */
+
+/* ---- :root tokens (lifted verbatim from prototype) ---- */
+:root {
+  /* Font families */
+  --heading-font-family: 'Adobe Clean Display', 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --body-font-family:    'Adobe Clean', 'Adobe Clean Display', 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Type scale */
+  --heading-xxl: 96px;
+  --heading-xl:  80px;
+  --heading-lg:  56px;
+  --heading-md:  48px;
+  --body:        16px;
+  --body-sm:     14px;
+
+  /* Line heights */
+  --line-height-heading: 0.96;
+  --line-height-body:    1.3;
+
+  /* Core colors */
+  --color-bg:     #ffffff;
+  --color-fg:     #000000;
+  --color-accent: #3b63fb;
+
+  /* Spacing */
+  --spacing-xs:  4px;
+  --spacing-sm:  8px;
+  --spacing-md:  16px;
+  --spacing-lg:  24px;
+  --spacing-xl:  48px;
+  --spacing-2xl: 96px;
+
+  /* Layout */
+  --section-padding: 128px;
+  --max-width:       1920px;
+  --radius:          16px;
+
+  /* Acrobat DS extended tokens */
+  --radius-pill:    75px;
+  --radius-full:    999px;
+  --radius-section-bottom: 32px;
+  --color-surface-light:    #f8f8f8;
+  --color-surface-soft:     #f6f6f6;
+  --color-ink-near-black:   #1a1a1a;
+  --color-text-deep-charcoal: #2c2c2c;
+  --color-text-mid:         #4a4a4a;
+  --color-text-muted:       #6e6e6e;
+  --color-trial-blue:       #3b63fb;
+  --color-trial-blue-hover: #274dea;
+  --color-adobe-red:        #eb1000;
+  --color-border:           #d0d0d0;
+  --color-card-mid-gray:    #c8c8c8;
+
+  /* Motion */
+  --ease-emphasized: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:   200ms;
+  --duration-base:   400ms;
+  --duration-emphasized: 480ms;
+  --duration-spring: 600ms;
+
+  /* Misc */
+  --font-tabular: 'Adobe Clean', 'Source Sans 3', system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
 }
 
-main div.section {
-  display: unset;
+/* ---- Document reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+/*
+ * Font loading strategy: pre-session renders Source Sans 3 / system-ui.
+ * When ak.js calls decorateSession() it adds body.session, switching to
+ * the Adobe Clean family served by the EDS runtime. Adobe Clean is a
+ * licensed proprietary font — it is NOT self-hosted here.
+ */
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text-deep-charcoal);
+  font-size: var(--body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+body.session {
+  font-family: var(--body-font-family);
 }
 
-aem-sidekick {
-  opacity: 0;
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: 0; background: transparent; }
+img, svg { display: block; max-width: 100%; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+h1, h2, h3, h4, p { margin: 0; }
 
-  &[open="true"].is-ready {
-    opacity: 1;
+::selection { background: var(--color-trial-blue); color: #ffffff; }
+:focus-visible { outline: 2px solid var(--color-trial-blue); outline-offset: 2px; border-radius: 4px; }
+
+/* ---- Type utility classes (token-swap-by-breakpoint, NOT clamp) ---- */
+.t-super     { font-family: var(--heading-font-family); font-weight: 900; font-size: 96px; line-height: 0.94; letter-spacing: -0.04em; }
+.t-title-1   { font-family: var(--heading-font-family); font-weight: 900; font-size: 80px; line-height: 0.96; letter-spacing: -0.04em; }
+.t-title-2   { font-family: var(--heading-font-family); font-weight: 900; font-size: 56px; line-height: 1.0;  letter-spacing: -0.03em; }
+.t-title-3   { font-family: var(--heading-font-family); font-weight: 900; font-size: 48px; line-height: 1.0;  letter-spacing: -0.03em; }
+.t-title-4   { font-family: var(--heading-font-family); font-weight: 900; font-size: 24px; line-height: 1.0;  letter-spacing: -0.02em; }
+.t-body-l    { font-family: var(--body-font-family);    font-weight: 400; font-size: 20px; line-height: 1.2;  letter-spacing: 0; }
+.t-body-m    { font-family: var(--body-font-family);    font-weight: 400; font-size: 16px; line-height: 1.3;  letter-spacing: 0.01em; }
+.t-body-s    { font-family: var(--body-font-family);    font-weight: 400; font-size: 14px; line-height: 1.3;  letter-spacing: 0.01em; }
+.t-eyebrow   { font-family: var(--body-font-family);    font-weight: 700; font-size: 16px; line-height: 1.3;  letter-spacing: -0.01em; color: var(--color-text-muted); }
+.t-label     { font-family: var(--body-font-family);    font-weight: 700; font-size: 14px; line-height: 1.3;  letter-spacing: 0; }
+.t-caption   { font-family: var(--body-font-family);    font-weight: 700; font-size: 12px; line-height: 1.3;  letter-spacing: 0.02em; }
+
+@media (max-width: 1023px) {
+  .t-super   { font-size: 72px; }
+  .t-title-1 { font-size: 56px; }
+  .t-title-2 { font-size: 40px; }
+  .t-title-3 { font-size: 32px; }
+  .t-title-4 { font-size: 20px; }
+}
+@media (max-width: 767px) {
+  .t-super   { font-size: 56px; }
+  .t-title-1 { font-size: 40px; }
+  .t-title-2 { font-size: 32px; }
+  .t-title-3 { font-size: 24px; }
+  .t-title-4 { font-size: 20px; }
+  .t-body-l  { font-size: 18px; }
+}
+
+/* ---- Grid container ---- */
+.grid {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 8.333%;
+}
+@media (max-width: 1023px) { .grid { padding: 0 24px; } }
+
+/* ---- EDS section scaffold ---- */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+main > div, .has-template, div[data-status] { display: none; }
+
+/* ---- Global button system ---- */
+/*
+ * EDS link decorator (ak.js decorateButton) applies classes based on author markup:
+ *   <strong><a>  → .btn.btn-primary   (dark fill)
+ *   <em><a>      → .btn.btn-secondary (outline)
+ *   <em><strong><a> → .btn.btn-accent (trial blue)
+ *
+ * Block JS: clone cell children into .actions — do NOT manufacture anchors.
+ */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 24px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: var(--radius-pill);
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease;
+}
+
+a.btn-primary {
+  background: var(--color-fg);
+  color: #ffffff;
+}
+a.btn-primary:hover { background: var(--color-ink-near-black); }
+
+a.btn-secondary {
+  background: transparent;
+  color: var(--color-fg);
+  border: 1.5px solid var(--color-fg);
+}
+a.btn-secondary:hover { background: rgba(0, 0, 0, 0.04); }
+
+a.btn-accent {
+  height: 40px;
+  background: var(--color-trial-blue);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  box-shadow: 0 6px 24px rgba(59, 99, 251, 0.18);
+}
+a.btn-accent:hover { background: var(--color-trial-blue-hover); }
+
+.btn-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ---- Reduced motion (global) ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
   }
 }
