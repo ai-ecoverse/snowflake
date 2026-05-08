@@ -1,0 +1,60 @@
+/* engagement — centered newsletter sign-up */
+.engagement {
+  padding-block: var(--space-section-d);
+  background: var(--vellum);
+  border-top: 1px solid var(--platinum-edge);
+}
+
+.newsletter-narrow {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.newsletter-narrow h2 {
+  font-size: var(--type-36);
+  letter-spacing: -0.018em;
+  line-height: 1.4;
+  display: inline-block;
+  background: var(--ink);
+  color: var(--vellum);
+  padding: 6px 14px;
+  border-radius: 2px;
+}
+
+.newsletter-narrow p {
+  font-family: var(--font-editorial);
+  font-size: var(--type-18);
+  line-height: 1.5;
+  color: var(--graphite);
+  max-width: 52ch;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.newsletter-foot {
+  margin-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--graphite-mute);
+}
+
+.newsletter-foot a { color: var(--ink); border-bottom: 1px solid transparent; }
+.newsletter-foot a:hover { border-bottom-color: var(--brass); }
+
+@media (max-width: 599px) {
+  .engagement { padding-block: var(--space-section-m); }
+  .newsletter-narrow h2 { font-size: var(--type-24); }
+  .newsletter-narrow p { font-size: var(--type-16); }
+}

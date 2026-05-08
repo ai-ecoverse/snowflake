@@ -1,0 +1,70 @@
+/* mini-roster — 3-up grid of small cards with 96×96 thumbnails */
+.mini-roster {
+  padding-block: var(--space-section-d) 56px;
+  background: var(--vellum);
+  border-bottom: 1px solid var(--platinum-edge);
+}
+
+.mini-roster-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-gap-d);
+}
+
+.mini-roster-card {
+  display: grid;
+  grid-template-columns: var(--img-mini) 1fr;
+  gap: 16px;
+  align-items: start;
+  color: var(--char);
+  text-decoration: none;
+}
+
+.mini-roster-card:hover { color: var(--ink); }
+
+.mini-thumb {
+  width: var(--img-mini);
+  height: var(--img-mini);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-haze);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  display: block;
+}
+
+.mini-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.mini-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.mini-body .ds-chip { align-self: flex-start; }
+
+.mini-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--type-14);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--char);
+}
+
+.mini-card:hover .mini-body h3 { color: var(--ink); }
+
+.mini-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--graphite-mute);
+  letter-spacing: 0.04em;
+  display: flex;
+  gap: 6px 8px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1023px) {
+  .mini-roster-grid { grid-template-columns: 1fr; gap: var(--space-gap-t); }
+}

@@ -1,0 +1,287 @@
+<style>
+/* ─── Skip link ─── */
+.ds-skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  padding: 12px 18px;
+  background: var(--ink); color: var(--vellum);
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+}
+.ds-skip:focus { left: 0; outline: 3px solid var(--brass); }
+
+/* ─── Utility strip ─── */
+.etp-utility-strip {
+  background: var(--obsidian); height: 28px;
+  display: flex; align-items: center;
+}
+.etp-utility-strip .ds-container {
+  display: flex; justify-content: space-between; align-items: center; height: 100%;
+}
+.etp-utility-strip p {
+  margin: 0; font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.72);
+}
+.etp-utility-strip p:last-child { color: rgba(255,255,255,.45); }
+@media (max-width:599px) {
+  .etp-utility-strip { height: auto; padding: 6px 0; }
+  .etp-utility-strip p { font-size: 10px; line-height: 1.4; text-align: center; }
+  .etp-utility-strip p:last-child { display: none; }
+}
+
+/* ─── Header / nav ─── */
+.etp-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--vellum); border-bottom: 1px solid var(--platinum-edge);
+}
+.etp-header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; height: 64px;
+}
+.etp-sitemark {
+  display: inline-flex; align-items: center; flex-shrink: 0; text-decoration: none;
+}
+.etp-sitemark img {
+  height: 24px; width: auto; display: block;
+  filter: brightness(0); opacity: .85;
+  transition: opacity 120ms ease;
+}
+.etp-sitemark:hover img { opacity: 1; }
+.etp-nav {
+  display: flex; align-items: center; gap: 2px; flex: 1; justify-content: center;
+}
+.etp-nav a {
+  font-family: var(--font-ui); font-size: var(--type-14); font-weight: 500;
+  color: var(--char); padding: 10px 8px; border-radius: var(--radius-md);
+  white-space: nowrap; min-height: 44px; display: inline-flex; align-items: center;
+}
+.etp-nav a:hover { background: var(--ink-haze); color: var(--ink); }
+.etp-header-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.etp-search-form {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--platinum); border: 1px solid transparent;
+  border-radius: var(--radius-md); padding: 6px 10px;
+}
+.etp-search-form:focus-within { border-color: var(--ink); background: var(--vellum); }
+.etp-search-icon { color: var(--graphite-mute); }
+.etp-search-input {
+  border: none; background: transparent;
+  font-family: var(--font-ui); font-size: var(--type-14);
+  color: var(--char); width: 160px; padding: 2px 0;
+}
+.etp-search-input:focus { outline: none; }
+.etp-menu-toggle {
+  display: none; background: transparent;
+  border: 1px solid var(--platinum-edge); border-radius: var(--radius-md);
+  padding: 8px 10px; cursor: pointer;
+}
+.etp-menu-toggle[aria-expanded="true"] {
+  background: var(--ink); border-color: var(--ink); color: var(--vellum);
+}
+
+/* ─── Mobile drawer ─── */
+.etp-drawer-backdrop {
+  position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,31,47,.55); opacity: 0; visibility: hidden;
+  transition: opacity 240ms cubic-bezier(.16,1,.3,1), visibility 240ms;
+}
+.etp-drawer-backdrop[data-open="true"] { opacity: 1; visibility: visible; }
+.etp-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(360px, 88vw); background: var(--vellum); z-index: 91;
+  display: flex; flex-direction: column;
+  box-shadow: -12px 0 32px rgba(0,31,47,.18);
+  transform: translateX(100%);
+  transition: transform 280ms cubic-bezier(.16,1,.3,1);
+}
+.etp-drawer[data-open="true"] { transform: translateX(0); }
+.etp-drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid var(--platinum-edge); flex-shrink: 0;
+}
+.etp-drawer-head span {
+  font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink);
+}
+.etp-drawer-close {
+  background: transparent; border: 1px solid var(--platinum-edge);
+  border-radius: var(--radius-md); padding: 8px 10px; cursor: pointer;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--graphite);
+}
+.etp-drawer-close:hover { background: var(--platinum); color: var(--ink); }
+.etp-drawer-body {
+  flex: 1; overflow-y: auto; padding: 24px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.etp-drawer-search {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--platinum); border: 1px solid transparent;
+  border-radius: var(--radius-md); padding: 10px 14px;
+}
+.etp-drawer-search:focus-within { border-color: var(--ink); background: var(--vellum); }
+.etp-drawer-search input {
+  flex: 1; border: 0; background: transparent;
+  font-family: var(--font-ui); font-size: var(--type-16); color: var(--char); min-width: 0;
+}
+.etp-drawer-search input:focus { outline: none; }
+.etp-drawer-nav { display: flex; flex-direction: column; gap: 2px; }
+.etp-drawer-eyebrow {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--graphite-mute); margin-bottom: 8px; padding: 0 4px;
+}
+.etp-drawer-nav a {
+  display: block; padding: 14px;
+  font-family: var(--font-display); font-size: var(--type-18); font-weight: 600;
+  color: var(--char); border-radius: var(--radius-md);
+  border-bottom: 1px solid var(--platinum-edge);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.etp-drawer-nav a:last-of-type { border-bottom: none; }
+.etp-drawer-nav a:hover { background: var(--platinum); color: var(--ink); }
+.etp-drawer-foot {
+  padding: 18px 24px; border-top: 1px solid var(--platinum-edge);
+  display: flex; flex-direction: column; gap: 12px; flex-shrink: 0;
+}
+.etp-drawer-foot .btn-primary { width: 100%; justify-content: center; }
+.etp-drawer-foot small {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--graphite-mute); text-align: center;
+}
+body.etp-drawer-open { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .etp-drawer, .etp-drawer-backdrop { transition: none; }
+}
+@media (min-width: 1400px) {
+  .etp-drawer, .etp-drawer-backdrop { display: none !important; }
+}
+@media (max-width: 1399px) {
+  .etp-nav { display: none; }
+  .etp-menu-toggle { display: inline-flex; }
+}
+@media (max-width: 699px) {
+  .etp-search-input { width: 100px; }
+  .etp-header-actions .btn-secondary { display: none; }
+}
+@media (max-width: 599px) { .etp-search-form { display: none; } }
+</style>
+
+<a class="ds-skip" href="#main">Skip to main content</a>
+
+<!-- Mobile nav drawer -->
+<div class="etp-drawer-backdrop" data-open="false" id="etp-drawer-backdrop" aria-hidden="true"></div>
+<aside class="etp-drawer" data-open="false" id="etp-drawer" aria-hidden="true" aria-labelledby="etp-drawer-title" role="dialog">
+  <div class="etp-drawer-head">
+    <span id="etp-drawer-title">Enterprise Tech Provider</span>
+    <button class="etp-drawer-close" type="button" aria-label="Close menu" id="etp-drawer-close">Close ✕</button>
+  </div>
+  <div class="etp-drawer-body">
+    <form class="etp-drawer-search" action="/search/node" role="search">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <input type="search" name="keys" placeholder="Search articles" aria-label="Search articles">
+    </form>
+    <nav class="etp-drawer-nav" aria-label="Primary (mobile)">
+      <span class="etp-drawer-eyebrow">By Topic</span>
+      <a href="/category/dta">Dell Tech Advantage</a>
+      <a href="/category/ai">Artificial Intelligence</a>
+      <a href="/category/mdi">Modern Datacenter</a>
+      <a href="/category/storage">Storage</a>
+      <a href="/category/hybrid-work">Modern Workplace</a>
+      <a href="/category/intel">Intel</a>
+      <a href="/category/microsoft">Microsoft</a>
+    </nav>
+  </div>
+  <div class="etp-drawer-foot">
+    <a class="btn-primary" href="#engagement">
+      <span class="btn-lab">Subscribe to the newsletter</span>
+      <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+    </a>
+    <small>Produced by The Channel Company &middot; Sponsored by Dell Technologies</small>
+  </div>
+</aside>
+
+<!-- Utility strip -->
+<div class="etp-utility-strip">
+  <div class="ds-container">
+    <p>Produced by The Channel Company &nbsp;&middot;&nbsp; Sponsored by Dell Technologies</p>
+    <p>A trade publication for the Dell channel</p>
+  </div>
+</div>
+
+<!-- Site header -->
+<nav class="etp-header" aria-label="Site header">
+  <div class="ds-container etp-header-inner">
+    <a href="https://www.thechannelco.com/" class="etp-sitemark" rel="noopener" target="_blank" aria-label="The Channel Company">
+      <img src="https://main--snowflake--ai-ecoverse.aem.page/stardust/prototypes/../current/assets/media/thechannelco_logo_white_300w-7807b093.png" alt="The Channel Company" width="116" height="24">
+    </a>
+    <nav class="etp-nav" aria-label="Primary">
+      <a href="/category/dta">Dell Tech Advantage</a>
+      <a href="/category/ai">AI</a>
+      <a href="/category/mdi">Modern Datacenter</a>
+      <a href="/category/storage">Storage</a>
+      <a href="/category/hybrid-work">Modern Workplace</a>
+      <a href="/category/intel">Intel</a>
+      <a href="/category/microsoft">Microsoft</a>
+    </nav>
+    <div class="etp-header-actions">
+      <form class="etp-search-form" action="/search/node" role="search">
+        <svg class="etp-search-icon" width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+          <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input type="search" name="keys" class="etp-search-input" placeholder="Search articles" aria-label="Search articles">
+      </form>
+      <button class="etp-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="etp-drawer" type="button" id="etp-menu-toggle">
+        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" aria-hidden="true">
+          <path d="M1 1h16M1 7h16M1 13h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<script>
+(function () {
+  var toggle = document.getElementById('etp-menu-toggle');
+  var drawer = document.getElementById('etp-drawer');
+  var backdrop = document.getElementById('etp-drawer-backdrop');
+  var closeBtn = document.getElementById('etp-drawer-close');
+  if (!toggle || !drawer || !backdrop) return;
+  var isOpen = false;
+  var lastFocus = null;
+  function open() {
+    if (isOpen) return;
+    isOpen = true;
+    lastFocus = document.activeElement;
+    drawer.setAttribute('data-open', 'true');
+    drawer.setAttribute('aria-hidden', 'false');
+    backdrop.setAttribute('data-open', 'true');
+    backdrop.setAttribute('aria-hidden', 'false');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('etp-drawer-open');
+    setTimeout(function () { closeBtn && closeBtn.focus(); }, 60);
+  }
+  function close() {
+    if (!isOpen) return;
+    isOpen = false;
+    drawer.setAttribute('data-open', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+    backdrop.setAttribute('data-open', 'false');
+    backdrop.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('etp-drawer-open');
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  toggle.addEventListener('click', function (e) { e.preventDefault(); isOpen ? close() : open(); });
+  closeBtn && closeBtn.addEventListener('click', close);
+  backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && isOpen) close(); });
+  drawer.querySelectorAll('a[href]').forEach(function (a) {
+    a.addEventListener('click', function () { setTimeout(close, 60); });
+  });
+  var mq = window.matchMedia('(min-width: 1400px)');
+  mq.addEventListener && mq.addEventListener('change', function (e) { if (e.matches) close(); });
+}());
+</script>

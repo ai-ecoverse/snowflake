@@ -1,0 +1,92 @@
+/* reads — "This week's reads" 2×2 magazine roster on platinum */
+.reads {
+  padding-block: var(--space-section-d);
+  background: var(--platinum);
+}
+
+.reads-roster {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px var(--space-gap-d);
+}
+
+.reads-card {
+  display: grid;
+  grid-template-columns: var(--img-roster) 1fr;
+  gap: 24px;
+  align-items: start;
+  color: var(--char);
+  text-decoration: none;
+}
+
+.reads-thumb {
+  width: var(--img-roster);
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-haze);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  display: block;
+}
+
+.reads-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--motion-slow) var(--ease-standard);
+}
+
+.reads-card:hover .reads-thumb img { transform: scale(1.03); }
+
+.reads-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.reads-body .ds-chip { align-self: flex-start; }
+
+.reads-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--type-20);
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+  color: var(--char);
+}
+
+.reads-card:hover .reads-body h3 { color: var(--ink); }
+
+.reads-deck {
+  font-family: var(--font-editorial);
+  font-style: italic;
+  font-size: var(--type-14);
+  line-height: 1.5;
+  color: var(--graphite);
+}
+
+.reads-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--graphite-mute);
+  display: flex;
+  gap: 6px 10px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+@media (max-width: 1023px) {
+  .reads-roster { grid-template-columns: 1fr; gap: 24px; }
+}
+
+@media (max-width: 599px) {
+  .reads { padding-block: var(--space-section-m); }
+  .reads-card { grid-template-columns: 110px 1fr; gap: 14px; }
+  .reads-thumb { width: 110px; }
+  .reads-body h3 { font-size: var(--type-16); line-height: 1.3; }
+  .reads-deck { display: none; }
+  .reads-meta { font-size: 10px; }
+}
