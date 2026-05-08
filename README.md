@@ -18,3 +18,4 @@ This project is _optimized_ for Stardust prototypes.
 ### 3. Run / Test
 1. Ensure you have a `/content` folder.
 1. Open your site: `aem up`.
+
