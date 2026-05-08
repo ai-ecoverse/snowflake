@@ -6,8 +6,9 @@
  *   2–N.    Tab rows: cell 1 = tab label | cell 2 = pane title | cell 3 = pane body
  *           (detected by having 3 cells and no img)
  *   N+1–M.  Card rows: cell 1 = mark text | cell 2 = mark data-mark | cell 3 = card title
- *           | cell 4 = badge text (optional, blank if none) | cell 5 = card body | cell 6 = link href
- *           (detected by having 6 cells)
+ *           | cell 4 = badge text (optional, blank if none) | cell 5 = card body
+ *           | cell 6 = link href | cell 7 = background image (optional)
+ *           (detected by having 6+ cells)
  *   Last.   Footer CTA row (single <a>)
  */
 
@@ -156,9 +157,17 @@ export default async function decorate(block) {
     link.append(content);
     container.append(link);
 
-    // Background image placeholder (no image authored → empty)
+    // Background image — revealed on hover
     const bg = document.createElement('div');
     bg.className = 'explore-card-background';
+    const bgImgCell = cells[6];
+    const bgImg = bgImgCell?.querySelector('img');
+    if (bgImg) {
+      const imgClone = bgImg.cloneNode(true);
+      imgClone.loading = 'lazy';
+      imgClone.alt = '';
+      bg.append(imgClone);
+    }
     container.append(bg);
 
     card.append(container);
