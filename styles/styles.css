@@ -1,18 +1,184 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/* ==========================================================
+   styles.css — EDS global styles for ai-ecoverse/snowflake
+   Converted from redesign-businessadobe prototype
+   ========================================================== */
+
+/* ── Font stacks ─────────────────────────────────────────── */
+/* Adobe Clean is proprietary (Typekit). We reference it so
+   licensed environments pick it up automatically; all other
+   environments fall back to system-ui / arial.
+   NOTE: No woff2 files are bundled — Adobe Clean requires a
+   Typekit/fonts.adobe.com licence. */
+:root {
+  --font-body:    "Adobe Clean", "adobe-clean", system-ui, arial, sans-serif;
+  --font-display: "Adobe Clean Display", "adobe-clean", system-ui, arial, sans-serif;
 }
 
-main div.section {
-  display: unset;
+/* Metric-matched fallback face so Arial approximates Adobe Clean
+   metrics at first paint (prevents layout shift on font swap). */
+@font-face {
+  font-family: "Arial";
+  src: local("Arial");
+  size-adjust: 94%;
+  ascent-override: 103%;
+  descent-override: 28%;
+  line-gap-override: 0%;
 }
 
-aem-sidekick {
-  opacity: 0;
+/* ── Body defaults ───────────────────────────────────────── */
+body {
+  font-family: arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+/* Once the font session is established, switch to brand font */
+body.session {
+  font-family: var(--font-body);
+}
 
-  &[open="true"].is-ready {
-    opacity: 1;
-  }
+/* ── Bizpro tokens (s2a-*) ───────────────────────────────── */
+:root {
+  --s2a-color-gray-50: #f8f8f8;
+  --s2a-color-gray-75: #f3f3f3;
+  --s2a-color-gray-700: #505050;
+  --s2a-color-blue-900: #3b63fb;
+  --s2a-color-blue-1000: #274dea;
+  --s2a-color-background-default: #ffffff;
+  --s2a-color-background-subtle: #f8f8f8;
+  --s2a-color-content-default: #000000;
+  --s2a-color-content-subtle: rgba(0,0,0,0.64);
+  --s2a-color-content-background-subtle: #505050;
+  --s2a-color-button-background-primary-solid-default: #3b63fb;
+  --s2a-color-transparent-black-08: rgba(0,0,0,0.08);
+  --s2a-color-transparent-black-16: rgba(0,0,0,0.16);
+  --s2a-color-transparent-white-64: rgba(255,255,255,0.64);
+
+  --s2a-typography-font-size-eyebrow: 16px;
+  --s2a-typography-line-height-eyebrow: 20px;
+  --s2a-typography-letter-spacing-eyebrow: -0.2px;
+  --s2a-typography-font-size-body-md: 16px;
+  --s2a-typography-line-height-body-md: 20px;
+  --s2a-typography-letter-spacing-body-md: 0.16px;
+  --s2a-typography-font-size-body-sm: 14px;
+  --s2a-typography-line-height-body-sm: 18px;
+  --s2a-typography-letter-spacing-body-sm: 0.16px;
+  --s2a-typography-font-size-label: 14px;
+  --s2a-typography-line-height-label: 18px;
+  --s2a-typography-font-size-title-4: 24px;
+  --s2a-typography-line-height-title-4: 24px;
+  --s2a-font-letter-spacing-4xl: -0.48px;
+
+  --s2a-spacing-xs: 8px;
+  --s2a-spacing-sm: 12px;
+  --s2a-spacing-md: 16px;
+  --s2a-spacing-lg: 24px;
+  --s2a-spacing-xl: 32px;
+  --s2a-spacing-2xl: 40px;
+  --s2a-spacing-3xl: 48px;
+  --s2a-spacing-4xl: 64px;
+  --s2a-spacing-5xl: 80px;
+  --s2a-spacing-6xl: 96px;
+  --s2a-layout-lg: 124px;
+
+  --s2a-border-radius-sm: 8px;
+  --s2a-border-radius-md: 16px;
+  --s2a-border-radius-lg: 32px;
+  --s2a-border-radius-999: 999px;
+
+  --s2a-duration-fast: 200ms;
+  --s2a-duration-base: 400ms;
+  --s2a-easing-default: cubic-bezier(0.42, 0, 0, 1);
+
+  --grid-margin-sm: 24px;
+  --grid-margin-md: 8.333vw;
+
+  /* Hero theme tokens */
+  --hero-bg:      #0c0820;
+  --hero-text:    #ffffff;
+  --hero-eyebrow: rgba(255,255,255,0.65);
+  --hero-body:    rgba(255,255,255,0.78);
+  --hero-pad-top: 98px;
+}
+
+/* ── EDS section scaffold ────────────────────────────────── */
+main .section { display: block; }
+main > div, .has-template, div[data-status] { display: none; }
+
+/* ── Container ───────────────────────────────────────────── */
+.container { width: 100%; padding-inline: var(--grid-margin-sm); }
+@media (min-width: 768px) { .container { padding-inline: var(--grid-margin-md); } }
+@media (min-width: 1441px) { .container { max-width: 1920px; margin-inline: auto; } }
+
+/* ── Global button system ────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 48px; width: fit-content; padding: 0 24px;
+  border-radius: 75px;
+  font-family: var(--font-body);
+  font-size: 14px; font-weight: 700; line-height: 18px;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  transition: background var(--s2a-duration-fast), border-color var(--s2a-duration-fast), color var(--s2a-duration-fast);
+  white-space: nowrap;
+  cursor: pointer;
+}
+/* Primary = solid black on light bg */
+.btn--primary { background: #000; color: #fff; border-color: #000; }
+.btn--primary:hover { background: #1f1f1f; }
+/* Solid-white = solid white on dark bg */
+.btn--solid-white { background: #fff; color: #000; border-color: #fff; }
+.btn--solid-white:hover { background: #e8e8e8; }
+.btn--outline { background: transparent; color: #000; border-color: #000; }
+.btn--outline:hover { background: rgba(0,0,0,0.04); }
+.btn--ghost-white { background: transparent; color: #fff; border-color: #fff; backdrop-filter: blur(16px); }
+.btn--ghost-white:hover { background: rgba(255,255,255,0.08); }
+
+/* ── Type utilities ──────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: var(--s2a-typography-font-size-eyebrow);
+  line-height: var(--s2a-typography-line-height-eyebrow);
+  letter-spacing: var(--s2a-typography-letter-spacing-eyebrow);
+  color: var(--s2a-color-content-background-subtle);
+}
+.title-2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(32px, 4.375vw, 56px); line-height: 1.0;
+  letter-spacing: clamp(-0.8px, -0.13vw, -1.68px);
+}
+.title-4 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: var(--s2a-typography-font-size-title-4);
+  line-height: var(--s2a-typography-line-height-title-4);
+  letter-spacing: var(--s2a-font-letter-spacing-4xl);
+}
+.body-md {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: var(--s2a-typography-font-size-body-md);
+  line-height: var(--s2a-typography-line-height-body-md);
+  letter-spacing: var(--s2a-typography-letter-spacing-body-md);
+  max-width: 80ch;
+}
+
+/* ── Animation init state ────────────────────────────────── */
+.anim-enter { opacity: 0; transform: translateY(40px); will-change: opacity, transform; }
+
+/* ── Keyframes ───────────────────────────────────────────── */
+@keyframes garage-door-grow {
+  from { transform: translateY(var(--gd-grow-from)); }
+  to   { transform: translateY(0); }
+}
+@keyframes garage-door-reveal {
+  from { transform: translateY(var(--gd-reveal-from)); }
+}
+@keyframes garage-door-bg-scale {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1); }
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .anim-enter { opacity: 1 !important; transform: none !important; }
+  .footer__wordmark svg { clip-path: inset(0% 0 0 0) !important; }
 }

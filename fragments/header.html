@@ -1,0 +1,60 @@
+<style>
+/* ── Sub-brand "for Business" ──────────────────────────────── */
+.gnav-subbrand {
+  font-family: var(--font-body); font-size: 16px; font-weight: 700;
+  color: #fff; letter-spacing: -0.01em;
+  padding-left: 8px; margin-left: 4px;
+  border-left: 1px solid rgba(255,255,255,0.24);
+  align-self: center; line-height: 18px; white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+#gnav.gnav--scrolled .gnav-subbrand {
+  color: #1a1a1a;
+  border-left-color: rgba(0,0,0,0.16);
+}
+@media (max-width: 767px) { .gnav-subbrand { display: none; } }
+
+/* ── Get started CTA in gnav-right ────────────────────────── */
+.gnav-cta {
+  display: inline-flex; align-items: center; height: 40px;
+  padding: 0 20px; background: #fff; color: #000;
+  border-radius: 999px;
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  line-height: 18px;
+  text-decoration: none;
+  transition: background 0.2s ease; margin-left: 4px;
+}
+.gnav-cta:hover { background: #e8e8e8; }
+</style>
+
+<header id="gnav">
+  <div class="gnav-inner">
+    <div class="gnav-left">
+      <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo.svg"       alt="Adobe" class="gnav-logo">
+      <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-black.svg" alt="Adobe" class="gnav-logo-black">
+      <span class="gnav-subbrand">for Business</span>
+      <div class="gnav-logo-sm-wrap" aria-hidden="true">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-sm.svg"       alt="" class="gnav-logo-sm">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-sm-black.svg" alt="" class="gnav-logo-sm-black">
+      </div>
+      <button id="mobileNavToggle" class="gnav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav class="gnav-links">
+        <a href="#" class="gnav-link" id="gnavProducts">Products <span class="gnav-chevron"><svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="#" class="gnav-link" id="gnavUseCases">AI <span class="gnav-chevron"><svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="#" class="gnav-link" id="gnavSolutions">Industries <span class="gnav-chevron"><svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="#" class="gnav-link" id="gnavLearnSupport">Roles <span class="gnav-chevron"><svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="#" class="gnav-link">Resources</a>
+        <a href="#" class="gnav-link">Support</a>
+      </nav>
+    </div>
+    <div class="gnav-right">
+      <button class="gnav-apps" aria-label="Apps">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/icons/S2_Icon_AppsAll_20_N.svg" alt="">
+      </button>
+      <a href="#" class="gnav-signin">Sign In</a>
+      <a href="#" class="gnav-cta">Get started</a>
+    </div>
+  </div>
+</header>

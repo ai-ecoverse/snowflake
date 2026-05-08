@@ -1,0 +1,76 @@
+/* hero-announce — announcement banner (Adobe + Semrush acquisition) */
+
+.hero-announce {
+  position: relative; z-index: 1;
+  background:
+    radial-gradient(ellipse 60% 90% at 0% 50%, rgba(139,104,232,0.45), transparent 60%),
+    radial-gradient(ellipse 60% 90% at 100% 50%, rgba(254,54,0,0.30), transparent 60%),
+    #0c0820;
+  color: #fff;
+  padding: 96px var(--grid-margin-md, 8.333vw) 28px;
+}
+@media (max-width: 1023px) { .hero-announce { padding-inline: var(--grid-margin-sm); } }
+
+.hero-announce__panel {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 32px;
+  align-items: center;
+  padding: 20px 24px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  backdrop-filter: blur(20px);
+}
+@media (max-width: 1023px) {
+  .hero-announce__panel {
+    grid-template-columns: 1fr; gap: 16px;
+    border-radius: 24px;
+    text-align: center; justify-items: center;
+  }
+}
+
+.hero-announce__lockup-wrap {
+  display: flex; align-items: center;
+}
+
+/* Real Adobe + Semrush SVG lockup (canonical asset). */
+.hero-announce__lockup {
+  display: block;
+  height: 22px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.hero-announce__copy {
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.hero-announce__head {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 18px; line-height: 1.15; color: #fff;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.hero-announce__sub {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: 13px; line-height: 1.4;
+  color: rgba(255,255,255,0.72);
+  margin: 0;
+}
+
+.hero-announce__ctas { display: inline-flex; gap: 8px; flex-shrink: 0; }
+
+.hero-announce__cta {
+  display: inline-flex; align-items: center; height: 40px;
+  padding: 0 20px; border-radius: 999px;
+  background: rgba(255,255,255,0.14); color: #fff;
+  backdrop-filter: blur(20px);
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  line-height: 18px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.hero-announce__cta:hover { background: rgba(255,255,255,0.24); }
+
+.hero-announce__cta--primary { background: #fff; color: #0E0E10; }
+.hero-announce__cta--primary:hover { background: #f3f3f3; }
