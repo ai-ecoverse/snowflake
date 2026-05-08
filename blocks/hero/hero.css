@@ -1,26 +1,29 @@
 /* ─── Pin spacer — scroll distance for GSAP timeline ─── */
 .hero-pin-spacer {
   display: block !important; /* override EDS main > div { display: none } */
+  height: 240vh;
   position: relative;
-  height: 240vh; /* scroll distance for the mosaic convergence */
 }
 .hero-pin-spacer > .section {
   display: block !important;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow: hidden;
+}
+.hero-pin-spacer .block-content {
+  display: block;
+  height: 100%;
 }
 
 /* ─── hero — Mosaic-convergence + hub-router (dark, full-viewport) ─── */
 .hero {
-  position: relative;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: visible;
   background: var(--hero-bg, #0c0820);
   color: var(--hero-text, #fff);
-  overflow: hidden;
-  min-height: 100svh;
+  border-radius: 0 0 32px 32px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 
 /* ─── Hero text overlay ─── */
