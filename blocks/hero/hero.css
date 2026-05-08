@@ -1,3 +1,15 @@
+/* ─── Pin spacer — scroll distance for GSAP timeline ─── */
+.hero-pin-spacer {
+  position: relative;
+  height: 240vh; /* scroll distance for the mosaic convergence */
+}
+.hero-pin-spacer > .section {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
 /* ─── hero — Mosaic-convergence + hub-router (dark, full-viewport) ─── */
 .hero {
   position: relative;
@@ -60,15 +72,7 @@
   gap: 8px;
   pointer-events: none;
 }
-/* Dark vignette overlay — pushes images back so headline pops */
-.hero-image-grid::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 1;
-  background:
-    radial-gradient(ellipse 80% 70% at 25% 45%, rgba(12,8,32,0.85), transparent 65%),
-    linear-gradient(180deg, rgba(12,8,32,0.4) 0%, transparent 30%, transparent 70%, rgba(12,8,32,0.6) 100%);
-  pointer-events: none;
-}
+
 @media (max-width: 767px) { .hero-image-grid { display: none; } }
 
 .grid-col {
@@ -82,7 +86,7 @@
 
 .grid-card img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  opacity: 0.3;
+  opacity: 0.55;
 }
 
 /* ─── Mobile image grid ─── */
@@ -112,7 +116,7 @@
 }
 .hmg-card img {
   width: 100%; height: 100%; object-fit: cover; display: block;
-  opacity: 0.25;
+  opacity: 0.5;
 }
 
 /* ─── Hub-router ─── */

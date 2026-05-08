@@ -168,4 +168,50 @@ export default async function decorate(block) {
 
   // ── Assemble ──────────────────────────────────────────────────────────────
   block.replaceChildren(heroText, imageGrid, mobileGrid, hubRouter);
+
+  // Give the block the #hero id expected by the animation scripts
+  block.id = 'hero';
+
+  // Wrap the hero section in a .hero-pin-spacer (scroll distance container)
+  const section = block.closest('.section');
+  if (section) {
+    const pinSpacer = document.createElement('div');
+    pinSpacer.className = 'hero-pin-spacer';
+    section.parentNode.insertBefore(pinSpacer, section);
+    pinSpacer.append(section);
+  }
+
+  // Add hub-title element (used by the animation for the scroll reveal)
+  const hubTitleEl = document.createElement('h2');
+  hubTitleEl.className = 'hero-hub-title t-title-2';
+  hubTitleEl.setAttribute('data-ta', '');
+  hubTitleEl.setAttribute('aria-hidden', 'true');
+  hubTitleEl.textContent = eyebrowCell?.textContent.trim() || 'ADOBE FOR BUSINESS';
+  block.insertBefore(hubTitleEl, hubRouter);
+
+  // ── Load GSAP + animation scripts ─────────────────────────────────────────
+  async function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.body.append(s);
+    });
+  }
+
+  // Reduced motion: skip animations entirely
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    try {
+      await loadScript('/runtime/vendor/gsap.min.js');
+      await loadScript('/runtime/vendor/ScrollTrigger.min.js');
+      await loadScript('/runtime/scripts/hub-router.js');
+      await loadScript('/runtime/scripts/hero-grid.js');
+      await loadScript('/runtime/scripts/hero-grid-mobile.js');
+      await loadScript('/runtime/scripts/hero-breakpoint-orchestrator.js');
+    } catch (e) {
+      // Animation scripts failed — hero still renders statically
+      console.warn('Hero animation scripts failed to load:', e);
+    }
+  }
 }
