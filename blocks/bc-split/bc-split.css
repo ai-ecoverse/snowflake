@@ -1,0 +1,19 @@
+.bc-split { background: #fff; padding-block: var(--space-6xl, 96px); }
+.bc-split__inner { max-width: 1280px; margin-inline: auto; padding-inline: var(--grid-margin-md, 8.333vw); display: flex; flex-direction: column; gap: 120px; }
+.bc-split__row { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.bc-split__row--right .bc-split__media { order: 2; } .bc-split__row--right .bc-split__copy { order: 1; }
+.bc-split__media { position: relative; aspect-ratio: 4/3; border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+.bc-split__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.bc-split__copy { display: flex; flex-direction: column; gap: 22px; }
+.bc-split__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(26px, 2.8vw, 38px); line-height: 1.1; letter-spacing: -0.025em; color: #1a1a1a; max-width: 22ch; }
+.bc-split__body { font-size: 17px; line-height: 1.5; color: rgba(0,0,0,0.75); max-width: 56ch; }
+.bc-split__bullets { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.bc-split__bullet { position: relative; padding-left: 32px; font-size: 15px; line-height: 1.5; color: rgba(0,0,0,0.78); }
+.bc-split__bullet::before { content: ''; position: absolute; left: 0; top: 4px; width: 18px; height: 18px; background: linear-gradient(135deg, #FF7A40, #E84C8B); border-radius: 50%; }
+.bc-split__bullet::after { content: '✓'; position: absolute; left: 4px; top: 3px; font-size: 10px; font-weight: 900; color: #fff; }
+.bc-split__cta { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; height: 44px; padding: 0 24px; background: #1a1a1a; color: #fff; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.2s, background 0.2s; }
+.bc-split__cta:hover { transform: translateY(-2px); background: #2a2a2a; }
+.bc-split__cta::after { content: '→'; transition: transform 0.2s; }
+.bc-split__cta:hover::after { transform: translateX(4px); }
+@media (max-width: 1023px) { .bc-split__row { grid-template-columns: 1fr; gap: 32px; } .bc-split__row--right .bc-split__media, .bc-split__row--right .bc-split__copy { order: 0; } }
+@media (prefers-reduced-motion: reduce) { .bc-split * { animation: none !important; transition: none !important; } }

@@ -1,0 +1,6 @@
+.sr-brands { background: var(--color-canvas-subtle, #f8f8f8); padding: 40px 0; overflow: hidden; border-top: 1px solid var(--color-rule, rgba(14,23,53,0.12)); border-bottom: 1px solid var(--color-rule, rgba(14,23,53,0.12)); }
+.sr-brands__track { display: flex; gap: 56px; width: max-content; animation: brands-scroll 30s linear infinite; align-items: center; }
+@keyframes brands-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.sr-brands__track img { height: 28px; width: auto; object-fit: contain; opacity: 0.55; filter: grayscale(1); transition: opacity 0.2s, filter 0.2s; }
+.sr-brands__track img:hover { opacity: 1; filter: none; }
+@media (prefers-reduced-motion: reduce) { .sr-brands__track { animation: none; } }

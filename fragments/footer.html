@@ -1,0 +1,88 @@
+<style>
+  .footer { position: relative; background: #000; }
+  .footer__main { display: flex; flex-direction: column; gap: 40px; padding: 64px 24px 0; }
+  @media (min-width: 768px) { .footer__main { padding-inline: 124px; } }
+  .footer__cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px 20px; }
+  @media (min-width: 900px) { .footer__cols { grid-template-columns: repeat(6, 1fr); gap: 0 8px; } }
+  .footer__col { display: flex; flex-direction: column; gap: 24px; }
+  .footer__col-title { font-family: var(--font-body); font-weight: 700; color: #fff; font-size: 16px; line-height: 20px; letter-spacing: -0.2px; }
+  .footer__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .footer__col ul li a { font-family: var(--font-body); font-size: 16px; font-weight: 400; color: rgba(255, 255, 255, 0.64); text-decoration: none; }
+  .footer__col ul li a:hover { color: #fff; }
+  .footer__bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-block: 32px; border-top: 1px solid rgba(255, 255, 255, 0.08); margin-top: 48px; }
+  .footer__legal { display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .footer__legal-item { font-family: var(--font-body); font-size: 12px; font-weight: 700; color: rgba(255, 255, 255, 0.64); letter-spacing: 0.04em; }
+  .footer__legal-item a { color: rgba(255, 255, 255, 0.64); text-decoration: none; }
+  .footer__legal-item a:hover { color: #fff; }
+</style>
+
+<footer class="footer">
+  <div class="footer__main">
+    <div class="footer__cols">
+      <div class="footer__col">
+        <div class="footer__col-title">Contact us</div>
+        <ul><li><a href="#">Request a demo</a></li></ul>
+        <div class="footer__col-title" style="margin-top:24px">Our solutions</div>
+        <ul>
+          <li><a href="#">Customer engagement</a></li>
+          <li><a href="#">Content supply chain</a></li>
+          <li><a href="#">Brand visibility</a></li>
+          <li><a href="#">B2B CX orchestration</a></li>
+          <li><a href="#">AI for business</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">Large &amp; medium<br>business</div>
+        <ul>
+          <li><a href="#">Explore products</a></li>
+          <li><a href="#">Adobe Analytics</a></li>
+          <li><a href="#">Acrobat Sign</a></li>
+          <li><a href="#">Brand intelligence</a></li>
+          <li><a href="#">GenStudio</a></li>
+          <li><a href="#">Real-Time CDP</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">Individuals &amp;<br>small business</div>
+        <ul>
+          <li><a href="#">Explore all products</a></li>
+          <li><a href="#">Adobe Express</a></li>
+          <li><a href="#">Adobe Firefly</a></li>
+          <li><a href="#">Creative Cloud</a></li>
+          <li><a href="#">Photoshop</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">Resources &amp;<br>support</div>
+        <ul>
+          <li><a href="#">Resource center</a></li>
+          <li><a href="#">Customer success stories</a></li>
+          <li><a href="#">Adobe business blog</a></li>
+          <li><a href="#">Customer support</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">Adobe</div>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Investors</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Adobe for All</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <div class="footer__col-title">Region</div>
+        <ul><li><a href="#">English (US)</a></li></ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__legal">
+        <span class="footer__legal-item">&copy; 2026 Adobe. All rights reserved.</span>
+        <span class="footer__legal-item"><a href="#">Privacy</a></span>
+        <span class="footer__legal-item"><a href="#">Terms of Use</a></span>
+        <span class="footer__legal-item"><a href="#">Cookie preferences</a></span>
+      </div>
+    </div>
+  </div>
+</footer>

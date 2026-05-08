@@ -1,0 +1,19 @@
+.sr-testimonial { padding: 120px var(--grid-margin-md, 8.333vw); background: linear-gradient(180deg, #fff 0%, #f8f8f8 100%); }
+.sr-testimonial__inner { max-width: 1280px; margin-inline: auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 80px; align-items: center; }
+.sr-testimonial__copy { display: grid; gap: 24px; }
+.sr-testimonial__eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #505050; }
+.sr-testimonial__heading { font-family: var(--font-display); font-weight: 900; font-size: clamp(24px, 2.4vw, 36px); line-height: 1.12; letter-spacing: -0.02em; color: var(--color-ink, #0E1735); }
+.sr-testimonial__quote { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 2.8vw, 36px); line-height: 1.32; letter-spacing: -0.6px; color: var(--color-ink, #0E1735); max-width: 32ch; }
+.sr-testimonial__quote::before { content: "\201C"; display: block; font-size: 96px; line-height: 0.6; color: var(--color-primary, #FF642D); margin-bottom: 16px; }
+.sr-testimonial__byline { display: flex; align-items: center; gap: 16px; padding-top: 8px; flex-wrap: wrap; }
+.sr-testimonial__portrait { width: 56px; height: 56px; border-radius: 999px; overflow: hidden; background: #ececec; flex-shrink: 0; }
+.sr-testimonial__portrait img { width: 100%; height: 100%; object-fit: cover; }
+.sr-testimonial__name { font-weight: 700; font-size: 16px; color: var(--color-ink, #0E1735); }
+.sr-testimonial__role { font-size: 14px; color: #505050; }
+.sr-testimonial__logo { margin-left: auto; opacity: 0.7; }
+.sr-testimonial__logo img { max-height: 28px; max-width: 140px; object-fit: contain; }
+.sr-testimonial__metric { background: var(--color-primary, #FF642D); color: #fff; border-radius: 24px; padding: 56px 48px; display: grid; gap: 8px; box-shadow: 0 30px 60px -20px rgba(255,100,45,0.4); position: relative; overflow: hidden; }
+.sr-testimonial__metric::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 100% 100%, rgba(255,255,255,0.18), transparent 60%); }
+.sr-testimonial__metric-value { position: relative; font-family: var(--font-display); font-weight: 900; font-size: clamp(72px, 8vw, 112px); line-height: 0.92; letter-spacing: -3.2px; }
+.sr-testimonial__metric-label { position: relative; font-size: 16px; font-weight: 600; letter-spacing: 0.2px; color: rgba(255,255,255,0.95); }
+@media (max-width: 1023px) { .sr-testimonial__inner { grid-template-columns: 1fr; gap: 48px; } }

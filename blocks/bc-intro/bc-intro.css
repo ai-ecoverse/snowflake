@@ -1,0 +1,2 @@
+.bc-intro { background: #fff; padding: var(--space-6xl, 96px) var(--grid-margin-sm, 24px) var(--space-3xl, 48px); text-align: center; }
+.bc-intro__title { max-width: 980px; margin-inline: auto; font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.1; letter-spacing: -0.025em; color: #1a1a1a; }

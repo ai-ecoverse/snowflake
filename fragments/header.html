@@ -1,0 +1,110 @@
+<style>
+  /* ── Global Nav ────────────────────────────────────────────────── */
+  #gnav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 8px;
+  }
+  .gnav-inner {
+    position: relative;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px; padding: 0 16px;
+    max-width: 1904px; margin: 0 auto;
+    border-radius: 16px;
+  }
+  .gnav-inner::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.51);
+    backdrop-filter: blur(64px); -webkit-backdrop-filter: blur(64px);
+    opacity: 0; transition: opacity 0.35s ease; pointer-events: none;
+  }
+  #gnav.gnav--scrolled .gnav-inner::before { opacity: 1; }
+  .gnav-left { display: flex; align-items: center; gap: 24px; height: 100%; padding-left: 4px; }
+  .gnav-logo, .gnav-logo-black { display: block; width: 67px; height: 16px; flex-shrink: 0; }
+  .gnav-logo-black { display: none; }
+  #gnav.gnav--scrolled .gnav-logo { display: none; }
+  #gnav.gnav--scrolled .gnav-logo-black { display: block; }
+  .gnav-subbrand {
+    font-family: var(--font-body); font-size: 16px; font-weight: 700; color: #fff;
+    letter-spacing: -0.01em; padding-left: 8px; margin-left: 4px;
+    border-left: 1px solid rgba(255, 255, 255, 0.24);
+    align-self: center; line-height: 18px; white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  #gnav.gnav--scrolled .gnav-subbrand { color: #000; border-color: rgba(0, 0, 0, 0.2); }
+  .gnav-links { display: none; align-items: center; gap: 24px; height: 100%; }
+  .gnav-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    color: #fff; text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: color 0.35s ease, opacity 0.15s ease;
+  }
+  #gnav.gnav--scrolled .gnav-link { color: #000; }
+  .gnav-chevron { display: inline-flex; align-items: center; flex-shrink: 0; line-height: 0; }
+  .gnav-right { display: flex; align-items: center; gap: 12px; }
+  .gnav-apps {
+    display: flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; background: none; border: none; padding: 0; cursor: pointer;
+  }
+  .gnav-apps img { display: block; width: 100%; height: 100%; filter: brightness(0) invert(1); transition: filter 0.35s ease; }
+  #gnav.gnav--scrolled .gnav-apps img { filter: brightness(0); }
+  .gnav-cta {
+    display: inline-flex; align-items: center; height: 40px; padding: 0 20px;
+    background: #fff; color: #000; border-radius: 999px;
+    font-family: var(--font-body); font-size: 14px; font-weight: 700;
+    text-decoration: none; transition: background 0.2s, transform 0.2s; margin-left: 4px;
+  }
+  .gnav-cta:hover { background: #e8e8e8; transform: translateY(-1px); }
+  .gnav-hamburger {
+    display: flex; flex-direction: column; gap: 5px; justify-content: center; align-items: center;
+    width: 36px; height: 36px; background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .gnav-hamburger span {
+    display: block; width: 20px; height: 2px; background: #fff; border-radius: 2px;
+    transition: background 0.2s;
+  }
+  #gnav.gnav--scrolled .gnav-hamburger span { background: #000; }
+  @media (min-width: 768px) {
+    .gnav-links { display: flex; }
+    .gnav-hamburger { display: none; }
+  }
+  /* Scroll state toggled by postlcp scroll listener */
+</style>
+
+<header id="gnav">
+  <div class="gnav-inner">
+    <div class="gnav-left">
+      <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo.svg" alt="Adobe" class="gnav-logo">
+      <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-black.svg" alt="Adobe" class="gnav-logo-black">
+      <span class="gnav-subbrand">for Business</span>
+      <div class="gnav-logo-sm-wrap" aria-hidden="true">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-sm.svg" alt="" class="gnav-logo-sm">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/adobe-logo-sm-black.svg" alt="" class="gnav-logo-sm-black">
+      </div>
+      <button id="mobileNavToggle" class="gnav-hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+      <nav class="gnav-links">
+        <a href="#" class="gnav-link" id="gnavProducts">Main Menu <span class="gnav-chevron"><svg width="8" height="5" viewBox="0 0 8 5" fill="none" aria-hidden="true"><path d="M1 1L4 4L7 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a href="#" class="gnav-link">Brand Concierge</a>
+        <a href="#" class="gnav-link">Features</a>
+        <a href="#" class="gnav-link">Use Cases</a>
+        <a href="#" class="gnav-link">Resources</a>
+      </nav>
+    </div>
+    <div class="gnav-right">
+      <button class="gnav-apps" aria-label="Apps">
+        <img src="https://main--snowflake--ai-ecoverse.aem.page/runtime/assets/icons/S2_Icon_AppsAll_20_N.svg" alt="">
+      </button>
+      <a href="#" class="gnav-cta">Get started</a>
+    </div>
+  </div>
+</header>
+<script type="module">
+  // Scroll state
+  const gnav = document.getElementById('gnav');
+  if (gnav) {
+    const onScroll = () => gnav.classList.toggle('gnav--scrolled', window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

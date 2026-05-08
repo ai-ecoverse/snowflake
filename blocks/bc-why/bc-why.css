@@ -1,0 +1,18 @@
+.bc-why { background: #fff; padding-block: var(--space-6xl, 96px); overflow: hidden; }
+.bc-why__header { max-width: 720px; margin: 0 auto 80px; text-align: center; padding-inline: var(--grid-margin-sm, 24px); }
+.bc-why__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; color: #1a1a1a; }
+.bc-why__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1320px; margin: 0 auto; padding-inline: var(--grid-margin-md, 8.333vw); }
+.bc-why-card { padding: 28px; border-radius: 24px; overflow: hidden; transition: transform 0.4s, box-shadow 0.4s; }
+.bc-why-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+.bc-why-card--1 { background: linear-gradient(160deg, #FFE5D6 0%, #FFCFB5 100%); min-height: 380px; }
+.bc-why-card--2 { background: linear-gradient(160deg, #DCE7FF 0%, #B8C9FF 100%); min-height: 460px; margin-top: -32px; }
+.bc-why-card--3 { background: linear-gradient(160deg, #E5DCFF 0%, #C5B5FF 100%); min-height: 380px; }
+.bc-why-card--4 { background: linear-gradient(160deg, #DCF5E5 0%, #B5E0C5 100%); min-height: 460px; margin-top: -32px; }
+.bc-why-card__media { aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; margin-bottom: 20px; background: rgba(255,255,255,0.4); }
+.bc-why-card__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s; }
+.bc-why-card:hover .bc-why-card__media img { transform: scale(1.06); }
+.bc-why-card__title { font-family: var(--font-display); font-weight: 900; font-size: 19px; line-height: 1.15; letter-spacing: -0.02em; color: #1a1a1a; margin-bottom: 12px; }
+.bc-why-card__body { font-size: 14px; line-height: 1.5; color: rgba(0,0,0,0.7); }
+@media (max-width: 1279px) { .bc-why__grid { grid-template-columns: repeat(2, 1fr); } .bc-why-card--2, .bc-why-card--4 { margin-top: 0; } }
+@media (max-width: 767px) { .bc-why__grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .bc-why * { animation: none !important; transition: none !important; } }

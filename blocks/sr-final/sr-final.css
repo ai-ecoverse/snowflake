@@ -1,0 +1,12 @@
+.sr-final {
+  padding: 120px var(--grid-margin-md, 8.333vw);
+  background:
+    radial-gradient(ellipse 50% 60% at 50% 100%, rgba(255,100,45,0.50), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 0%, rgba(110,63,243,0.30), transparent 60%),
+    #0E1735;
+  color: #fff; text-align: center; position: relative; overflow: hidden;
+}
+.sr-final__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(40px, 5vw, 80px); line-height: 0.96; letter-spacing: -1.6px; color: #fff; max-width: 18ch; margin: 0 auto 16px; }
+.sr-final__body { color: rgba(255,255,255,0.78); font-size: 18px; margin-bottom: 32px; }
+.sr-final__actions { display: flex; justify-content: center; gap: 16px; }
+.sr-final__actions a.btn { height: 56px; padding: 0 36px; font-size: 16px; }

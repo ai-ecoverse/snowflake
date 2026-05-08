@@ -1,0 +1,15 @@
+.bc-conversations { background: #d6e8f0; padding-block: var(--space-6xl, 96px); overflow: hidden; }
+.bc-conversations__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; max-width: 1280px; margin: 0 auto; padding-inline: var(--grid-margin-md, 8.333vw); }
+.bc-conversations__copy { display: flex; flex-direction: column; gap: 20px; }
+.bc-conversations__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; color: #1a1a1a; max-width: 18ch; }
+.bc-conversations__body { font-size: 17px; line-height: 1.5; color: rgba(0,0,0,0.65); max-width: 56ch; }
+.bc-conversations__cta { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 24px; background: #1a1a1a; color: #fff; border-radius: 999px; font-size: 14px; font-weight: 700; text-decoration: none; transition: transform 0.2s, background 0.2s; }
+.bc-conversations__cta:hover { transform: translateY(-2px); background: #2a2a2a; }
+.bc-conversations__cta::after { content: '→'; transition: transform 0.2s; }
+.bc-conversations__cta:hover::after { transform: translateX(4px); }
+.bc-conversations__diagram { position: relative; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 40px; }
+.bc-conv-prompt { background: #1a1a1a; color: #fff; padding: 12px 18px; border-radius: 999px; font-size: 13px; font-weight: 600; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.bc-conv-center { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, #FF7A40, #E84C8B, #8B68E8); color: #fff; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; font-size: 15px; box-shadow: 0 0 40px rgba(232,76,139,0.4); text-align: center; flex-shrink: 0; padding: 16px; }
+.bc-conv-leaves { display: flex; justify-content: space-around; gap: 12px; width: 100%; }
+.bc-conv-leaf { padding: 14px 18px; background: #fff; border-radius: 14px; font-weight: 700; font-size: 12px; color: #1a1a1a; text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); flex: 1; max-width: 130px; }
+@media (max-width: 1023px) { .bc-conversations__grid { grid-template-columns: 1fr; gap: 48px; padding-inline: var(--grid-margin-sm, 24px); } }

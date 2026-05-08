@@ -1,0 +1,7 @@
+.bc-marquee { position: relative; background: #0c0820; color: #fff; padding-block: 32px; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); }
+.bc-marquee__track { display: flex; gap: 48px; width: max-content; animation: marquee-scroll 40s linear infinite; align-items: center; }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.bc-marquee__item { font-family: var(--font-display); font-weight: 900; font-size: clamp(30px, 4vw, 60px); letter-spacing: -0.03em; line-height: 1; color: rgba(255,255,255,0.18); white-space: nowrap; flex-shrink: 0; }
+.bc-marquee__item--accent { background: linear-gradient(120deg, #FF7A40, #E84C8B, #8B68E8); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bc-marquee__sep { font-family: var(--font-display); font-size: clamp(30px, 4vw, 60px); color: #FF7A40; flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) { .bc-marquee__track { animation: none; } }

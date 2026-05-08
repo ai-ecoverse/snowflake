@@ -1,18 +1,124 @@
-/* Edge Delivery default decoration */
-main > div,
-.has-template,
-div[data-status] {
-  display: none;
+/* ─────────────────────────────────────────────────────────────────
+   SEMRUSH × Adobe EDS — Global Styles
+   Brand: Semrush orange #FF642D on dark navy #0E1735
+   Font: Adobe Clean Display (proprietary — CDN load; no self-host).
+         System fallback: system-ui, sans-serif.
+         body.session pattern retained; CLS trade-off documented.
+   ───────────────────────────────────────────────────────────────── */
+
+/* ── Font tokens ────────────────────────────────────────────────── */
+:root {
+  --font-display: 'Adobe Clean Display', system-ui, sans-serif;
+  --font-body:    'Adobe Clean', 'Adobe Clean Display', system-ui, sans-serif;
+
+  /* ── Brand palette ──────────────────────────────────────────── */
+  --color-primary:      #FF642D;
+  --color-primary-dark: #E8501B;
+  --color-ink:          #0E1735;
+  --color-ink-subtle:   rgba(14, 23, 53, 0.64);
+  --color-canvas:       #ffffff;
+  --color-canvas-subtle:#f8f8f8;
+  --color-rule:         rgba(14, 23, 53, 0.12);
+  --color-rule-strong:  rgba(14, 23, 53, 0.24);
+  --color-white-64:     rgba(255, 255, 255, 0.64);
+  --color-white-82:     rgba(255, 255, 255, 0.82);
+
+  /* ── Gradient ───────────────────────────────────────────────── */
+  --gradient-warm: linear-gradient(135deg, #FF7A40, #E84C8B, #8B68E8);
+  --gradient-brand: linear-gradient(90deg, #6E3FF3 0%, #C535B7 50%, #FF642D 100%);
+
+  /* ── Spacing ────────────────────────────────────────────────── */
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+  --space-5xl: 80px;
+  --space-6xl: 96px;
+
+  /* ── Layout ─────────────────────────────────────────────────── */
+  --grid-margin-sm: 24px;
+  --grid-margin-md: 8.333vw;
+
+  /* ── Radii ──────────────────────────────────────────────────── */
+  --radius-sm:  8px;
+  --radius-md:  16px;
+  --radius-lg:  24px;
+  --radius-xl:  32px;
+  --radius-pill: 999px;
+
+  /* ── Motion ─────────────────────────────────────────────────── */
+  --ease-default: cubic-bezier(0.42, 0, 0, 1);
+  --ease-out:     cubic-bezier(0.2, 0, 0, 1);
 }
 
-main div.section {
-  display: unset;
-}
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: system-ui, sans-serif; background: var(--color-canvas); color: var(--color-ink); -webkit-font-smoothing: antialiased; }
+body.session { font-family: var(--font-body); }
+img, video { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+button { cursor: pointer; border: none; background: none; padding: 0; font: inherit; }
+::selection { background: rgba(255, 100, 45, 0.2); }
+
+/* ── EDS section scaffold ────────────────────────────────────────── */
+main .section { display: block; }
+main .section > .default-content,
+main .section > .block-content { display: block; }
+main > div,
+.has-template,
+div[data-status] { display: none; }
 
 aem-sidekick {
   opacity: 0;
-
-  &[open="true"].is-ready {
-    opacity: 1;
-  }
 }
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
+}
+
+/* ── Global button system ────────────────────────────────────────── */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  transition: background 200ms var(--ease-default),
+              border-color 200ms var(--ease-default),
+              color 200ms var(--ease-default),
+              transform 200ms var(--ease-default);
+  white-space: nowrap;
+}
+
+a.btn-primary   { background: var(--color-primary);   color: #fff; border-color: var(--color-primary); }
+a.btn-primary:hover { background: var(--color-primary-dark); border-color: var(--color-primary-dark); transform: translateY(-1px); }
+
+a.btn-secondary { background: transparent; color: var(--color-ink); border-color: var(--color-rule-strong); }
+a.btn-secondary:hover { background: rgba(14, 23, 53, 0.04); border-color: var(--color-ink); }
+
+/* Secondary on dark surfaces */
+.dark a.btn-secondary,
+.sr-hero a.btn-secondary { color: #fff; border-color: rgba(255, 255, 255, 0.6); }
+.dark a.btn-secondary:hover,
+.sr-hero a.btn-secondary:hover { background: rgba(255, 255, 255, 0.10); border-color: #fff; }
+
+a.btn-white { background: #fff; color: var(--color-ink); border-color: #fff; }
+a.btn-white:hover { background: #ececec; }
+
+a.btn-ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(16px); }
+a.btn-ghost:hover { background: rgba(255, 255, 255, 0.10); border-color: #fff; }
+
+.btn-group { display: inline-flex; flex-wrap: wrap; gap: 12px; align-items: center; }
