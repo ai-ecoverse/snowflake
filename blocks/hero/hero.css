@@ -3,6 +3,7 @@
   display: block !important; /* override EDS main > div { display: none } */
   height: 240vh;
   position: relative;
+  background: var(--hero-bg, #0c0820);
 }
 .hero-pin-spacer > .section {
   display: block !important;
@@ -22,15 +23,17 @@
   color: var(--hero-text, #fff);
   border-radius: 0 0 32px 32px;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: var(--hero-pad-top, 98px);
   z-index: 1;
 }
 
 /* ─── Hero text overlay ─── */
 .hero-text {
   position: relative; z-index: 2;
-  padding: var(--hero-pad-top, 98px) var(--grid-margin-md, 8.333vw) 48px;
-  max-width: 700px;
+  text-align: center;
+  padding: 0 var(--grid-margin-md, 8.333vw) 48px;
 }
 @media (max-width: 1023px) { .hero-text { padding-inline: var(--grid-margin-sm); } }
 
@@ -67,7 +70,7 @@
   max-width: 55ch; margin: 0 0 28px;
 }
 
-.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
 
 /* ─── Desktop image grid ─── */
 .hero-image-grid {
