@@ -30,7 +30,7 @@ export default async function decorate(block) {
       const sep = document.createElement('span');
       sep.className = 'bc-marquee__sep';
       sep.setAttribute('aria-hidden', 'true');
-      sep.textContent = 'Â·';
+      sep.textContent = '·';
       fragment.appendChild(sep);
     });
     return fragment;
