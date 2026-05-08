@@ -6,7 +6,7 @@
  *   2. tab names (one per cell in the row)
  *   3. active tab title (h3)
  *   4. active tab body
- *   5–N. product card rows: mark-initials | mark-color | title | body | NEW badge (optional) | link
+ *   5–N. product card rows: mark-initials | mark-color | title | body | NEW badge (optional) | link | background image
  *   last. footer CTA link
  */
 export default async function decorate(block) {
@@ -85,6 +85,8 @@ export default async function decorate(block) {
     const badge = cells[4]?.textContent.trim();
     const link = cells[5]?.querySelector('a') || document.createElement('a');
 
+    const bgImg = cells[6]?.querySelector('img, picture');
+
     const card = document.createElement('div');
     card.className = 'explore-card';
     const container = document.createElement('div');
@@ -121,6 +123,17 @@ export default async function decorate(block) {
     content.append(mark, textWrap);
     linkEl.append(content);
     container.append(linkEl);
+
+    // Background image (hover-reveal)
+    if (bgImg) {
+      const bg = document.createElement('div');
+      bg.className = 'explore-card-background';
+      const img = bgImg.cloneNode(true);
+      if (img.tagName === 'IMG') img.loading = 'lazy';
+      bg.append(img);
+      container.append(bg);
+    }
+
     card.append(container);
     grid.append(card);
   });
