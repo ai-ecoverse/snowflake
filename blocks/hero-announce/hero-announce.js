@@ -19,9 +19,11 @@ export default async function decorate(block) {
   const panel = document.createElement('div');
   panel.className = 'hero-announce__panel';
 
-  if (lockupCell?.querySelector('img, picture')) {
-    const img = lockupCell.querySelector('img, picture').cloneNode(true);
+  if (lockupCell?.querySelector('img')) {
+    // Extract the <img> directly (skip the EDS <picture> wrapper)
+    const img = lockupCell.querySelector('img').cloneNode(true);
     img.className = 'hero-announce__lockup';
+    img.removeAttribute('loading');
     panel.append(img);
   }
 
