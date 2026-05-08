@@ -1,9 +1,11 @@
 /* ─── Pin spacer — scroll distance for GSAP timeline ─── */
 .hero-pin-spacer {
+  display: block !important; /* override EDS main > div { display: none } */
   position: relative;
   height: 240vh; /* scroll distance for the mosaic convergence */
 }
 .hero-pin-spacer > .section {
+  display: block !important;
   position: sticky;
   top: 0;
   height: 100vh;
