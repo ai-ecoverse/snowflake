@@ -1,0 +1,82 @@
+/* ─── studio-banner — Final CTA garage-door scroll-driven (black, gradient) ─── */
+.studio-banner {
+  --gd-grow-from: -50vh;
+  --gd-reveal-from: 20vh;
+  position: relative;
+  background: #000;
+  height: min(100vh, 720px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  overflow: clip; isolation: isolate;
+  transform-origin: top center;
+  animation: garage-door-grow ease-out both;
+  animation-timeline: view(block);
+  animation-range: entry 0% cover 40%;
+}
+@media (min-width: 1280px) {
+  .studio-banner {
+    --gd-grow-from: -110vh;
+    --gd-reveal-from: 50vh;
+    animation-range: entry 0% cover 50%;
+  }
+}
+
+.studio-banner .section-background {
+  position: absolute; inset: 0; z-index: -1;
+  animation: garage-door-bg-scale ease-out both;
+  animation-timeline: view(block);
+  animation-range: entry 0% cover 100%;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(255,87,34,0.25), transparent 55%),
+    radial-gradient(ellipse at 70% 60%, rgba(59,99,251,0.30), transparent 55%),
+    linear-gradient(135deg,#0c0820 0%,#1a1240 60%,#0c0820 120%);
+}
+
+.studio-banner__overlay {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0) 50%, #000 100%);
+}
+
+.studio-banner__content {
+  position: relative; z-index: 1; text-align: center; color: #fff;
+  padding: var(--s2a-spacing-6xl, 96px) var(--s2a-spacing-xs, 8px);
+  width: 100%;
+  animation: garage-door-reveal ease-out both;
+  animation-timeline: view(block);
+  animation-range: cover -10% cover 100%;
+}
+@media (min-width: 768px)  { .studio-banner__content { max-width: 708px; margin-inline: auto; } }
+@media (min-width: 1441px) { .studio-banner__content { max-width: 1064px; } }
+
+.studio-banner__title { color: #fff; margin-bottom: 16px; }
+
+.studio-banner__body {
+  font-size: 16px; line-height: 1.4;
+  color: rgba(255,255,255,0.85);
+  max-width: 60ch; margin: 0 auto 24px;
+}
+
+.studio-banner__ctas {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;
+}
+
+@keyframes garage-door-grow {
+  from { transform: translateY(var(--gd-grow-from)); }
+  to   { transform: translateY(0); }
+}
+@keyframes garage-door-reveal {
+  from { transform: translateY(var(--gd-reveal-from)); }
+}
+@keyframes garage-door-bg-scale {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .studio-banner,
+  .studio-banner .section-background,
+  .studio-banner__content {
+    animation: none !important;
+    transform: none !important;
+  }
+}

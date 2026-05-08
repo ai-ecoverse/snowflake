@@ -1,0 +1,84 @@
+/* ─── brand-concierge — Agentic search section (black surface) ─── */
+.brand-concierge {
+  position: relative;
+  background: #000;
+  padding: var(--s2a-layout-lg, 124px) var(--grid-margin-sm, 24px);
+  text-align: center;
+}
+@media (min-width: 768px) { .brand-concierge { padding-inline: var(--s2a-layout-lg, 124px); } }
+
+.search-section__inner {
+  display: flex; flex-direction: column;
+  align-items: center; gap: var(--s2a-spacing-lg, 24px);
+}
+
+.search-section__copy {
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  padding-bottom: var(--s2a-spacing-xl, 32px);
+  width: 100%;
+}
+
+.search-section__title { color: #fff; margin: 0; }
+
+.search-section__body {
+  font-size: 20px; line-height: 1.3; letter-spacing: -0.4px;
+  color: #fff; margin: 0;
+  max-width: 60ch;
+}
+
+.search-bar {
+  width: 100%; max-width: 768px; height: 56px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.06);
+  display: flex; align-items: center; overflow: hidden;
+}
+
+.search-bar__icon-left {
+  flex-shrink: 0; padding-left: 24px;
+  display: flex; align-items: center;
+}
+.search-bar__icon-left svg { width: 16px; height: 16px; color: rgba(255,255,255,0.6); }
+
+.search-bar__input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-family: var(--font-body); font-size: 16px;
+  color: #fff; padding: 16px;
+}
+.search-bar__input::placeholder { color: rgba(255,255,255,0.6); }
+
+.search-bar__btn {
+  flex-shrink: 0; width: 36px; height: 36px;
+  border-radius: 8px; border: none;
+  background: rgba(255,255,255,0.15); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  margin-right: 12px;
+}
+.search-bar__btn svg { width: 18px; height: 18px; color: #fff; }
+
+.search-section__chips {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center; max-width: 768px;
+  margin-top: var(--s2a-spacing-md, 16px);
+}
+
+.search-section__chip {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 999px;
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-body); font-size: 13px; font-weight: 400;
+  cursor: pointer; transition: background 0.2s;
+}
+.search-section__chip:hover { background: rgba(255,255,255,0.06); }
+
+.search-section__disclaimer {
+  font-family: var(--font-body);
+  font-size: 12px; line-height: 1.5;
+  color: rgba(255,255,255,0.55);
+  margin-top: var(--s2a-spacing-md, 16px);
+  max-width: 720px;
+}
+.search-section__disclaimer a { color: rgba(255,255,255,0.7); text-decoration: underline; }

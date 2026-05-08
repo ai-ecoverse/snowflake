@@ -1,0 +1,94 @@
+/* ─── announce-carousel — Paged 3-up text card carousel (light gray bg) ─── */
+.announce-carousel {
+  background: var(--s2a-color-background-subtle, #f8f8f8);
+  padding: 96px var(--grid-margin-md, 8.333vw) 96px;
+}
+@media (max-width: 1023px) { .announce-carousel { padding-inline: var(--grid-margin-sm, 24px); } }
+
+.announce-carousel__header {
+  max-width: 1920px; margin: 0 auto 40px;
+  text-align: center;
+}
+
+.announce-carousel__title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(28px, 3.5vw, 48px); line-height: 1.0; letter-spacing: -0.03em;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.announce-carousel__viewport {
+  max-width: 1920px; margin: 0 auto;
+  overflow: hidden;
+}
+
+.announce-carousel__track {
+  display: flex; gap: 8px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.announce-card {
+  flex: 0 0 calc((100% - 16px) / 3);
+  background: #fff;
+  border-radius: var(--s2a-border-radius-md, 16px);
+  padding: var(--s2a-spacing-lg, 24px);
+  display: flex; flex-direction: column; gap: 12px;
+  min-height: 200px;
+}
+@media (max-width: 1023px) { .announce-card { flex: 0 0 calc((100% - 8px) / 2); } }
+@media (max-width: 767px)  { .announce-card { flex: 0 0 100%; } }
+
+.announce-card__eyebrow {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(0,0,0,0.55);
+  margin: 0;
+}
+
+.announce-card__title {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: 16px; line-height: 1.3;
+  color: #1a1a1a;
+  flex: 1;
+  margin: 0;
+}
+
+.announce-card__cta {
+  display: inline-flex; align-items: center; height: 32px;
+  padding: 0 14px;
+  background: transparent; color: #1a1a1a;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 999px;
+  font-family: var(--font-body); font-weight: 700; font-size: 12px;
+  text-decoration: none; white-space: nowrap;
+  width: fit-content;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.announce-card__cta:hover { background: #1a1a1a; color: #fff; }
+
+.announce-carousel__controls {
+  display: flex; gap: 8px; justify-content: center;
+  margin-top: 40px;
+}
+
+.announce-carousel__arrow {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.18);
+  background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #1a1a1a;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.announce-carousel__arrow:hover { background: #1a1a1a; border-color: #1a1a1a; color: #fff; }
+.announce-carousel__arrow:disabled {
+  opacity: 0.3; cursor: not-allowed;
+  background: #fff; border-color: rgba(0,0,0,0.12); color: #1a1a1a;
+}
+.announce-carousel__arrow svg { width: 14px; height: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .announce-carousel__track { transition: none; }
+}

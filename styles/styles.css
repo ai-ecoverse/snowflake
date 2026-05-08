@@ -1,18 +1,165 @@
-/* Edge Delivery default decoration */
+/* ─── EDS section scaffold ─── */
 main > div,
 .has-template,
 div[data-status] {
   display: none;
 }
+main .section {
+  display: block;
+}
+main .section > .default-content-wrapper,
+main .section > .block-wrapper {
+  display: block;
+}
 
-main div.section {
-  display: unset;
+/* ─── Design tokens (lifted from prototype) ─── */
+:root {
+  /* Fonts */
+  --font-display: 'Adobe Clean Display', system-ui, sans-serif;
+  --font-body:    'Adobe Clean', 'Adobe Clean Display', system-ui, sans-serif;
+
+  /* Colors */
+  --color-ink:      #000000;
+  --color-ink-rich: #1a1a1a;
+  --color-surface:  #ffffff;
+  --color-subtle:   #f8f8f8;
+
+  /* s2a color tokens */
+  --s2a-color-gray-50:  #f8f8f8;
+  --s2a-color-gray-75:  #f3f3f3;
+  --s2a-color-gray-700: #505050;
+  --s2a-color-blue-900: #3b63fb;
+  --s2a-color-blue-1000: #274dea;
+  --s2a-color-background-default: #ffffff;
+  --s2a-color-background-subtle:  #f8f8f8;
+  --s2a-color-content-default:    #000000;
+  --s2a-color-content-subtle:     rgba(0,0,0,0.64);
+  --s2a-color-content-background-subtle: #505050;
+  --s2a-color-button-background-primary-solid-default: #3b63fb;
+  --s2a-color-transparent-black-08: rgba(0,0,0,0.08);
+  --s2a-color-transparent-black-16: rgba(0,0,0,0.16);
+  --s2a-color-transparent-white-64: rgba(255,255,255,0.64);
+
+  /* Typography */
+  --s2a-typography-font-size-eyebrow:   16px;
+  --s2a-typography-line-height-eyebrow: 20px;
+  --s2a-typography-letter-spacing-eyebrow: -0.2px;
+  --s2a-typography-font-size-body-md:   16px;
+  --s2a-typography-line-height-body-md: 20px;
+  --s2a-typography-letter-spacing-body-md: 0.16px;
+  --s2a-typography-font-size-body-sm:   14px;
+  --s2a-typography-line-height-body-sm: 18px;
+  --s2a-typography-letter-spacing-body-sm: 0.16px;
+  --s2a-typography-font-size-label:     14px;
+  --s2a-typography-line-height-label:   18px;
+  --s2a-typography-font-size-title-4:   24px;
+  --s2a-typography-line-height-title-4: 24px;
+  --s2a-font-letter-spacing-4xl:        -0.48px;
+
+  /* Spacing */
+  --s2a-spacing-xs:  8px;
+  --s2a-spacing-sm:  12px;
+  --s2a-spacing-md:  16px;
+  --s2a-spacing-lg:  24px;
+  --s2a-spacing-xl:  32px;
+  --s2a-spacing-2xl: 40px;
+  --s2a-spacing-3xl: 48px;
+  --s2a-spacing-4xl: 64px;
+  --s2a-spacing-5xl: 80px;
+  --s2a-spacing-6xl: 96px;
+  --s2a-layout-lg:   124px;
+
+  /* Border radius */
+  --s2a-border-radius-sm:  8px;
+  --s2a-border-radius-md:  16px;
+  --s2a-border-radius-lg:  32px;
+  --s2a-border-radius-999: 999px;
+
+  /* Animation */
+  --s2a-duration-fast: 200ms;
+  --s2a-duration-base: 400ms;
+  --s2a-easing-default: cubic-bezier(0.42, 0, 0, 1);
+
+  /* Layout */
+  --grid-margin-sm: 24px;
+  --grid-margin-md: 8.333vw;
+
+  /* Hero theme (dark) */
+  --hero-bg:      #0c0820;
+  --hero-text:    #ffffff;
+  --hero-eyebrow: rgba(255,255,255,0.65);
+  --hero-body:    rgba(255,255,255,0.78);
+  --hero-pad-top: 98px;
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font-body); background: var(--color-surface); color: var(--color-ink); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; }
+a { text-decoration: none; }
+
+/* ─── Container ─── */
+.container { width: 100%; padding-inline: var(--grid-margin-sm); }
+@media (min-width: 768px) { .container { padding-inline: var(--grid-margin-md); } }
+@media (min-width: 1441px) { .container { max-width: 1920px; margin-inline: auto; } }
+
+/* ─── Type utilities (used across blocks) ─── */
+.eyebrow {
+  font-family: var(--font-body); font-weight: 700;
+  font-size: var(--s2a-typography-font-size-eyebrow);
+  line-height: var(--s2a-typography-line-height-eyebrow);
+  letter-spacing: var(--s2a-typography-letter-spacing-eyebrow);
+  color: var(--s2a-color-content-background-subtle);
+}
+.title-2 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(32px, 4.375vw, 56px); line-height: 1.0;
+  letter-spacing: clamp(-0.8px, -0.13vw, -1.68px);
+}
+.title-4 {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: var(--s2a-typography-font-size-title-4);
+  line-height: var(--s2a-typography-line-height-title-4);
+  letter-spacing: var(--s2a-font-letter-spacing-4xl);
+}
+.body-md {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: var(--s2a-typography-font-size-body-md);
+  line-height: var(--s2a-typography-line-height-body-md);
+  letter-spacing: var(--s2a-typography-letter-spacing-body-md);
+  max-width: 80ch;
+}
+
+/* ─── Global button system ─── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 48px; width: fit-content; padding: 0 24px;
+  border-radius: 75px;
+  font-family: var(--font-body);
+  font-size: 14px; font-weight: 700; line-height: 18px;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  transition: background var(--s2a-duration-fast), border-color var(--s2a-duration-fast), color var(--s2a-duration-fast);
+  white-space: nowrap;
+}
+.btn--primary       { background: #000; color: #fff; border-color: #000; }
+.btn--primary:hover { background: #1f1f1f; }
+.btn--solid-white       { background: #fff; color: #000; border-color: #fff; }
+.btn--solid-white:hover { background: #e8e8e8; }
+.btn--outline           { background: transparent; color: #000; border-color: #000; }
+.btn--outline:hover     { background: rgba(0,0,0,0.04); }
+.btn--ghost-white           { background: transparent; color: #fff; border-color: #fff; backdrop-filter: blur(16px); }
+.btn--ghost-white:hover     { background: rgba(255,255,255,0.08); }
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
 aem-sidekick {
   opacity: 0;
-
-  &[open="true"].is-ready {
-    opacity: 1;
-  }
+}
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
 }

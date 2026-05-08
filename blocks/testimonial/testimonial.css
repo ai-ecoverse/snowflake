@@ -1,0 +1,85 @@
+/* ─── testimonial — Ford quote with media card (white) ─── */
+.testimonial {
+  background: #fff;
+  padding-block: var(--s2a-spacing-6xl, 96px);
+}
+
+.testimonial__grid {
+  display: grid; gap: 48px;
+  grid-template-columns: 1fr;
+  align-items: center;
+  padding-inline: var(--grid-margin-md, 8.333vw);
+}
+@media (max-width: 1023px) { .testimonial__grid { padding-inline: var(--grid-margin-sm, 24px); } }
+@media (min-width: 1024px) {
+  .testimonial__grid { grid-template-columns: 1fr 1fr; gap: 80px; }
+}
+
+.testimonial__logo {
+  display: inline-block; padding: 4px 16px;
+  border: 1.5px solid #003478; border-radius: 999px;
+  color: #003478; font-family: 'Times New Roman', Georgia, serif;
+  font-style: italic; font-weight: 700; font-size: 22px;
+  margin-bottom: 32px;
+}
+
+.testimonial__quote {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(28px, 3vw, 40px); line-height: 1.05;
+  letter-spacing: -0.02em; color: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.testimonial__attrib {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: 16px; color: rgba(0,0,0,0.6);
+  margin-bottom: 32px;
+}
+
+.testimonial__media {
+  aspect-ratio: 16 / 11;
+  border-radius: 16px;
+  background: #1f3a52;
+  position: relative; overflow: hidden;
+}
+
+.testimonial__media img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.testimonial__media::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 60%);
+  z-index: 1;
+}
+
+.testimonial__media::after {
+  content: 'From the Road';
+  position: absolute; inset: auto auto 24px 24px;
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 28px; color: #fff; letter-spacing: -0.02em;
+  z-index: 2;
+}
+
+.testimonial__tag {
+  position: absolute; top: 16px; left: 16px; z-index: 3;
+  padding: 6px 12px; border-radius: 999px;
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(20px);
+  color: #1a1a1a; font-size: 12px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.testimonial__tag::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%;
+  background: #2bb673;
+}
+
+.testimonial__sticky {
+  position: absolute; right: 24px; top: 24px; z-index: 3;
+  padding: 14px 16px; border-radius: 4px;
+  background: #ffe96a; color: #1a1a1a;
+  font-family: var(--font-body); font-weight: 700; font-size: 13px;
+  line-height: 1.25; max-width: 200px;
+  transform: rotate(4deg);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}

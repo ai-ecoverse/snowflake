@@ -1,0 +1,79 @@
+/* ─── business-solutions — 3-up business solutions cards (white) ─── */
+.business-solutions {
+  position: relative;
+  background: var(--s2a-color-background-default, #fff);
+  padding-block: var(--s2a-spacing-6xl, 96px);
+}
+
+.acrobat-feature__header {
+  text-align: center;
+  margin-bottom: var(--s2a-spacing-5xl, 80px);
+  padding-inline: var(--s2a-spacing-lg, 24px);
+}
+
+.acrobat-feature__title {
+  margin-bottom: var(--s2a-spacing-md, 16px);
+}
+
+.acrobat-feature__body {
+  color: var(--s2a-color-content-subtle, rgba(0,0,0,0.64));
+  max-width: 80ch; margin-inline: auto;
+  font-family: var(--font-body); font-weight: 400;
+  font-size: 16px; line-height: 20px;
+}
+
+.acrobat-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: var(--s2a-spacing-xs, 8px);
+  padding-inline: var(--grid-margin-md, 8.333vw);
+}
+@media (max-width: 1023px) { .acrobat-cards { padding-inline: var(--grid-margin-sm, 24px); } }
+@media (max-width: 767px)  { .acrobat-cards { grid-template-columns: 1fr; } }
+
+.acrobat-card { display: flex; flex-direction: column; }
+
+.acrobat-card__asset {
+  aspect-ratio: 488 / 366;
+  background: #eceae7;
+  border-radius: var(--s2a-border-radius-md, 16px);
+  overflow: hidden; position: relative; flex-shrink: 0;
+}
+
+.acrobat-card__photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+.acrobat-card__copy {
+  display: flex; flex-direction: column;
+  gap: var(--s2a-spacing-lg, 24px);
+  padding: var(--s2a-spacing-lg, 24px) var(--s2a-spacing-lg, 24px) 0;
+}
+
+.acrobat-card__text {
+  display: flex; flex-direction: column;
+  gap: var(--s2a-spacing-xs, 8px);
+}
+
+.acrobat-card__title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 24px; line-height: 24px;
+  letter-spacing: -0.48px;
+  margin: 0;
+}
+
+.acrobat-card__body {
+  font-family: var(--font-body); font-weight: 400;
+  font-size: 16px; line-height: 20px;
+  color: rgba(0,0,0,0.64);
+  margin: 0;
+}
+
+.acrobat-cta {
+  display: inline-flex; align-items: center; gap: var(--s2a-spacing-xs, 8px);
+  font-family: var(--font-body); font-weight: 700; font-size: 14px;
+  color: #000; white-space: nowrap;
+  text-decoration: none;
+}
+.acrobat-cta:hover { opacity: 0.7; }
+.acrobat-cta svg { width: 6px; height: 12px; flex-shrink: 0; }

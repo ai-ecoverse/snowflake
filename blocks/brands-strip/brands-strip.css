@@ -1,0 +1,28 @@
+/* ─── brands-strip — Customer logos strip (white) ─── */
+.brands-strip {
+  background: #fff;
+  padding-block: var(--s2a-spacing-5xl, 80px);
+  text-align: center;
+}
+
+.brands-strip__title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(28px, 3vw, 40px); line-height: 1; letter-spacing: -0.02em;
+  margin-bottom: 48px;
+  max-width: 24ch; margin-inline: auto;
+}
+
+.brands-strip__row {
+  display: flex; flex-wrap: wrap; gap: 48px;
+  align-items: center; justify-content: center;
+  color: #1a1a1a; opacity: 0.75;
+  max-width: 1200px; margin-inline: auto;
+}
+
+.brands-strip__logo {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: 18px; letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.brands-strip__foot { margin-top: 40px; text-align: center; }
