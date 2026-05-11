@@ -1,0 +1,102 @@
+<style>
+/* ---- site-footer ---- */
+.site-footer { background: var(--color-fg); color: #ffffff; padding: 96px 0 32px; }
+.footer-inner { max-width: 1700px; margin: 0 auto; padding: 0 24px; }
+.footer-grid { display: grid; grid-template-columns: repeat(5, 1fr) 1fr 1fr; gap: 32px; padding-bottom: 64px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+.footer-col h4 { font-family: var(--heading-font-family); font-weight: 900; font-size: 16px; line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 16px; color: #ffffff; }
+.footer-col ul { display: flex; flex-direction: column; gap: 6px; }
+.footer-col a { font-size: 14px; color: rgba(255,255,255,0.7); transition: color 200ms ease; }
+.footer-col a:hover { color: #ffffff; }
+.footer-wordmark { font-family: var(--heading-font-family); font-weight: 900; font-size: 200px; line-height: 0.85; letter-spacing: -0.05em; color: #ffffff; padding: 48px 0 8px; }
+@media (max-width: 1279px) { .footer-wordmark { font-size: 140px; } }
+@media (max-width: 1023px) { .footer-wordmark { font-size: 96px; } }
+@media (max-width: 767px)  { .footer-wordmark { font-size: 64px; } }
+.legal-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; padding-top: 32px; font-size: 12px; color: rgba(255,255,255,0.5); }
+.legal-row a { color: rgba(255,255,255,0.5); transition: color 200ms ease; }
+.legal-row a:hover { color: #ffffff; }
+@media (max-width: 1023px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 767px)  { .footer-grid { grid-template-columns: 1fr; } }
+</style>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Start Here</h4>
+        <ul>
+          <li><a href="/features/">Features</a></li>
+          <li><a href="/signup/">Get started</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/free-tools/">Free tools</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Find the Right Tools</h4>
+        <ul>
+          <li><a href="/features/keyword-research-tools/">Keyword research</a></li>
+          <li><a href="/features/on-page-seo/">On-page SEO</a></li>
+          <li><a href="/features/competitor-analysis/">Competitor analysis</a></li>
+          <li><a href="/features/link-building-tool/">Link building</a></li>
+          <li><a href="/features/content-marketing-platform/">Content marketing</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="/semrush-one/">Semrush One</a></li>
+          <li><a href="/agencies/">Agency solutions</a></li>
+          <li><a href="/enterprise/">Enterprise</a></li>
+          <li><a href="/integrations/">Integrations</a></li>
+          <li><a href="/api/">API</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Top Apps</h4>
+        <ul>
+          <li><a href="/features/site-audit/">Site audit</a></li>
+          <li><a href="/features/position-tracking/">Position tracking</a></li>
+          <li><a href="/features/organic-research/">Organic research</a></li>
+          <li><a href="/features/backlink-analytics/">Backlink analytics</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Grow with Semrush</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/academy/">Academy</a></li>
+          <li><a href="/webinars/">Webinars</a></li>
+          <li><a href="/podcast/">Podcast</a></li>
+          <li><a href="/ebooks/">Ebooks</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Explore Free Tools</h4>
+        <ul>
+          <li><a href="/free-tools/keyword-generator/">Keyword generator</a></li>
+          <li><a href="/free-tools/website-traffic-checker/">Traffic checker</a></li>
+          <li><a href="/free-tools/backlink-checker/">Backlink checker</a></li>
+          <li><a href="/free-tools/website-authority-checker/">Authority checker</a></li>
+          <li><a href="/free-tools/ai-writing-assistant/">AI writing assistant</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Semrush</h4>
+        <ul>
+          <li><a href="/company/">About us</a></li>
+          <li><a href="/news/">Newsroom</a></li>
+          <li><a href="/careers/">Careers</a></li>
+          <li><a href="/partners/">Partners</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">Semrush</div>
+    <div class="legal-row">
+      <span>&copy; 2026 Semrush Inc. (an Adobe company). All rights reserved.</span>
+      <a href="/legal/privacy/">Privacy</a>
+      <a href="/legal/terms/">Terms</a>
+      <a href="#cookie-settings">Cookie settings</a>
+      <a href="#adchoices">Adchoices</a>
+      <a href="/legal/ccpa/">CCPA</a>
+    </div>
+  </div>
+</footer>

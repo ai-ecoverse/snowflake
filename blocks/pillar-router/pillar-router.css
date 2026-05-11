@@ -1,0 +1,96 @@
+/* pillar-router block */
+
+.pillar-router {
+  padding: var(--section-padding) 0;
+  background: var(--color-bg);
+}
+
+.pillar-router .section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  max-width: 980px;
+  margin: 0 auto var(--spacing-xl);
+  padding: 0 24px;
+}
+
+.hub-router {
+  display: flex;
+  gap: 8px;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 0 24px;
+  align-items: stretch;
+}
+
+.hub-card {
+  flex: 1 1 291px;
+  min-height: 480px;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  cursor: pointer;
+  transition:
+    flex-basis var(--duration-spring) var(--ease-spring-out),
+    background var(--duration-spring) var(--ease-spring-out),
+    color var(--duration-spring) var(--ease-spring-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.hub-card.is-active {
+  flex: 2 1 491px;
+  background: var(--color-fg);
+  color: #ffffff;
+}
+
+.hub-card .hub-label {
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  transition: color var(--duration-spring) var(--ease-spring-out);
+}
+
+.hub-card.is-active .hub-label { color: rgba(255, 255, 255, 0.7); }
+
+.hub-card .hub-tagline { color: var(--color-fg); }
+.hub-card.is-active .hub-tagline { color: #ffffff; }
+
+.hub-card .hub-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 18px;
+  gap: 8px;
+  border-radius: var(--radius-full);
+  background: #dceeeb;
+  color: var(--color-fg);
+  font-family: var(--body-font-family);
+  font-size: 13px;
+  font-weight: 700;
+  align-self: flex-start;
+  margin-top: auto;
+  transition: background var(--duration-fast) ease;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.hub-card.is-active .hub-cta { background: #ffffff; color: var(--color-fg); }
+.hub-card .hub-cta::after { content: '+'; font-size: 18px; font-weight: 400; line-height: 1; }
+
+@media (max-width: 1023px) {
+  .hub-router { flex-direction: column; }
+  .hub-card { min-height: 220px; flex: 1 1 auto; }
+  .hub-card.is-active { flex: 1 1 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-card { transition: none; }
+}
