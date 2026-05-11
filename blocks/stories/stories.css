@@ -1,6 +1,18 @@
+/* The block element becomes the 200vh pin spacer (desktop). */
 .stories {
-  padding: var(--section-padding) 0;
+  position: relative;
+  height: 200vh;
   background: var(--color-bg);
+}
+
+.stories-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 32px 0 64px;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -22,20 +34,22 @@
 }
 
 .stories .stories-viewport {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  flex-grow: 1;
+  overflow: hidden;
   padding: 32px 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
 }
 
 .stories .stories-track {
   display: flex;
   gap: 16px;
   padding: 0 24px;
+  will-change: transform;
 }
 
 .stories .story-card {
-  scroll-snap-align: start;
   flex: 0 0 380px;
   background: var(--color-surface-soft);
   border-radius: var(--radius);
@@ -113,6 +127,44 @@
   color: var(--color-text-mid);
 }
 
-@media (max-width: 767px) {
-  .stories .story-card { flex: 0 0 320px; }
+@media (max-width: 1023px) {
+  .stories {
+    height: auto;
+    padding: var(--section-padding) 0;
+  }
+
+  .stories-sticky {
+    position: static;
+    height: auto;
+  }
+
+  .stories .stories-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .stories .stories-track { transform: none !important; }
+
+  .stories .story-card {
+    scroll-snap-align: start;
+    flex: 0 0 320px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stories { height: auto; }
+
+  .stories-sticky {
+    position: static;
+    height: auto;
+  }
+
+  .stories .stories-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .stories .stories-track { transform: none !important; }
+  .stories .story-card { scroll-snap-align: start; }
 }

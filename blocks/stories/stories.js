@@ -52,7 +52,9 @@ export default async function decorate(block) {
 
   const header = document.createElement('header');
   header.className = 'stories-section-header';
-  header.innerHTML = `<p class="t-eyebrow t-caption is-upper">${eyebrow}</p>`;
+  header.setAttribute('data-ta-group', '');
+  header.innerHTML = `<p class="t-eyebrow t-caption is-upper" data-ta>${eyebrow}</p>`;
+  heading.setAttribute('data-ta', '');
   header.append(heading);
 
   const viewport = document.createElement('div');
@@ -68,5 +70,9 @@ export default async function decorate(block) {
   });
 
   viewport.append(track);
-  block.replaceChildren(header, viewport);
+
+  const sticky = document.createElement('div');
+  sticky.className = 'stories-sticky';
+  sticky.append(header, viewport);
+  block.replaceChildren(sticky);
 }

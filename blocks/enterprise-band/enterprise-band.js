@@ -29,12 +29,15 @@ export default async function decorate(block) {
 
   const inner = document.createElement('div');
   inner.className = 'enterprise-inner';
-  inner.innerHTML = `<p class="t-eyebrow">${eyebrow}</p>`;
+  inner.setAttribute('data-ta-group', '');
+  inner.innerHTML = `<p class="t-eyebrow" data-ta>${eyebrow}</p>`;
+  heading.setAttribute('data-ta', '');
   inner.append(heading);
 
   if (bodyText) {
     const body = document.createElement('p');
     body.className = 'body t-body-m';
+    body.setAttribute('data-ta', '');
     body.textContent = bodyText;
     inner.append(body);
   }

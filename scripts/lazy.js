@@ -12,6 +12,7 @@ async function loadSidekick() {
 (function loadLazy() {
   import('./utils/lazyhash.js');
   import('./utils/favicon.js');
+  import('./cinematic.js').then(({ default: cinematic }) => cinematic());
 
   // Author facing tools
   if (ENV !== 'prod') loadSidekick();

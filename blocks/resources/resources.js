@@ -55,7 +55,9 @@ export default async function decorate(block) {
 
   const header = document.createElement('header');
   header.className = 'section-header';
-  header.innerHTML = `<p class="t-eyebrow t-caption is-upper">${eyebrow}</p>`;
+  header.setAttribute('data-ta-group', '');
+  header.innerHTML = `<p class="t-eyebrow t-caption is-upper" data-ta>${eyebrow}</p>`;
+  heading.setAttribute('data-ta', '');
   header.append(heading);
 
   const grid = document.createElement('div');

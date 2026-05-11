@@ -1,12 +1,19 @@
+/* The block element becomes the 220vh pin spacer. */
 .hero {
   position: relative;
+  height: 220vh;
+  z-index: 1;
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   background: var(--gradient-hero-ground);
   background-size: 200% 200%;
   background-position: 0% 50%;
   border-radius: 0 0 var(--radius-section-bottom) var(--radius-section-bottom);
   overflow: hidden;
-  min-height: 100vh;
-  padding: 152px 0 96px;
   animation: hero-ground-drift 60s ease-in-out infinite alternate;
 }
 
@@ -14,11 +21,6 @@
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
-}
-
-.hero-inner {
-  position: relative;
-  display: block;
 }
 
 .hero-text {
@@ -31,7 +33,7 @@
   text-align: center;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 152px 24px 0;
 }
 
 .hero-eyebrow {
@@ -179,14 +181,16 @@
   margin-top: 4px;
 }
 
-/* Decorative mosaic — purely visual, hidden from screen readers */
+/* Mosaic backdrop — initial positions are set by the cinematic engine; the
+   prototype's 5×3 grid converges to (0,0) over the 220vh pin scroll. */
 .hero-mosaic-wrap {
   position: absolute;
-  inset: auto 0 -40vh;
+  top: 66vh;
+  left: 0;
+  right: 0;
   padding: 0 8.333%;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
-  opacity: 0.5;
 }
 
 .hero-mosaic {
@@ -207,19 +211,63 @@
   min-width: 0;
 }
 
-.hero .mosaic-col:nth-child(1) { transform: translateY(-40px); }
-.hero .mosaic-col:nth-child(2) { transform: translateY(-16px); }
-.hero .mosaic-col:nth-child(3) { transform: translateY(0); }
-.hero .mosaic-col:nth-child(4) { transform: translateY(-12px); }
-.hero .mosaic-col:nth-child(5) { transform: translateY(-36px); }
-
 .hero .mosaic-card {
   aspect-ratio: 1;
   border-radius: var(--radius);
   background: linear-gradient(135deg, var(--color-card-mid-gray) 0%, #b8b8b8 100%);
+  will-change: transform, clip-path, opacity;
+}
+
+/* Text-animator scaffolding (per HANDOFF.md § Text animator) */
+[data-ta] .ta-line {
+  display: block;
+  overflow: hidden;
+}
+
+[data-ta] .ta-line-inner {
+  display: block;
+}
+
+.ta-init [data-ta],
+.ta-init [data-ta-unit] {
+  will-change: transform;
 }
 
 @media (max-width: 1023px) {
+  .hero { height: auto; }
+
+  .hero-sticky {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 96px;
+  }
+
   .hero-mosaic-wrap { display: none; }
-  .hero { padding: 128px 0 96px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero { height: auto; }
+
+  .hero-sticky {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    animation: none;
+    background-position: 0% 50%;
+  }
+
+  .hero-mosaic-wrap {
+    position: relative;
+    top: auto;
+    margin-top: 64px;
+  }
+
+  .hero .mosaic-card {
+    opacity: 1 !important;
+    clip-path: inset(0% round 16px) !important;
+    transform: none !important;
+  }
+
+  .hero .mosaic-col { transform: none !important; }
 }

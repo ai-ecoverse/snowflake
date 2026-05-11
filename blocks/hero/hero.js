@@ -77,38 +77,46 @@ export default async function decorate(block) {
   heading.classList.add('hero-title', 't-title-1');
   transformAccents(heading);
 
-  const wrap = document.createElement('div');
-  wrap.className = 'hero-inner';
+  const sticky = document.createElement('div');
+  sticky.className = 'hero-sticky';
 
   const text$ = document.createElement('div');
   text$.className = 'hero-text';
+  text$.setAttribute('data-ta-group', '');
 
   if (eyebrowText) {
     const eb = document.createElement('div');
     eb.className = 'hero-eyebrow';
+    eb.setAttribute('data-ta-unit', '');
     eb.innerHTML = `<span class="glyph" aria-hidden="true">A</span><span class="wordmark-eyebrow">${eyebrowText}</span>`;
     text$.append(eb);
   }
 
+  heading.setAttribute('data-ta', '');
   text$.append(heading);
 
   if (bodyText) {
     const body = document.createElement('p');
     body.className = 'hero-body t-body-m';
+    body.setAttribute('data-ta', '');
     body.textContent = bodyText;
     text$.append(body);
   }
 
   const search = buildSearch(searchCell);
-  if (search) text$.append(search);
+  if (search) {
+    search.setAttribute('data-ta-unit', '');
+    text$.append(search);
+  }
 
   if (ctaCell && ctaCell.querySelector('a')) {
     const actions = document.createElement('div');
     actions.className = 'hero-ctas';
+    actions.setAttribute('data-ta-unit', '');
     [...ctaCell.childNodes].forEach((n) => actions.append(n.cloneNode(true)));
     text$.append(actions);
   }
 
-  wrap.append(buildMosaic(), text$);
-  block.replaceChildren(wrap);
+  sticky.append(buildMosaic(), text$);
+  block.replaceChildren(sticky);
 }

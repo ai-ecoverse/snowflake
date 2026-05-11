@@ -36,10 +36,13 @@ export default async function decorate(block) {
 
   const copy = document.createElement('div');
   copy.className = 'avi-copy';
+  copy.setAttribute('data-ta-group', '');
+  heading.setAttribute('data-ta', '');
   copy.append(heading);
 
   const body = document.createElement('p');
   body.className = 'body t-body-m';
+  body.setAttribute('data-ta', '');
   body.textContent = bodyText;
   copy.append(body);
 

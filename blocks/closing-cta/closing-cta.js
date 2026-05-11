@@ -38,11 +38,14 @@ export default async function decorate(block) {
 
   const inner = document.createElement('div');
   inner.className = 'closing-inner';
+  inner.setAttribute('data-ta-group', '');
+  heading.setAttribute('data-ta', '');
   inner.append(heading);
 
   if (bodyText) {
     const body = document.createElement('p');
     body.className = 'body t-body-m';
+    body.setAttribute('data-ta', '');
     body.textContent = bodyText;
     inner.append(body);
   }

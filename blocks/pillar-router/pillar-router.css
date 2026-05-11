@@ -1,6 +1,18 @@
+/* The block element becomes the 200vh pin spacer (100vh sticky + 100vh scroll). */
 .pillar-router {
+  position: relative;
+  height: 200vh;
+}
+
+.pillar-router-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
   padding: var(--section-padding) 0;
   background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .pillar-router .section-header {
@@ -94,6 +106,13 @@
 }
 
 @media (max-width: 1023px) {
+  .pillar-router { height: auto; }
+
+  .pillar-router-sticky {
+    position: static;
+    height: auto;
+  }
+
   .pillar-router .hub-router { flex-direction: column; }
 
   .pillar-router .hub-card {
@@ -105,5 +124,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .pillar-router { height: auto; }
+
+  .pillar-router-sticky {
+    position: static;
+    height: auto;
+  }
+
   .pillar-router .hub-card { transition: none; }
 }
