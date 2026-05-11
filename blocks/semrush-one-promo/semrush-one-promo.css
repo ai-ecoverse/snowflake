@@ -1,0 +1,127 @@
+.semrush-one-promo {
+  padding: var(--section-padding) 0 calc(var(--section-padding) - 32px);
+  background: var(--color-bg);
+  position: relative;
+  z-index: 2;
+  margin-top: -64px;
+  border-radius: var(--radius-section-bottom) var(--radius-section-bottom) 0 0;
+}
+
+.semrush-one-promo .so-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 0;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 0 24px;
+  align-items: stretch;
+  position: relative;
+}
+
+.semrush-one-promo .so-card-cover {
+  position: relative;
+  min-height: 540px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 50%, #4a4a4a 100%);
+  color: #ffffff;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 18px;
+  box-shadow: var(--shadow-photo-card);
+  z-index: 1;
+}
+
+.semrush-one-promo .so-card-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, var(--color-trial-blue-soft) 0%, transparent 60%),
+    radial-gradient(circle at 85% 80%, rgb(193 144 255 / 18%) 0%, transparent 55%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.semrush-one-promo .so-card-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise-svg-uri);
+  background-size: 240px 240px;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.semrush-one-promo .so-card-cover > * {
+  position: relative;
+  z-index: 1;
+}
+
+.semrush-one-promo .stat-eyebrow {
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--color-trial-blue);
+}
+
+.semrush-one-promo .so-card-cover h2 {
+  color: #ffffff;
+  max-width: 22ch;
+}
+
+.semrush-one-promo .so-card-cover .body {
+  color: rgb(255 255 255 / 82%);
+  max-width: 44ch;
+}
+
+.semrush-one-promo .so-card-cover .actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.semrush-one-promo .so-card-cover a.btn-primary {
+  background: #ffffff;
+  color: var(--color-fg);
+  border-color: #ffffff;
+}
+
+.semrush-one-promo .so-card-cover a.btn-primary:hover { background: rgb(255 255 255 / 90%); }
+
+.semrush-one-promo .so-card-side {
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius);
+  align-self: end;
+  min-height: 380px;
+  transform: translateX(-32px) translateY(60px);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 8%);
+}
+
+.semrush-one-promo .so-card-side .body { color: var(--color-text-mid); }
+
+@media (max-width: 1023px) {
+  .semrush-one-promo .so-card { grid-template-columns: 1fr; }
+
+  .semrush-one-promo .so-card-side {
+    transform: none;
+    align-self: stretch;
+    margin-top: 16px;
+  }
+
+  .semrush-one-promo .so-card-cover {
+    min-height: 420px;
+    padding: 32px;
+  }
+}

@@ -1,0 +1,184 @@
+<style>
+  .site-footer {
+    background: var(--color-fg);
+    color: #ffffff;
+    padding: 96px 0 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .site-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, rgb(59 99 251 / 8%) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .site-footer .footer-inner {
+    position: relative;
+    max-width: 1700px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .site-footer .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 32px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid rgb(255 255 255 / 12%);
+  }
+
+  .site-footer .footer-col h4 {
+    font-family: var(--heading-font-family);
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+
+  .site-footer .footer-col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .site-footer .footer-col a {
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    color: rgb(255 255 255 / 70%);
+    transition: color var(--duration-fast) ease;
+  }
+
+  .site-footer .footer-col a:hover { color: #ffffff; }
+
+  .site-footer .footer-wordmark {
+    font-family: var(--heading-font-family);
+    font-weight: 900;
+    font-size: 200px;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: #ffffff;
+    padding: 48px 0 8px;
+  }
+
+  .site-footer .legal-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    padding-top: 32px;
+    font-family: var(--body-font-family);
+    font-size: 12px;
+    color: rgb(255 255 255 / 50%);
+  }
+
+  .site-footer .legal-row a { transition: color var(--duration-fast) ease; }
+  .site-footer .legal-row a:hover { color: #ffffff; }
+
+  @media (max-width: 1279px) {
+    .site-footer .footer-grid { grid-template-columns: repeat(4, 1fr); }
+    .site-footer .footer-wordmark { font-size: 140px; }
+  }
+
+  @media (max-width: 1023px) {
+    .site-footer .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    .site-footer .footer-wordmark { font-size: 96px; }
+  }
+
+  @media (max-width: 767px) {
+    .site-footer .footer-grid { grid-template-columns: 1fr; }
+    .site-footer .footer-wordmark { font-size: 64px; }
+  }
+</style>
+
+<div class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Semrush</h4>
+        <ul>
+          <li><a href="/one/">Semrush One</a></li>
+          <li><a href="/features/">Features</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><a href="/semrush-free-trial/">Free Trial</a></li>
+          <li><a href="/vs/">Compare Semrush</a></li>
+          <li><a href="/company/stories/">Success Stories</a></li>
+          <li><a href="/stats/">Stats and Facts</a></li>
+          <li><a href="/lp/affiliate-program/en/">Affiliate Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>More tools</h4>
+        <ul>
+          <li><a href="/enterprise/seo/">Enterprise SEO</a></li>
+          <li><a href="/lp/enterprise-aio/en/">Enterprise AIO</a></li>
+          <li><a href="/lp/site-intelligence/en/">Enterprise SI</a></li>
+          <li><a href="/lp/insights/en/">Insights24</a></li>
+          <li><a href="/lp/mfour/en/">Mfour</a></li>
+          <li><a href="/apps/">App Center</a></li>
+          <li><a href="/website/top/">Top Websites</a></li>
+          <li><a href="/free-tools/">Free Tools</a></li>
+          <li><a href="/sensor/">Sensor</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/company/">About Us</a></li>
+          <li><a href="/news/">News</a></li>
+          <li><a href="/company/careers/">Careers</a></li>
+          <li><a href="/partners/">Partners</a></li>
+          <li><a href="/select/">Semrush Select</a></li>
+          <li><a href="/global-issues-index/">Global Issues Index</a></li>
+          <li><a href="/do-not-sell/">Do not sell my personal info</a></li>
+          <li><a href="/company/contacts/">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="/kb/">Knowledge Base</a></li>
+          <li><a href="/academy/">Academy</a></li>
+          <li><a href="/api-documentation/">Semrush API</a></li>
+          <li><a href="/community/">Community</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Semrush Blog</h4>
+        <ul>
+          <li><a href="/blog/">Semrush Blog</a></li>
+          <li><a href="/academy/webinars/">Webinars</a></li>
+          <li><a href="/ambassadors/">Ambassador Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Find the Right Tools</h4>
+        <ul>
+          <li><a href="/ai-visibility/">AI Visibility Toolkit</a></li>
+          <li><a href="/seo/">SEO Toolkit</a></li>
+          <li><a href="/content/">Content Toolkit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Semrush</h4>
+        <ul>
+          <li><a href="/company/">Company</a></li>
+          <li><a href="/legal/">Legal</a></li>
+          <li><a href="/security/">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">Semrush</div>
+    <div class="legal-row">
+      <span>&copy; 2026 Semrush Holdings. All rights reserved.</span>
+      <a href="/legal/privacy/">Privacy Policy</a>
+      <a href="/legal/terms/">Terms of Service</a>
+      <a href="/cookie-settings/">Cookies Settings</a>
+      <a href="/language/">English</a>
+    </div>
+  </div>
+</div>

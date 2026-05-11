@@ -1,0 +1,118 @@
+.stories {
+  padding: var(--section-padding) 0;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+.stories .stories-section-header {
+  max-width: 1100px;
+  margin: 0 auto 32px;
+  padding: 24px 32px;
+  background: rgb(255 255 255 / 65%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius);
+  border: 1px solid rgb(255 255 255 / 60%);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 6%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.stories .stories-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding: 32px 0;
+}
+
+.stories .stories-track {
+  display: flex;
+  gap: 16px;
+  padding: 0 24px;
+}
+
+.stories .story-card {
+  scroll-snap-align: start;
+  flex: 0 0 380px;
+  background: var(--color-surface-soft);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 360px;
+}
+
+.stories .company-logo {
+  min-height: 56px;
+  max-width: 140px;
+  background: rgb(0 0 0 / 4%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-mid);
+}
+
+.stories .story-card blockquote {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--color-text-deep-charcoal);
+  flex-grow: 1;
+}
+
+.stories .person-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: auto;
+}
+
+.stories .person-row .name {
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-fg);
+}
+
+.stories .person-row .role {
+  font-family: var(--body-font-family);
+  font-size: 13px;
+  color: var(--color-text-mid);
+}
+
+.stories .flag-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.stories .flag-stat .figure {
+  font-family: var(--heading-font-family);
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-trial-blue);
+}
+
+.stories .flag-stat .sub {
+  font-family: var(--body-font-family);
+  font-size: 13px;
+  color: var(--color-text-mid);
+}
+
+@media (max-width: 767px) {
+  .stories .story-card { flex: 0 0 320px; }
+}

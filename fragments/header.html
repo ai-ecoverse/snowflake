@@ -1,0 +1,191 @@
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  /* Announcement strip */
+  .announcement-banner {
+    height: 40px;
+    background: var(--color-fg);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+  }
+
+  .announcement-banner a {
+    font-family: var(--body-font-family);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    opacity: 0.92;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .announcement-banner a:hover { opacity: 1; }
+
+  @media (max-width: 767px) {
+    .announcement-banner {
+      height: auto;
+      padding: 8px 16px;
+      text-align: center;
+    }
+
+    .announcement-banner a {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+  }
+
+  /* Primary nav — always uses the frosted treatment so it works over light + dark sections. */
+  .gnav {
+    padding: 8px;
+    pointer-events: none;
+  }
+
+  .gnav-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 16px;
+    max-width: 1904px;
+    margin: 0 auto;
+    border-radius: var(--radius);
+    pointer-events: auto;
+    background: rgb(255 255 255 / 78%);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 2px 12px rgb(0 0 0 / 4%);
+  }
+
+  .gnav-left {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 100%;
+  }
+
+  .gnav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-fg);
+  }
+
+  .gnav-logo .wordmark {
+    font-family: var(--heading-font-family);
+    font-weight: 900;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .gnav-logo .glyph {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    background: var(--color-adobe-red);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 900;
+    font-family: var(--heading-font-family);
+  }
+
+  .gnav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .gnav-links a {
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-fg);
+    padding: 4px 8px;
+    border-radius: 8px;
+    transition: background var(--duration-fast) ease;
+  }
+
+  .gnav-links a:hover { background: rgb(0 0 0 / 6%); }
+
+  .gnav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .gnav-right .btn-login,
+  .gnav-right .btn-signup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 18px;
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    border: 1.5px solid transparent;
+    transition: background var(--duration-fast) ease, border-color var(--duration-fast) ease;
+  }
+
+  .gnav-right .btn-login {
+    color: var(--color-fg);
+    border-color: rgb(0 0 0 / 60%);
+  }
+
+  .gnav-right .btn-login:hover { background: rgb(0 0 0 / 4%); }
+
+  .gnav-right .btn-signup {
+    background: var(--color-fg);
+    color: #ffffff;
+  }
+
+  .gnav-right .btn-signup:hover { background: var(--color-ink-near-black); }
+
+  @media (max-width: 1023px) {
+    .gnav-links { display: none; }
+  }
+
+  @media (max-width: 767px) {
+    .gnav-right .btn-login { display: none; }
+  }
+</style>
+
+<div class="site-header">
+  <div class="announcement-banner">
+    <a href="/news/adobe-completes-semrush-acquisition">Semrush is now an Adobe company. Read the announcement &gt;</a>
+  </div>
+  <div class="gnav">
+    <div class="gnav-inner">
+      <div class="gnav-left">
+        <a href="/" class="gnav-logo" aria-label="Semrush">
+          <span class="glyph" aria-hidden="true">S</span>
+          <span class="wordmark">Semrush</span>
+        </a>
+        <nav class="gnav-links" aria-label="Primary">
+          <a href="/products/">Products</a>
+          <a href="/resources/">Resources</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/enterprise/">Enterprise</a>
+        </nav>
+      </div>
+      <div class="gnav-right">
+        <a href="/login/" class="btn-login">Log In</a>
+        <a href="/signup/" class="btn-signup">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>
